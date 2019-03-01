@@ -33,7 +33,7 @@ user login and get token
 ```bash
 curl -X POST "http://localhost/api/auth/login" \
     -H "Content-Type: application/json" \
-    -d '{"email":"Z7g57fpTly6iTibc","password":"mTzmY0mn3yqypmvc","remember_me":false}'
+    -d '{"email":"SbXb4PeCQBn2nZg2","password":"TNb2XY7UYm0cAmhu","remember_me":true}'
 
 ```
 
@@ -46,9 +46,9 @@ let headers = {
 }
 
 let body = {
-    "email": "Z7g57fpTly6iTibc",
-    "password": "mTzmY0mn3yqypmvc",
-    "remember_me": false
+    "email": "SbXb4PeCQBn2nZg2",
+    "password": "TNb2XY7UYm0cAmhu",
+    "remember_me": true
 }
 
 fetch(url, {
@@ -63,14 +63,7 @@ fetch(url, {
 > Example response (200):
 
 ```json
-{
-    "success": true,
-    "message": "Zalogowano pomyślnie",
-    "data": {
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYxZjU2ZTE0YWIwYjM2MWVmY2ZkMGFiNTQ5N2Q0YTcyM2I1MDY3YjJiMzNlNTYyMTQ2NzUxZDQzNmMzOTgzZWI3ZDk0OTY1MTAwY2QzN2U1In0.eyJhdWQiOiIxIiwianRpIjoiZjFmNTZlMTRhYjBiMzYxZWZjZmQwYWI1NDk3ZDRhNzIzYjUwNjdiMmIzM2U1NjIxNDY3NTFkNDM2YzM5ODNlYjdkOTQ5NjUxMDBjZDM3ZTUiLCJpYXQiOjE1MzkzNjU4NDQsIm5iZiI6MTUzOTM2NTg0NCwiZXhwIjoxNTcwOTAxODQ0LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.TX8xj0yI_y-aVTDZApBWAwZ39ehacAbAkb5mJEF5fVks8iqy8Hz08FREJT3AcmU2iWYD0KlB_XjFXMi0uAuJgDr7BLWHbuQhzZCg4q1DLD3uv8HpnyqnthbYjVIbCfWtbikrz6HxzO3fl3wTEhGjf9YWCXkB-CmJDds0NNlOKoFYIvvVrY1sbKvziPZXN-6gD8YZwLt_cylIu2ypbw6UQcZc-VTyU8lPyJGI2v0PMLSmI66yfaWjODbuNzyyQlsUncIuHSuosW4CtxxQuzk4gutovMce8GYPrLvmTboLQf0VRdvl4sECZGTVVbFIMuavCWQpuIE_okL61DfOLgne8_5e0hFY4Y8xos_IS9g4ca6lqdg8_h3agi2pSrqZ9wBYpwcDyYdtkt5n-pIjspU_V4fP9gnPeSfAU53cwBQSOKS0lnvMudjj2CPvEQIgZhkMaHLBGzhySAfscCNz09TSjvqN_Cu1T4xpYK9OKqJGGbjVcJdMbvwexy9XjcT5F-9J5fhql-268p1VoUTbiIj2tHBBH4hGl9X4QDr0OtJR9pydJ8pAQDOxuu9bx6dC5nOBQAedv2CodsknfuPefsAsBXZD8GJeR59ih1wY6VlvmwhhTB9SVjJLhPkX_3FsDjq_Tc3YRUoV-WgZp3-rXvVpNAJwzv-KBS5mG6r__lltbnA",
-        "token_expires_at": "2018-10-19 17:37:24"
-    }
-}
+{}
 ```
 
 ### HTTP Request
@@ -96,7 +89,7 @@ Register new user account
 ```bash
 curl -X POST "http://localhost/api/auth/register" \
     -H "Content-Type: application/json" \
-    -d '{"name":"KgCjDrjkbdc57gn8","email":"PIObR0VMBfLdciZN","password":"A1ysu9tCCV7pyw37","password_confirmation":"PMUVhBvK5540uFKP"}'
+    -d '{"name":"cMDqnOkRI3EIk13Y","email":"vaegjW8jV85DgNJM","password":"fopmO9LyqdEG8RyF","password_confirmation":"NQF14w0nFWo7Lh1X"}'
 
 ```
 
@@ -109,10 +102,10 @@ let headers = {
 }
 
 let body = {
-    "name": "KgCjDrjkbdc57gn8",
-    "email": "PIObR0VMBfLdciZN",
-    "password": "A1ysu9tCCV7pyw37",
-    "password_confirmation": "PMUVhBvK5540uFKP"
+    "name": "cMDqnOkRI3EIk13Y",
+    "email": "vaegjW8jV85DgNJM",
+    "password": "fopmO9LyqdEG8RyF",
+    "password_confirmation": "NQF14w0nFWo7Lh1X"
 }
 
 fetch(url, {
@@ -144,7 +137,7 @@ Parameter | Type | Status | Description
 
 <!-- END_2e1c96dcffcfe7e0eb58d6408f1d619e -->
 
-<!-- START_ab3ce89a5249d02e7d0c5bcab416e798 -->
+<!-- START_10e1364dfe0421ea840f637dcd936361 -->
 ## Verify
 
 Verify user email
@@ -152,14 +145,14 @@ Verify user email
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/api/auth/verify" \
+curl -X POST "http://localhost/api/auth/verify-email" \
     -H "Content-Type: application/json" \
-    -d '{"token":"41pZ7kGuJtiTqo49"}'
+    -d '{"token":"bwNK2QosLjcA8uH8"}'
 
 ```
 
 ```javascript
-const url = new URL("http://localhost/api/auth/verify");
+const url = new URL("http://localhost/api/auth/verify-email");
 
 let headers = {
     "Content-Type": "application/json",
@@ -167,7 +160,7 @@ let headers = {
 }
 
 let body = {
-    "token": "41pZ7kGuJtiTqo49"
+    "token": "bwNK2QosLjcA8uH8"
 }
 
 fetch(url, {
@@ -186,7 +179,7 @@ fetch(url, {
 ```
 
 ### HTTP Request
-`POST api/auth/verify`
+`POST api/auth/verify-email`
 
 #### Body Parameters
 
@@ -194,7 +187,7 @@ Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
     token | string |  required  | Verify email token
 
-<!-- END_ab3ce89a5249d02e7d0c5bcab416e798 -->
+<!-- END_10e1364dfe0421ea840f637dcd936361 -->
 
 <!-- START_9a96b21e8d3bfa4fa5e60ba08c4e63b3 -->
 ## Password reset send
@@ -206,7 +199,7 @@ Send password reset email
 ```bash
 curl -X POST "http://localhost/api/auth/password-reset/send" \
     -H "Content-Type: application/json" \
-    -d '{"email":"fhcN5mvTZPGCXPXb"}'
+    -d '{"email":"IDeSNwOaB7PYRew6"}'
 
 ```
 
@@ -219,7 +212,7 @@ let headers = {
 }
 
 let body = {
-    "email": "fhcN5mvTZPGCXPXb"
+    "email": "IDeSNwOaB7PYRew6"
 }
 
 fetch(url, {
@@ -234,11 +227,7 @@ fetch(url, {
 > Example response (200):
 
 ```json
-{
-    "success": true,
-    "message": "Link do resetowania hasła został wysłany",
-    "data": []
-}
+{}
 ```
 
 ### HTTP Request
@@ -262,7 +251,7 @@ Update user password
 ```bash
 curl -X POST "http://localhost/api/auth/password-reset/update" \
     -H "Content-Type: application/json" \
-    -d '{"token":"p2PDMBoZnhixCxKO","password":"P0OvPMCqG5IzJhsS"}'
+    -d '{"token":"8jQkkdj2qcqkGHzN","password":"szCKSqFnVVqTxHGk"}'
 
 ```
 
@@ -275,8 +264,8 @@ let headers = {
 }
 
 let body = {
-    "token": "p2PDMBoZnhixCxKO",
-    "password": "P0OvPMCqG5IzJhsS"
+    "token": "8jQkkdj2qcqkGHzN",
+    "password": "szCKSqFnVVqTxHGk"
 }
 
 fetch(url, {
@@ -306,7 +295,7 @@ Parameter | Type | Status | Description
 
 <!-- END_ee4267d878c9ec4cc5fa23a1dc434548 -->
 
-<!-- START_16928cb8fc6adf2d9bb675d62a2095c5 -->
+<!-- START_19ff1b6f8ce19d3c444e9b518e8f7160 -->
 ## Logout
 
 <br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
@@ -315,7 +304,7 @@ user logout and revoke token
 > Example request:
 
 ```bash
-curl -X GET -G "http://localhost/api/auth/logout" 
+curl -X POST "http://localhost/api/auth/logout" 
 ```
 
 ```javascript
@@ -327,7 +316,7 @@ let headers = {
 }
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers: headers,
 })
     .then(response => response.json())
@@ -337,18 +326,14 @@ fetch(url, {
 > Example response (200):
 
 ```json
-{
-    "success": true,
-    "message": "Wylogowano pomyślnie",
-    "data": []
-}
+{}
 ```
 
 ### HTTP Request
-`GET api/auth/logout`
+`POST api/auth/logout`
 
 
-<!-- END_16928cb8fc6adf2d9bb675d62a2095c5 -->
+<!-- END_19ff1b6f8ce19d3c444e9b518e8f7160 -->
 
 <!-- START_ff6d656b6d81a61adda963b8702034d2 -->
 ## User
@@ -429,14 +414,7 @@ fetch(url, {
 > Example response (200):
 
 ```json
-{
-    "success": true,
-    "message": "Nowy token został wygenerowany pomyślnie",
-    "data": {
-        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImYxZjU2ZTE0YWIwYjM2MWVmY2ZkMGFiNTQ5N2Q0YTcyM2I1MDY3YjJiMzNlNTYyMTQ2NzUxZDQzNmMzOTgzZWI3ZDk0OTY1MTAwY2QzN2U1In0.eyJhdWQiOiIxIiwianRpIjoiZjFmNTZlMTRhYjBiMzYxZWZjZmQwYWI1NDk3ZDRhNzIzYjUwNjdiMmIzM2U1NjIxNDY3NTFkNDM2YzM5ODNlYjdkOTQ5NjUxMDBjZDM3ZTUiLCJpYXQiOjE1MzkzNjU4NDQsIm5iZiI6MTUzOTM2NTg0NCwiZXhwIjoxNTcwOTAxODQ0LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.TX8xj0yI_y-aVTDZApBWAwZ39ehacAbAkb5mJEF5fVks8iqy8Hz08FREJT3AcmU2iWYD0KlB_XjFXMi0uAuJgDr7BLWHbuQhzZCg4q1DLD3uv8HpnyqnthbYjVIbCfWtbikrz6HxzO3fl3wTEhGjf9YWCXkB-CmJDds0NNlOKoFYIvvVrY1sbKvziPZXN-6gD8YZwLt_cylIu2ypbw6UQcZc-VTyU8lPyJGI2v0PMLSmI66yfaWjODbuNzyyQlsUncIuHSuosW4CtxxQuzk4gutovMce8GYPrLvmTboLQf0VRdvl4sECZGTVVbFIMuavCWQpuIE_okL61DfOLgne8_5e0hFY4Y8xos_IS9g4ca6lqdg8_h3agi2pSrqZ9wBYpwcDyYdtkt5n-pIjspU_V4fP9gnPeSfAU53cwBQSOKS0lnvMudjj2CPvEQIgZhkMaHLBGzhySAfscCNz09TSjvqN_Cu1T4xpYK9OKqJGGbjVcJdMbvwexy9XjcT5F-9J5fhql-268p1VoUTbiIj2tHBBH4hGl9X4QDr0OtJR9pydJ8pAQDOxuu9bx6dC5nOBQAedv2CodsknfuPefsAsBXZD8GJeR59ih1wY6VlvmwhhTB9SVjJLhPkX_3FsDjq_Tc3YRUoV-WgZp3-rXvVpNAJwzv-KBS5mG6r__lltbnA",
-        "token_expires_at": "2018-10-19 17:37:24"
-    }
-}
+{}
 ```
 
 ### HTTP Request
