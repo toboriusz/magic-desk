@@ -14,13 +14,16 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Model\Technician::class, function (Faker $faker) {
+$factory->define(App\Models\Technician::class, function (Faker $faker) {
     return [
-        'first_name' => 'John',
-        'last_name' => 'Smith',
-        'email' => $faker->unique()->safeEmail,
+        'first_name' => 'Admin',
+        'last_name' => 'Admin',
+        'email' => 'admin@admin.com',
         'email_verified_at' => now(),
         'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
         'remember_token' => Str::random(10),
+        'phone' => '0700800900',
+        'mobile' => '0817823123',
+        'job_title' => 'Service Desk Analyst'
     ];
 });

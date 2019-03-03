@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Role;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
@@ -28,7 +29,7 @@ class Technician extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email_token'
+        'password', 'remember_token', 'email_token', 'pivot'
     ];
 
     /**
@@ -39,4 +40,9 @@ class Technician extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }

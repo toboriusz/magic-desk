@@ -325,7 +325,7 @@ class AuthAPIController extends APIController
      */
     public function user(Request $request)
     {
-        return $this->sendSuccessResponse(__('technician.fetch_success'), $request->user());
+        return $this->sendSuccessResponse(__('technician.fetch_success'), $request->user()->with('roles')->first());
     }
 
     /**

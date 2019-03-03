@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Role;
+use App\Models\Technician;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Technician::class)->create();
+        $technician = factory(Technician::class)->create();
+        $role = factory(Role::class)->create();
+
+        $technician->roles()->attach($role);
     }
 }
