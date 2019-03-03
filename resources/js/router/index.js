@@ -22,9 +22,36 @@ let router = new VueRouter({
       }
     },
     {
-      path: '/page',
-      name: 'Page',
-      component: require('Views/Page').default,
+      path: '/sites',
+      name: 'Sites',
+      component: require('Views/Sites/List').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/users',
+      name: 'Users',
+      component: require('Views/Users/List').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/settings/:page',
+      name: 'Settings',
+      component: require('Views/Settings').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/assets/:type',
+      name: 'Assets',
+      component: require('Views/Assets').default,
       meta: {
         auth: true,
         layout: 'dashboard'
@@ -43,6 +70,15 @@ let router = new VueRouter({
       path: '/login',
       name: 'Login',
       component: require('Views/Auth/Login').default,
+      meta: {
+        auth: false,
+        layout: 'public'
+      }
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: require('Views/Auth/Register').default,
       meta: {
         auth: false,
         layout: 'public'

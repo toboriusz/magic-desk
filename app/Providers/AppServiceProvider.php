@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\User;
+use App\Models\Technician;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 

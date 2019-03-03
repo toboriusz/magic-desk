@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Application Name'),
+    'name' => env('APP_NAME', 'MagicDesk'),
 
     /*
     |--------------------------------------------------------------------------

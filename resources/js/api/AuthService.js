@@ -17,5 +17,8 @@ export default {
       password_confirmation: password_confirmation,
       token: token
     })
+  },
+  register (form) {
+    return ApiService.post('auth/register', form)
   }
 }

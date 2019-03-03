@@ -1,21 +1,39 @@
 <template>
-  <v-form @submit.prevent="resetPassword" class="p-rpass">
+  <v-form @submit.prevent="validate" class="p-rpass">
   	<div class="text-xs-center">
 	  	<h3>Reset password</h3>
   	</div>
     <div class="p-rpass__container">
       <div class="p-srpass__loader" :class="{ 'shown' : success }">
-        <response-loader class="mt-4" v-model="loaderState"></response-loader>
+        <response-loader class="mt-2" v-model="loaderState"></response-loader>
         <p class="text-xs-center mt-3 green--text font-weight-bold">{{ message }}&nbsp;</p> 
         <v-btn :to="loginHref" color="primary" >Go to login page</v-btn>
       </div>
       <div class="p-rpass__form" :class="{ 'hidden' : success }">
-        <v-text-field name="password" label="New password" type="password" v-model="password"></v-text-field>
-        <v-text-field name="password_confirmation" label="Confirm new password" type="password" v-model="password_confirmation"></v-text-field>
+        <v-text-field
+          ref="password"
+          label="Password"
+          data-vv-as="Password"
+          type="password"
+          name="password"
+          v-model="form.password"
+          v-validate="'required|min:6'"
+          :error-messages="$validator.errors.collect('password')">
+        </v-text-field>
+
+        <v-text-field
+          label="Confirm password"
+          data-vv-as="Password"
+          type="password"
+          name="password_confirmation"
+          v-model="form.password_confirmation"
+          v-validate="'confirmed:password'"
+          :error-messages="$validator.errors.collect('password_confirmation')">
+        </v-text-field>
+        <p class="text-xs-center mt-1 mb-3 red--text font-weight-bold">{{ error }}</p>
         <div class="layout-row">
-          <v-btn type="submit" block color="primary" :loading="loading">Update password</v-btn>
+          <v-btn type="submit" class="ma-0" block color="primary" :loading="loading">Update password</v-btn>
         </div>
-        <p class="text-xs-center ma-0 mt-3 red--text font-weight-bold">{{ error }}&nbsp;</p>
       </div>
     </div>
   	
@@ -34,11 +52,13 @@
         loaderState: 'idle',
         userEmail: null,
         loading: false,
-        password: '',
-        password_confirmation: '',
         error: '',
         message: '',
-        success: false
+        success: false,
+        form: {
+          password: '',
+          password_confirmation: ''
+        }
       }
     },
 
@@ -54,13 +74,29 @@
     },
 
     methods: {
+      validate () {
+        this.$validator.validateAll().then(( isValid ) => {
+          //Bug fix
+          if(this.form.password_confirmation === '') {
+            this.$validator.errors.add({
+              field: 'password_confirmation',
+              msg: 'The password confirmation is required'
+            })
+            return false
+          }
+
+          if(isValid) {
+            this.resetPassword()
+          }
+        })
+      },
       resetPassword () {
         this.message = ''
         this.error = ''
         this.loading = true
         this.$store.dispatch('auth/resetPassword', {
-          password: this.password,
-          password_confirmation: this.password_confirmation,
+          password: this.form.password,
+          password_confirmation: this.form.password_confirmation,
           token: this.$route.params.token
         }).then( (res) => {
           this.message = res.data.message

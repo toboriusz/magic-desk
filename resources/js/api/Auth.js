@@ -21,7 +21,7 @@ const AuthService = {
       },
       http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
       router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-      refreshData: {url: 'auth/refresh-token', method: 'POST', enabled: true, interval: 30},
+      refreshData: {url: 'auth/refresh-token', method: 'POST', enabled: true, interval: 5},
       authRedirect: { name: 'Login' },
       notFoundRedirect: { path: '/' }
     });

@@ -17,6 +17,9 @@ const actions = {
 	},
 	resetPassword (context, data) {
 		return AuthService.resetPassword(data.password, data.password_confirmation, data.token)
+	},
+	register (context, data) {
+		return AuthService.register(data)
 	}
 }
 

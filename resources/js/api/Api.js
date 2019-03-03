@@ -20,23 +20,6 @@ const ApiService = {
       console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
     }
 
-    Vue.axios.interceptors.response.use(
-      response => {
-        return response;
-      }, 
-      error => {
-        if (error.response.status === 422) {
-          if (error.response.data.errors){
-            for(let key in error.response.data.errors){
-              console.log({field: key, msg: error.response.data.errors[key]})
-            }
-          }
-        } else { 
-          console.error(error)
-        }
-        return Promise.reject(error);
-    })
-
   },
 
   query (resource, params = null) {

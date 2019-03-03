@@ -1,6 +1,5 @@
 <template>
   <v-form @submit.prevent="validate">
-    <p class="text-xs-center font-weight-bold red--text">{{ error }}</p>
     <v-text-field
       append-icon="person"
       name="email"
@@ -9,7 +8,7 @@
       v-model="email"
       :autofocus="!$route.query.email"
       data-vv-name="email"
-      v-validate="'required'"
+      v-validate="'required|email'"
       @change="error = ''"
       :error-messages="$validator.errors.collect('email')">
     </v-text-field>
@@ -32,9 +31,11 @@
       color="primary">
     </v-checkbox>
 
+    <p class="text-xs-center font-weight-bold red--text">{{ error }}</p>
+
     <div class="layout-row">
-      <v-btn type="submit" block color="primary" :loading="loading">Login</v-btn>
-      <v-btn @click="resetPassword" class="mt-3" block flat>Forgot password</v-btn>
+      <v-btn type="submit" block color="primary" :loading="loading">Log in</v-btn>
+      <v-btn @click="resetPassword" class="mt-3 mb-0" block flat>Forgot password</v-btn>
     </div>
   </v-form>
 </template>
@@ -53,12 +54,6 @@
 	      remember_me: false,
         error: ''
 		  }
-  	},
-  	
-  	computed: {
-  		logoSrc () {
-  			return require('Assets/logo-dark.svg')
-  		}
   	},
 
   	methods: {
@@ -79,12 +74,13 @@
             remember_me: this.remember_me  
           },
           rememberMe: this.remember_me,
-          error: (e) => {
+          error: function (e) {
+            this.loading = false
             this.showValidationErrors(e)
-            if(e.response.status === 401) {
+            console.log(e)
+            if(e.response.status === 401 || e.response.status === 400) {
               this.error = e.response.data.message
             }
-            this.loading = false
           }
         })
   		},

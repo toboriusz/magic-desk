@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 
 
-class User extends Authenticatable
+class Technician extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'email_token', 'email_verified_at', 
+        'first_name', 'last_name', 'email', 'password', 'email_token', 'email_verified_at', 
     ];
 
     /**

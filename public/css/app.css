@@ -16,6 +16,15 @@
   }
 }
 
+input:-internal-autofill-previewed,
+input:-internal-autofill-selected,
+textarea:-internal-autofill-previewed,
+textarea:-internal-autofill-selected,
+select:-internal-autofill-previewed,
+select:-internal-autofill-selected {
+  transition: background-color 9999s ease-in-out 0s;
+}
+
 .logo-rotate {
   -webkit-animation: rotate 30s linear infinite;
           animation: rotate 30s linear infinite;

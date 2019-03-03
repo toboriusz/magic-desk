@@ -13,7 +13,7 @@ return [
 
 
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'register_success' => 'User was registered successfully',
+    'register_success' => 'You are registered successfully. We have sent email to you with verification link!',
     'token_refresh_success' => 'Token refreshed successfully',
 
     'logout_success' => 'You are logged out',

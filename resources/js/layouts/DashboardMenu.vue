@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    class="main-menu"
+    class="l-d-menu main-menu"
     :mini-variant.sync="mini"
     fixed
     :dark="$vuetify.dark"
@@ -9,69 +9,42 @@
     width="260"
     >
     <v-toolbar color="primary darken-1" dark>
-      <img v-bind:src="logoSrc" height="30" alt="Magic Desk" class="logo-rotate">
-      <v-toolbar-title class="ml-0 pl-3">
-        <span class="hidden-sm-and-down font-weight-light">Application name</span>
-      </v-toolbar-title>        
+      <router-link to="/" class="l-d-menu__logo">
+        <img :src="require('Assets/logo-light.svg')" height="50" alt="Magic Desk">   
+      </router-link>
     </v-toolbar>
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
       <v-list dense expand>
-        <template v-for="(item, i) in mainMenu">
-            <!--group with subitems-->
-            <v-list-group v-if="item.items" :key="item.name" :group="item.group" :prepend-icon="item.icon" no-action="no-action">
-              <v-list-tile slot="activator" ripple="ripple">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-              <template v-for="(subItem, i) in item.items">
-                <!--sub group-->
-                <v-list-group v-if="subItem.items" :key="subItem.name" :group="subItem.group" sub-group="sub-group">
-                  <v-list-tile slot="activator" ripple="ripple">
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                  <v-list-tile v-for="(grand, i) in subItem.children" :key="i" :to="genChildTarget(item, grand)" :href="grand.href" ripple="ripple">
-                    <v-list-tile-content>
-                      <v-list-tile-title>{{ grand.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                  </v-list-tile>
-                </v-list-group>
-                <!--child item-->
-                <v-list-tile v-else :key="i" :to="genChildTarget(item, subItem)" :href="subItem.href" :disabled="subItem.disabled" :target="subItem.target" ripple="ripple">
-                  <v-list-tile-content>
-                    <v-list-tile-title><span>{{ subItem.title }}</span></v-list-tile-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action v-if="subItem.action">
-                    <v-icon :class="[subItem.actionClass || 'success--text']">{{ subItem.action }}</v-icon>
-                  </v-list-tile-action>
-                </v-list-tile>
-              </template>
-            </v-list-group>
-            <v-subheader v-else-if="item.header" :key="i">{{ item.header }}</v-subheader>
-            <v-divider v-else-if="item.divider" :key="i"></v-divider>
-            <!--top-level link-->
-            <v-list-tile v-else :to="!item.href ? { name: item.name } : null" :href="item.href" ripple="ripple" :disabled="item.disabled" :target="item.target" rel="noopener" :key="item.name">
-              <v-list-tile-action v-if="item.icon">
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action v-if="item.subAction">
-                <v-icon class="success--text">{{ item.subAction }}</v-icon>
-              </v-list-tile-action>
-            </v-list-tile>
-        </template>
-      </v-list>        
+        <menu-item :to="{ name: 'Dashboard' }" icon="dashboard">Dashboard</menu-item>
+        <menu-item :to="{ name: 'Users' }" icon="group">Users</menu-item>
+        <menu-item :to="{ name: 'Sites' }" icon="home">Sites</menu-item>
+        <menu-item has-submenu title="Settings" icon="settings">
+          <menu-sub-item :to="{ name: 'Settings', params: { page: 'general' } }">General</menu-sub-item>
+          <menu-sub-item :to="{ name: 'Settings', params: { page: 'assets' } }">Assets</menu-sub-item>
+          <menu-sub-item :to="{ name: 'Settings', params: { page: 'probe' } }">Probe</menu-sub-item>
+          <menu-sub-item :to="{ name: 'Settings', params: { page: 'technicians' } }">Technicians</menu-sub-item>
+          <menu-sub-item :to="{ name: 'Settings', params: { page: 'about' } }">About</menu-sub-item>
+        </menu-item>
+        <v-divider></v-divider>
+        <v-subheader>Assets</v-subheader>
+        <menu-item 
+          v-for="assetType in assetTypes" 
+          :key="assetType.id" 
+          :to="{ name: 'Assets', params: { type: assetType.name } }" 
+          :icon="assetType.icon">
+          {{ assetType.title }}
+        </menu-item>
+        <v-divider></v-divider>
+        <v-subheader>Quick actions</v-subheader>
+      </v-list>
     </vue-perfect-scrollbar>
-    <p class="main-menu__footer ma-2 grey--text">Created by Maciej Toborek &copy; 2019</p>
   </v-navigation-drawer>
 </template>
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import MenuItem from 'Components/Menu/Item'
+import MenuSubItem from 'Components/Menu/SubItem'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -86,15 +59,9 @@ export default {
   }),
 
   computed: {
-    ...mapGetters('menu',[
-      'mainMenu'
-    ]),
-    computeGroupActive () {
-      return true;
-    },
-    logoSrc () {
-			return require('Assets/logo-light.svg')
-		},
+    ...mapGetters('asset',{
+      assetTypes: 'types'
+    }),
     sideToolbarColor () {
       return this.$vuetify.options.extra.sideNav;
     } 
@@ -112,13 +79,24 @@ export default {
     }
   },
 
+  created () {
+    //this.$store.dispatch('assets/fetchTypes')
+  },
+
   components: {
     VuePerfectScrollbar,
+    MenuItem,
+    MenuSubItem
   },
 }
 </script>
 
 <style lang="sass">
+
+  .l-d-menu
+    &__logo
+      display: flex
+      align-items: center
 
   .main-menu
     overflow: hidden

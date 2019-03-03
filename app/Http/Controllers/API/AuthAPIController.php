@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Carbon\Carbon;
-use App\Models\User;
+use App\Models\Technician;
 use Illuminate\Http\Request;
 use App\Mail\PasswordResetEmail;
 use Illuminate\Support\Facades\DB;
@@ -22,9 +22,9 @@ class AuthAPIController extends APIController
     /**
      * Register
      *
-     * Register new user account
+     * Register new technician account
      *
-     * @bodyParam name string required User Name
+     * @bodyParam name string required Technician Name
      * @bodyParam email email required Email address
      * @bodyParam password string required Password
      * @bodyParam password_confirmation string required Password confirmation
@@ -45,27 +45,30 @@ class AuthAPIController extends APIController
     {
 
         $validatedData = $request->validate([
-            'name' => 'required|string|max:120',
-            'email' => 'required|string|email|unique:users|max:100',
-            'password' => 'required|string|confirmed|min:6|max:128'
+            'first_name' => 'required|string|max:30',
+            'last_name' => 'required|string|max:30',
+            'email' => 'required|string|email|unique:technicians|max:100',
+            'password' => 'required|string|confirmed|min:6|max:128',
+            //'terms' => 'accepted'
         ]);
 
-        $user = User::create([
-            'name' => $validatedData['name'],
+        $technician = Technician::create([
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
             'email_token' => base64_encode($validatedData['email'])
         ]);
 
-        Mail::to($user)->send(new EmailVerificationEmail($user));
+        Mail::to($technician)->send(new EmailVerificationEmail($technician));
 
-        return $this->sendSuccessResponse(__('auth.register_success'), $user);
+        return $this->sendSuccessResponse(__('auth.register_success'), $technician);
     }
 
     /**
      * Verify
      *
-     * Verify user email
+     * Verify technician email
      *
      * @bodyParam token string required Verify email token
      @response {
@@ -87,19 +90,19 @@ class AuthAPIController extends APIController
             'token' => 'required|string'
         ]);
 
-        $user = User::where('email_token', $validatedData['token'])->first();
+        $technician = Technician::where('email_token', $validatedData['token'])->first();
 
-        if (empty($user)) {
+        if (empty($technician)) {
             return $this->sendErrorResponse(__('verify_email.token_not_exists'));
         }
 
-        if (!empty($user->email_verified_at)) {
+        if (!empty($technician->email_verified_at)) {
             return $this->sendErrorResponse(__('verify_email.token_used'));
         }
 
-        $user->update(['email_verified_at' => Carbon::now()]);
+        $technician->update(['email_verified_at' => Carbon::now()]);
         
-        return $this->sendSuccessResponse(__('verify_email.success'), $user);
+        return $this->sendSuccessResponse(__('verify_email.success'), $technician);
     }
 
     /**
@@ -123,28 +126,28 @@ class AuthAPIController extends APIController
             'email' => 'required|email'
         ]);
 
-        if ($user = User::where('email', $validatedData['email'])->first()) {
+        if ($technician = Technician::where('email', $validatedData['email'])->first()) {
 
             $token = str_random(64);
 
-            DB::table(config('auth.passwords.users.table'))->where('email', $user->email)->delete();
+            DB::table(config('auth.passwords.technicians.table'))->where('email', $technician->email)->delete();
 
-            DB::table(config('auth.passwords.users.table'))->insert([
-                'email' => $user->email,
+            DB::table(config('auth.passwords.technicians.table'))->insert([
+                'email' => $technician->email,
                 'token' => $token
             ]);
 
-            Mail::to($user)->send(new PasswordResetEmail($user, $token));
+            Mail::to($technician)->send(new PasswordResetEmail($technician, $token));
 
             return $this->sendSuccessResponse(__('password_reset.sent_success'), null);
         }
-        return $this->sendErrorResponse(__('password_reset.user_not_found'));
+        return $this->sendErrorResponse(__('password_reset.technician_not_found'));
     }
 
     /**
      * Password reset update
      *
-     * Update user password
+     * Update technician password
      *
      * @bodyParam token string required Password reset token
      * @bodyParam password string required Password
@@ -184,7 +187,7 @@ class AuthAPIController extends APIController
             'password' => 'required|string|confirmed|min:6|max:128'
         ]);
 
-        $passwordReset = DB::table(config('auth.passwords.users.table'))
+        $passwordReset = DB::table(config('auth.passwords.technicians.table'))
             ->where('token', $validatedData['token'])
             ->first();
 
@@ -192,23 +195,23 @@ class AuthAPIController extends APIController
             return $this->sendErrorResponse( __('password_reset.token_not_valid'));
         }
 
-        $user = User::where('email', $passwordReset->email)->first();
+        $technician = Technician::where('email', $passwordReset->email)->first();
 
-        if (empty($user)) {
-            return $this->sendErrorResponse( __('password_reset.user_not_found'));
+        if (empty($technician)) {
+            return $this->sendErrorResponse( __('password_reset.technician_not_found'));
         }
 
-        $user->update(['password' => bcrypt($validatedData['password'])]);
+        $technician->update(['password' => bcrypt($validatedData['password'])]);
 
-        DB::table(config('auth.passwords.users.table'))->where('email', $user->email)->delete();
+        DB::table(config('auth.passwords.technicians.table'))->where('email', $technician->email)->delete();
 
-        return $this->sendSuccessResponse(__('password_reset.success'), $user);
+        return $this->sendSuccessResponse(__('password_reset.success'), $technician);
     }
 
     /**
      * Login
      *
-     * user login and get token
+     * technician login and get token
      *
      * @bodyParam email email required Email address
      * @bodyParam password string required Password
@@ -242,12 +245,12 @@ class AuthAPIController extends APIController
             return $this->sendErrorResponse(__('auth.failed'), null, 401);
         }
 
-        $user = $request->user();
+        $technician = $request->user();
 
-        if(null === $user->email_verified_at)
-            return $this->sendErrorResponse(__('auth.email_not_verified'));
+        if(null === $technician->email_verified_at)
+            return $this->sendErrorResponse(__('verify_email.not_verified'));
 
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $technician->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if (isset($validatedData['remember_me']) && $validatedData['remember_me']) {
             $token->expires_at = Carbon::now()->addWeeks(1);
@@ -263,7 +266,7 @@ class AuthAPIController extends APIController
     /**
      * Logout
      *
-     * user logout and revoke token
+     * technician logout and revoke token
      *
      * @authenticated
      * @response {
@@ -277,25 +280,25 @@ class AuthAPIController extends APIController
      */
     public function logout(Request $request)
     {
-        $user = $request->user();
+        $technician = $request->user();
 
-        if(null === $user)
+        if(null === $technician)
             return $this->sendErrorResponse(__('auth.logout_failed'));
 
-        $user->token()->revoke();
+        $technician->token()->revoke();
 
         return $this->sendSuccessResponse(__('auth.logout_success'));
     }
 
     /**
-     * User
+     * Technician
      *
-     * Get current logged in user
+     * Get current logged in technician
      *
      * @authenticated
      * @response {
      *     "success": true,
-     *     "message": "Pobrano dane aktualnego użytkonika pomyślnie",
+     *     "message": "__('technician.fetch_success')",
      *     "data": {
      *         "id": 1,
      *         "first_name": "John",
@@ -322,13 +325,13 @@ class AuthAPIController extends APIController
      */
     public function user(Request $request)
     {
-        return $this->sendSuccessResponse(__('user.fetch_success'), $request->user());
+        return $this->sendSuccessResponse(__('technician.fetch_success'), $request->user());
     }
 
     /**
      * Refresh token
      *
-     * Refresh token for current logged in user
+     * Refresh token for current logged in technician
      *
      * @authenticated
      * @bodyParam remember_me boolean optional Remember me option
@@ -349,10 +352,9 @@ class AuthAPIController extends APIController
         $validatedData = $request->validate([
             'remember_me' => 'boolean'
         ]);
+        $technician = $request->user();
 
-        $user = $request->user();
-
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $technician->createToken('Personal Access Token');
         $token = $tokenResult->token;
         if (isset($validatedData['remember_me']) && $validatedData['remember_me']) {
             $token->expires_at = Carbon::now()->addWeeks(1);

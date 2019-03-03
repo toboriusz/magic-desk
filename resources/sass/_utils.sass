@@ -25,3 +25,11 @@ $primary: $blue
 @keyframes rotate
   100%
     transform: rotate(360deg)
+
+input:-internal-autofill-previewed, 
+input:-internal-autofill-selected, 
+textarea:-internal-autofill-previewed, 
+textarea:-internal-autofill-selected, 
+select:-internal-autofill-previewed, 
+select:-internal-autofill-selected
+  transition: background-color 9999s ease-in-out 0s

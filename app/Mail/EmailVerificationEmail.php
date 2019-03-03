@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\User;
+use App\Models\Technician;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,16 +12,16 @@ class EmailVerificationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $technician;
 
     /**
      * Create a new message instance.
      *
-     * @param User $user
+     * @param Technician $technician
      */
-    public function __construct(User $user)
+    public function __construct(Technician $technician)
     {
-        $this->user = $user;
+        $this->technician = $technician;
     }
 
     /**
