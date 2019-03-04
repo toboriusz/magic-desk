@@ -5,7 +5,7 @@
     fixed
     :dark="$vuetify.dark"
     app
-    v-model="drawer"
+    v-model="menuOpen"
     width="260"
     >
     <v-toolbar color="primary darken-1" dark>
@@ -52,13 +52,16 @@ export default {
 
   data: () => ({
     mini: false,
-    drawer: true,
+    menuOpen: false,
 		scrollSettings: {
       maxScrollbarLength: 160
     }
   }),
 
   computed: {
+    ...mapGetters('menu',{
+      drawer: 'drawer'
+    }),
     ...mapGetters('asset',{
       assetTypes: 'types'
     }),
@@ -79,7 +82,17 @@ export default {
     }
   },
 
+  watch: {
+    drawer(value) {
+      this.menuOpen = value
+    },
+    menuOpen(value) {
+      this.$store.dispatch('menu/setDrawer', value)
+    }
+  },
+
   created () {
+    this.menuOpen = this.drawer
     //this.$store.dispatch('assets/fetchTypes')
   },
 

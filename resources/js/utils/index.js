@@ -13,20 +13,6 @@ const toggleFullScreen = () => {
   }
 }
 
-const validateErrors = (e, component, scope = null) => {
-  if(e.response.status === 422 && e.response.data.data) {
-    const errors = e.response.data.data.validation_errors || []
-    for(let key in errors) {
-      component.$validator.errors.add({
-        field: key, 
-        msg: errors[key].join(' '),
-        scope: scope 
-      })
-    }
-  }
-}
-
 export default {
-	toggleFullScreen,
-  validateErrors
+  toggleFullScreen
 }

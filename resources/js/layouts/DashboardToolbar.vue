@@ -6,7 +6,7 @@
     app
     >
     <v-toolbar-title>
-      <v-toolbar-side-icon @click.stop="handleDrawerToggle"></v-toolbar-side-icon>
+      <v-toolbar-side-icon @click.stop="drawerToggle"></v-toolbar-side-icon>
     </v-toolbar-title>
       <v-text-field
         flat
@@ -39,6 +39,9 @@ export default {
 	name: 'DashboardToolbar',
 
   methods: {
+    drawerToggle () {
+      this.$store.dispatch('menu/toggleDrawer')
+    },
     handleFullScreen () {
       Utils.toggleFullScreen()
     }
