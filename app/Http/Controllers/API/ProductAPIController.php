@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
-class ProductAPIController extends Controller
+class ProductAPIController extends APIController
 {
     //
 }

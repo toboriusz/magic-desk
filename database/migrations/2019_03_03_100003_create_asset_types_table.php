@@ -20,6 +20,7 @@ class CreateAssetTypesTable extends Migration
             $table->string('icon');
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

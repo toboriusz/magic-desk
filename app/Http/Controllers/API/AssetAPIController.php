@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
-class AssetAPIController extends Controller
+class AssetAPIController extends APIController
 {
     //
 }

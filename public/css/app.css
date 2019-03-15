@@ -30,3 +30,53 @@ select:-internal-autofill-selected {
           animation: rotate 30s linear infinite;
 }
 
+.no-wrap {
+  white-space: no-wrap;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 100;
+  letter-spacing: -1.5px;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 200;
+  letter-spacing: normal;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 200;
+  letter-spacing: normal;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.filter-badge .v-badge__badge {
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  right: -7px;
+  top: -7px;
+}
+
+.v-toolbar__content {
+  padding: 0 16px;
+}
+

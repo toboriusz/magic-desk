@@ -1,13 +1,18 @@
 <template>
   <v-container>
-		<h1>Settings</h1>	
+		<v-header>Settings</v-header>
 	</v-container>
 </template>
 
 <script>
+  import VHeader from 'Components/VHeader'
   export default {
 
-    name: 'ViewSettings'
+    name: 'ViewSettings',
+
+    components: {
+      VHeader
+    }
 
   }
 </script>

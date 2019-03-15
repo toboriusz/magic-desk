@@ -11,8 +11,8 @@
 
 <script>
 
-  import LayoutPublic from 'Layouts/Public'
-  import LayoutDashboard from 'Layouts/Dashboard'
+  import LayoutPublic from 'Layouts/LayoutPublic'
+  import LayoutDashboard from 'Layouts/LayoutDashboard'
   
   const default_layout = 'dashboard'
   
@@ -22,13 +22,13 @@
 
     computed: {
       layout () {
-        return (this.$route.meta.layout || default_layout)
+        return 'layout-' + (this.$route.meta.layout || default_layout)
       }
     },
 
     components: {
-      'dashboard': LayoutDashboard,
-      'public': LayoutPublic
+      LayoutDashboard,
+      LayoutPublic
     }
 
   }

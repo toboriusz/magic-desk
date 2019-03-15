@@ -1,7 +1,7 @@
 <template>
   <div class="p-register">
     <div class="p-register__success hidden" :class="{ 'shown': success }">
-      <response-loader class="mb-5" v-model="loaderState"></response-loader>
+      <v-response-loader class="mb-5" v-model="loaderState"></v-response-loader>
       <p class="text-xs-center green--text font-weight-bold">{{ success }}</p>
     </div>
 
@@ -80,7 +80,7 @@
 
 <script>
   import Utils from 'Utils'
-  import ResponseLoader from 'Components/ResponseLoader'
+  import VResponseLoader from 'Components/VResponseLoader'
   export default {
 
     name: 'ViewRegister',
@@ -139,7 +139,7 @@
     },
     
     components: {
-      ResponseLoader
+      VResponseLoader
     }
   }
 </script>

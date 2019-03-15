@@ -34,5 +34,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['middleware' => 'auth:api'], function() {
 
-    // Secured routes
+    Route::resource('sites', 'SiteAPIController');
+    Route::resource('employees', 'EmployeeAPIController');
+
 });

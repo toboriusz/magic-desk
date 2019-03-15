@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Role;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 
 
 class Technician extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +20,17 @@ class Technician extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'email_token', 'email_verified_at', 
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'email_token',
+        'email_verified_at',
+        'phone',
+        'mobile',
+        'site_id',
+        'job_title',
+        'enabled'
     ];
 
     /**
@@ -29,7 +39,10 @@ class Technician extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'email_token', 'pivot'
+        'password',
+        'remember_token',
+        'email_token',
+        'pivot'
     ];
 
     /**
@@ -41,8 +54,15 @@ class Technician extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $dates = ['deleted_at'];
+
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
     }
 }

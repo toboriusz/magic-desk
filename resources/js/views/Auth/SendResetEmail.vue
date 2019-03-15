@@ -4,7 +4,7 @@
     
     <div class="p-srpass__container">
       <div class="p-srpass__loader" :class="{ 'shown' : success }">
-        <response-loader class="mt-5" v-model="loaderState"></response-loader>
+        <v-response-loader class="mt-5" v-model="loaderState"></v-response-loader>
         <p class="text-xs-center mt-3 green--text font-weight-bold">{{ message }}&nbsp;</p>
       </div>
     
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import ResponseLoader from 'Components/ResponseLoader'
+  import VResponseLoader from 'Components/VResponseLoader'
 
   export default {
 
@@ -63,7 +63,7 @@
     },
 
     components: {
-      ResponseLoader
+      VResponseLoader
     }
 
   }

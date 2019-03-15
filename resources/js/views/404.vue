@@ -1,29 +1,27 @@
 <template functional>
-  <v-container grid-list-md>
-    <v-layout row wrap>
-      <v-flex xs12>
-        <v-card>
-          <v-card-title class="red darken-3 white--text subheading" primary-title>
-            <span class="title">Oops!</span>
-          </v-card-title>
-          <v-card-text>
-            Looks like you're in uncharted territory. We don't know about this page yet.
-            Luckily, we know the way back.
-          </v-card-text>
-          <v-card-actions>
-            <v-btn flat class="red darken-3 white--text" to="/">Back</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-flex class="text-xs-center mt-2 mb-5 p-404">
+    <h2 class="p-404__title">404</h2>
+    <h3 class="p-404__subtitle">Page not found</h3>
+    <v-btn to="/" class="primary mt-4">Go back</v-btn>
+  </v-flex>
 </template>
 
 
 <script>
   export default {
 
-    name: 'View404'
+    name: 'view-404'
 
   }
 </script>
+
+<style lang="sass">
+  .p-404
+    &__title
+      font-size: 60px
+      font-weight: bold
+    &__subtitle
+      font-size: 30px
+      
+</style>
+

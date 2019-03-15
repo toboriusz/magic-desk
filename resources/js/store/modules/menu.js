@@ -1,5 +1,5 @@
 const state = {
-  drawer: false
+  drawer: true
 }
 
 const getters = {

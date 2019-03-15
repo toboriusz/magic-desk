@@ -1,13 +1,18 @@
 <template>
   <v-container>
-		<h1>Users List</h1>	
+		<v-header>Users</v-header>
 	</v-container>
 </template>
 
 <script>
+  import VHeader from 'Components/VHeader'
   export default {
 
-    name: 'ViewUsersList'
+    name: 'ViewUsersList',
+
+    components: {
+      VHeader
+    }
 
   }
 </script>

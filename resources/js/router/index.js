@@ -31,6 +31,15 @@ let router = new VueRouter({
       }
     },
     {
+      path: '/sites/create',
+      name: 'SitesCreate',
+      component: require('Views/Sites/Create').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
       path: '/users',
       name: 'Users',
       component: require('Views/Users/List').default,

@@ -47,7 +47,16 @@ Vue.mixin({
 		      })
 		    }
 		  }
-  	} 
+		},
+		noReact(obj) {
+			if(typeof obj === 'undefined')
+				return null
+			if(obj === null)
+				return null
+			if(obj === [])
+				return []
+			return JSON.parse(JSON.stringify(obj))
+		}
   }
 })
 
