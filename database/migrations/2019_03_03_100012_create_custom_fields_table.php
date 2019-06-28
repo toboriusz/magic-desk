@@ -25,7 +25,7 @@ class CreateCustomFieldsTable extends Migration
             $table->longText('options')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->foreign('asset_type_id')
                   ->references('id')
                   ->on('asset_types')

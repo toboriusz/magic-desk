@@ -16,6 +16,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
+        'asset_type_id',
         'brand',
         'model',
         'part_no',

@@ -11,10 +11,10 @@ class SiteAPIController extends APIController
 
     private $validationRules = [
         'name' => 'required|string|unique:sites|max:30',
-        'shortcode' => 'required|string|unique:sites|max:5',
+        'parent' => 'numeric|nullable',
         'latitude' => 'numeric|nullable',
         'longitude' => 'numeric|nullable',
-        'phone' => 'string|nullable|max:10',
+        'phone' => 'string|nullable|max:16',
         'address1' => 'string|nullable|max:30',
         'address2' => 'string|nullable|max:30',
         'city' => 'string|nullable|max:30',
@@ -31,13 +31,13 @@ class SiteAPIController extends APIController
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    
+
     public function index(Request $request)
-    {   
+    {
         $withTrashed = !!$request->input('with_trashed');
-        
-        $sites = Site::withTrashed($withTrashed)->withCount('assets')->get();
-        
+
+        $sites = Site::withTrashed($withTrashed)->withCount('assets', 'employees')->get();
+
         return $this->sendSuccessResponse(__('sites.fetch_success'), $sites);
     }
 
@@ -66,7 +66,7 @@ class SiteAPIController extends APIController
     {
         $site = Site::withTrashed()->findOrFail($id);
 
-        return $this->sendSuccessResponse(__('sites.store_success'), $site);
+        return $this->sendSuccessResponse(__('sites.fetch_success'), $site);
     }
 
     /**
@@ -78,11 +78,20 @@ class SiteAPIController extends APIController
      */
     public function update(Request $request, $id)
     {
+
+        $site = Site::withTrashed()->findOrFail($id);
+
+
+        if( 'restore' === $request->input('action')) {
+            $site->restore();
+            return $this->sendSuccessResponse(__('sites.restore_success'), $site);
+        }
+
         $data = $request->validate($this->validationRules);
 
-        $site = Site::create($data);
+        //update code
 
-        return $this->sendSuccessResponse(__('sites.store_success'), $site);
+        return $this->sendSuccessResponse(__('sites.update_success'), $site);
     }
 
     /**
@@ -98,7 +107,7 @@ class SiteAPIController extends APIController
         if(empty($site))
             return $this->sendErrorResponse(__('sites.destroy_not_found'), null, 404);
 
-        if($request->input('permanent')) {
+        if('true' === $request->input('permanently')) {
             $site->forceDelete();
             return $this->sendSuccessResponse(__('sites.destroy_p_success'));
         }

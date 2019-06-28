@@ -17,6 +17,16 @@ class CreateRoleTechnicianTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('role_id')->unsigned();
             $table->integer('technician_id')->unsigned();
+
+            $table->foreign('role_id')
+                  ->references('id')
+                  ->on('roles')
+                  ->onDelete('cascade');
+
+            $table->foreign('technician_id')
+                  ->references('id')
+                  ->on('technicians')
+                  ->onDelete('cascade');
         });
     }
 

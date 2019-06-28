@@ -46,21 +46,21 @@
           <!-- START_INFO -->
 <h1>Info</h1>
 <p>Welcome to the generated API reference.
-<a href="http://localhost/api-docs/collection.json">Get Postman Collection</a></p>
+<a href="http://magic-desk.test/api-docs/collection.json">Get Postman Collection</a></p>
 <!-- END_INFO -->
 <h1>Authentication</h1>
 <p>Application authentication</p>
 <!-- START_a925a8d22b3615f12fca79456d286859 -->
 <h2>Login</h2>
-<p>user login and get token</p>
+<p>technician login and get token</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/login" \
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/login" \
     -H "Content-Type: application/json" \
-    -d '{"email":"SbXb4PeCQBn2nZg2","password":"TNb2XY7UYm0cAmhu","remember_me":true}'
+    -d '{"email":"zcI5OlorjCL2QN0S","password":"KPyAK9v1AHMdyWdF","remember_me":false}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/login");
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/login");
 
 let headers = {
     "Content-Type": "application/json",
@@ -68,9 +68,9 @@ let headers = {
 }
 
 let body = {
-    "email": "SbXb4PeCQBn2nZg2",
-    "password": "TNb2XY7UYm0cAmhu",
-    "remember_me": true
+    "email": "zcI5OlorjCL2QN0S",
+    "password": "KPyAK9v1AHMdyWdF",
+    "remember_me": false
 }
 
 fetch(url, {
@@ -120,15 +120,15 @@ fetch(url, {
 <!-- END_a925a8d22b3615f12fca79456d286859 -->
 <!-- START_2e1c96dcffcfe7e0eb58d6408f1d619e -->
 <h2>Register</h2>
-<p>Register new user account</p>
+<p>Register new technician account</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/register" \
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/register" \
     -H "Content-Type: application/json" \
-    -d '{"name":"cMDqnOkRI3EIk13Y","email":"vaegjW8jV85DgNJM","password":"fopmO9LyqdEG8RyF","password_confirmation":"NQF14w0nFWo7Lh1X"}'
+    -d '{"name":"i9hayHVZQl4iDIcj","email":"W34PhJV58iY6KDrX","password":"kgIdp82A2QgN7lYE","password_confirmation":"j62DEy3NnrdfmnIa"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/register");
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/register");
 
 let headers = {
     "Content-Type": "application/json",
@@ -136,10 +136,10 @@ let headers = {
 }
 
 let body = {
-    "name": "cMDqnOkRI3EIk13Y",
-    "email": "vaegjW8jV85DgNJM",
-    "password": "fopmO9LyqdEG8RyF",
-    "password_confirmation": "NQF14w0nFWo7Lh1X"
+    "name": "i9hayHVZQl4iDIcj",
+    "email": "W34PhJV58iY6KDrX",
+    "password": "kgIdp82A2QgN7lYE",
+    "password_confirmation": "j62DEy3NnrdfmnIa"
 }
 
 fetch(url, {
@@ -170,7 +170,7 @@ fetch(url, {
 <td>name</td>
 <td>string</td>
 <td>required</td>
-<td>User Name</td>
+<td>Technician Name</td>
 </tr>
 <tr>
 <td>email</td>
@@ -195,15 +195,15 @@ fetch(url, {
 <!-- END_2e1c96dcffcfe7e0eb58d6408f1d619e -->
 <!-- START_10e1364dfe0421ea840f637dcd936361 -->
 <h2>Verify</h2>
-<p>Verify user email</p>
+<p>Verify technician email</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/verify-email" \
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/verify-email" \
     -H "Content-Type: application/json" \
-    -d '{"token":"bwNK2QosLjcA8uH8"}'
+    -d '{"token":"sNKsMo02tVdhy341"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/verify-email");
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/verify-email");
 
 let headers = {
     "Content-Type": "application/json",
@@ -211,7 +211,7 @@ let headers = {
 }
 
 let body = {
-    "token": "bwNK2QosLjcA8uH8"
+    "token": "sNKsMo02tVdhy341"
 }
 
 fetch(url, {
@@ -253,11 +253,11 @@ fetch(url, {
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/password-reset/send" \
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/password-reset/send" \
     -H "Content-Type: application/json" \
-    -d '{"email":"IDeSNwOaB7PYRew6"}'
+    -d '{"email":"6WFqZCyYL5o1zVN2"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/password-reset/send");
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/password-reset/send");
 
 let headers = {
     "Content-Type": "application/json",
@@ -265,7 +265,7 @@ let headers = {
 }
 
 let body = {
-    "email": "IDeSNwOaB7PYRew6"
+    "email": "6WFqZCyYL5o1zVN2"
 }
 
 fetch(url, {
@@ -303,15 +303,15 @@ fetch(url, {
 <!-- END_9a96b21e8d3bfa4fa5e60ba08c4e63b3 -->
 <!-- START_ee4267d878c9ec4cc5fa23a1dc434548 -->
 <h2>Password reset update</h2>
-<p>Update user password</p>
+<p>Update technician password</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/password-reset/update" \
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/password-reset/update" \
     -H "Content-Type: application/json" \
-    -d '{"token":"8jQkkdj2qcqkGHzN","password":"szCKSqFnVVqTxHGk"}'
+    -d '{"token":"hnJUQABv7qDBmlUz","password":"TDYy1cagqs1Z7pn1"}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/password-reset/update");
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/password-reset/update");
 
 let headers = {
     "Content-Type": "application/json",
@@ -319,8 +319,8 @@ let headers = {
 }
 
 let body = {
-    "token": "8jQkkdj2qcqkGHzN",
-    "password": "szCKSqFnVVqTxHGk"
+    "token": "hnJUQABv7qDBmlUz",
+    "password": "TDYy1cagqs1Z7pn1"
 }
 
 fetch(url, {
@@ -365,12 +365,12 @@ fetch(url, {
 <!-- START_19ff1b6f8ce19d3c444e9b518e8f7160 -->
 <h2>Logout</h2>
 <p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-user logout and revoke token</p>
+technician logout and revoke token</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/logout" </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/logout");
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/logout" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/logout");
 
 let headers = {
     "Accept": "application/json",
@@ -391,14 +391,14 @@ fetch(url, {
 <p><code>POST api/auth/logout</code></p>
 <!-- END_19ff1b6f8ce19d3c444e9b518e8f7160 -->
 <!-- START_ff6d656b6d81a61adda963b8702034d2 -->
-<h2>User</h2>
+<h2>Technician</h2>
 <p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Get current logged in user</p>
+Get current logged in technician</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X GET -G "http://localhost/api/auth/user" </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/user");
+<pre><code class="language-bash">curl -X GET -G "http://magic-desk.test/api/auth/user" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/user");
 
 let headers = {
     "Accept": "application/json",
@@ -421,15 +421,15 @@ fetch(url, {
 <!-- START_0fb19b1537622281d045b3d0d4f606f0 -->
 <h2>Refresh token</h2>
 <p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
-Refresh token for current logged in user</p>
+Refresh token for current logged in technician</p>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
-<pre><code class="language-bash">curl -X POST "http://localhost/api/auth/refresh-token" \
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/auth/refresh-token" \
     -H "Content-Type: application/json" \
     -d '{"remember_me":true}'
 </code></pre>
-<pre><code class="language-javascript">const url = new URL("http://localhost/api/auth/refresh-token");
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/auth/refresh-token");
 
 let headers = {
     "Content-Type": "application/json",
@@ -473,6 +473,550 @@ fetch(url, {
 </tbody>
 </table>
 <!-- END_0fb19b1537622281d045b3d0d4f606f0 -->
+<h1>general</h1>
+<!-- START_4b94bd9de767d708f579234b4b4bc7de -->
+<h2>List</h2>
+<p><br><small style="padding: 1px 9px 2px;font-weight: bold;white-space: nowrap;color: #ffffff;-webkit-border-radius: 9px;-moz-border-radius: 9px;border-radius: 9px;background-color: #3a87ad;">Requires authentication</small>
+Get list of all sites</p>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://magic-desk.test/api/sites" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/sites");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (200):</p>
+</blockquote>
+<pre><code class="language-json">[]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sites</code></p>
+<!-- END_4b94bd9de767d708f579234b4b4bc7de -->
+<!-- START_0ebc8c1e23f5fffe2bde49996df7e6a8 -->
+<h2>Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://magic-desk.test/api/sites" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/sites");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "POST",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sites</code></p>
+<!-- END_0ebc8c1e23f5fffe2bde49996df7e6a8 -->
+<!-- START_d18f5abe5948407c418c73a9712e0429 -->
+<h2>Display the specified resource.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://magic-desk.test/api/sites/{site}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/sites/{site}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "GET",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<blockquote>
+<p>Example response (401):</p>
+</blockquote>
+<pre><code class="language-json">{
+    "success": false,
+    "message": "You are not authorized to do this action",
+    "data": {
+        "exception_data": {
+            "message": "Unauthenticated.",
+            "exception": "Illuminate\\Auth\\AuthenticationException",
+            "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Auth\/Middleware\/Authenticate.php",
+            "line": 67,
+            "trace": [
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Auth\/Middleware\/Authenticate.php",
+                    "line": 41,
+                    "function": "authenticate",
+                    "class": "Illuminate\\Auth\\Middleware\\Authenticate",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Auth\\Middleware\\Authenticate",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php",
+                    "line": 41,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php",
+                    "line": 58,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 104,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
+                    "line": 684,
+                    "function": "then",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
+                    "line": 659,
+                    "function": "runRouteWithinStack",
+                    "class": "Illuminate\\Routing\\Router",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
+                    "line": 625,
+                    "function": "runRoute",
+                    "class": "Illuminate\\Routing\\Router",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
+                    "line": 614,
+                    "function": "dispatchToRoute",
+                    "class": "Illuminate\\Routing\\Router",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php",
+                    "line": 176,
+                    "function": "dispatch",
+                    "class": "Illuminate\\Routing\\Router",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 30,
+                    "function": "Illuminate\\Foundation\\Http\\{closure}",
+                    "class": "Illuminate\\Foundation\\Http\\Kernel",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/fideloper\/proxy\/src\/TrustProxies.php",
+                    "line": 57,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Fideloper\\Proxy\\TrustProxies",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php",
+                    "line": 31,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php",
+                    "line": 31,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php",
+                    "line": 27,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/CheckForMaintenanceMode.php",
+                    "line": 62,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Illuminate\\Foundation\\Http\\Middleware\\CheckForMaintenanceMode",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/barryvdh\/laravel-cors\/src\/HandlePreflight.php",
+                    "line": 29,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 163,
+                    "function": "handle",
+                    "class": "Barryvdh\\Cors\\HandlePreflight",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php",
+                    "line": 53,
+                    "function": "Illuminate\\Pipeline\\{closure}",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php",
+                    "line": 104,
+                    "function": "Illuminate\\Routing\\{closure}",
+                    "class": "Illuminate\\Routing\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php",
+                    "line": 151,
+                    "function": "then",
+                    "class": "Illuminate\\Pipeline\\Pipeline",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php",
+                    "line": 116,
+                    "function": "sendRequestThroughRouter",
+                    "class": "Illuminate\\Foundation\\Http\\Kernel",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Tools\/ResponseStrategies\/ResponseCallStrategy.php",
+                    "line": 275,
+                    "function": "handle",
+                    "class": "Illuminate\\Foundation\\Http\\Kernel",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Tools\/ResponseStrategies\/ResponseCallStrategy.php",
+                    "line": 259,
+                    "function": "callLaravelRoute",
+                    "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Tools\/ResponseStrategies\/ResponseCallStrategy.php",
+                    "line": 36,
+                    "function": "makeApiCall",
+                    "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Tools\/ResponseResolver.php",
+                    "line": 49,
+                    "function": "__invoke",
+                    "class": "Mpociot\\ApiDoc\\Tools\\ResponseStrategies\\ResponseCallStrategy",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Tools\/ResponseResolver.php",
+                    "line": 68,
+                    "function": "resolve",
+                    "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Tools\/Generator.php",
+                    "line": 57,
+                    "function": "getResponse",
+                    "class": "Mpociot\\ApiDoc\\Tools\\ResponseResolver",
+                    "type": "::"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Commands\/GenerateDocumentation.php",
+                    "line": 201,
+                    "function": "processRoute",
+                    "class": "Mpociot\\ApiDoc\\Tools\\Generator",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/mpociot\/laravel-apidoc-generator\/src\/Commands\/GenerateDocumentation.php",
+                    "line": 59,
+                    "function": "processRoutes",
+                    "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+                    "type": "-&gt;"
+                },
+                {
+                    "function": "handle",
+                    "class": "Mpociot\\ApiDoc\\Commands\\GenerateDocumentation",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
+                    "line": 29,
+                    "function": "call_user_func_array"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
+                    "line": 87,
+                    "function": "Illuminate\\Container\\{closure}",
+                    "class": "Illuminate\\Container\\BoundMethod",
+                    "type": "::"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
+                    "line": 31,
+                    "function": "callBoundMethod",
+                    "class": "Illuminate\\Container\\BoundMethod",
+                    "type": "::"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php",
+                    "line": 572,
+                    "function": "call",
+                    "class": "Illuminate\\Container\\BoundMethod",
+                    "type": "::"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php",
+                    "line": 183,
+                    "function": "call",
+                    "class": "Illuminate\\Container\\Container",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/symfony\/console\/Command\/Command.php",
+                    "line": 255,
+                    "function": "execute",
+                    "class": "Illuminate\\Console\\Command",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php",
+                    "line": 170,
+                    "function": "run",
+                    "class": "Symfony\\Component\\Console\\Command\\Command",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/symfony\/console\/Application.php",
+                    "line": 901,
+                    "function": "run",
+                    "class": "Illuminate\\Console\\Command",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/symfony\/console\/Application.php",
+                    "line": 262,
+                    "function": "doRunCommand",
+                    "class": "Symfony\\Component\\Console\\Application",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/symfony\/console\/Application.php",
+                    "line": 145,
+                    "function": "doRun",
+                    "class": "Symfony\\Component\\Console\\Application",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php",
+                    "line": 89,
+                    "function": "run",
+                    "class": "Symfony\\Component\\Console\\Application",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php",
+                    "line": 122,
+                    "function": "run",
+                    "class": "Illuminate\\Console\\Application",
+                    "type": "-&gt;"
+                },
+                {
+                    "file": "\/mnt\/c\/projects\/magic-desk\/artisan",
+                    "line": 37,
+                    "function": "handle",
+                    "class": "Illuminate\\Foundation\\Console\\Kernel",
+                    "type": "-&gt;"
+                }
+            ]
+        }
+    }
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sites/{site}</code></p>
+<!-- END_d18f5abe5948407c418c73a9712e0429 -->
+<!-- START_773c9bdb2e712908dcb18a7159ba29ec -->
+<h2>Update the specified resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://magic-desk.test/api/sites/{site}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/sites/{site}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "PUT",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT api/sites/{site}</code></p>
+<p><code>PATCH api/sites/{site}</code></p>
+<!-- END_773c9bdb2e712908dcb18a7159ba29ec -->
+<!-- START_5d642e3a724d019171d9753fe202f9b6 -->
+<h2>Remove the specified resource from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://magic-desk.test/api/sites/{site}" </code></pre>
+<pre><code class="language-javascript">const url = new URL("http://magic-desk.test/api/sites/{site}");
+
+let headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+}
+
+fetch(url, {
+    method: "DELETE",
+    headers: headers,
+})
+    .then(response =&gt; response.json())
+    .then(json =&gt; console.log(json));</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE api/sites/{site}</code></p>
+<!-- END_5d642e3a724d019171d9753fe202f9b6 -->
       </div>
       <div class="dark-box">
                         <div class="lang-selector">

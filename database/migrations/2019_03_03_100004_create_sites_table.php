@@ -15,8 +15,8 @@ class CreateSitesTable extends Migration
     {
         Schema::create('sites', function (Blueprint $table) {
             $table->increments('id')->unsigned();
+            $table->integer('parent_id')->unsigned()->nullable();
             $table->string('name');
-            $table->string('shortcode')->unique();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('phone')->nullable();
@@ -28,6 +28,11 @@ class CreateSitesTable extends Migration
             $table->string('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('parent_id')
+                  ->references('id')
+                  ->on('sites')
+                  ->onDelete('set null');
         });
     }
 

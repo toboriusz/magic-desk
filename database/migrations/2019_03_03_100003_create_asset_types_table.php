@@ -15,7 +15,6 @@ class CreateAssetTypesTable extends Migration
     {
         Schema::create('asset_types', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('title');
             $table->string('name')->unique();
             $table->string('icon');
             $table->string('description')->nullable();

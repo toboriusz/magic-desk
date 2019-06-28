@@ -36,5 +36,8 @@ Route::group(['middleware' => 'auth:api'], function() {
 
     Route::resource('sites', 'SiteAPIController');
     Route::resource('employees', 'EmployeeAPIController');
-
+    Route::resource('asset-types', 'AssetTypeAPIController');
+    Route::resource('assets', 'AssetAPIController');
+    Route::resource('products', 'ProductAPIController');
+    Route::resource('states', 'StateAPIController');
 });
