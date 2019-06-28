@@ -1,27 +1,33 @@
 <template>
   <v-container class="c-list">
-    <v-header >
-      <router-link :to="{ name: 'Sites' }"><h2>Sites</h2></router-link>
-      <v-btn class="primary" :to="{ name: 'SitesCreate' }">Add new</v-btn>
-    </v-header>
+    <md-header >
+      <h2><router-link :to="{ name: 'Sites' }">Services</router-link></h2>
+      <v-btn class="primary" @click="$refs.modalSiteAdd.$emit('open')">Add new</v-btn>
+    </md-header>
     <v-flex lg12>
-      <v-crud-table
+      <md-crud-table
+        ref="table"
         :headers="headers"
-        :items="sites"
         :filter-options="filterOptions"
-        :loading="loading"
-        @filters-changed="updateList">
-      </v-crud-table>
-    </v-flex>  
+        selectable
+        store-module-name="sites"
+        @edit="editSite"
+        @show="showSite">
+      </md-crud-table>
+    </v-flex>
+    <modal-site-form
+        ref="modalSiteAdd"
+        @success="$refs.table.$emit('refresh')">
+    </modal-site-form>
 	</v-container>
 </template>
 
 <script>
-  import VHeader from 'Components/VHeader'
+  import MdHeader from 'Components/MdHeader'
   import MenuItem from 'Components/Menu/MenuItem'
-  import VCrudTable from 'Components/VCrudTable'
+  import MdCrudTable from 'Components/MdCrudTable'
+  import ModalSiteForm from 'Components/Modals/SiteForm'
   import {mapGetters} from 'vuex'
-
 
   export default {
 
@@ -31,9 +37,10 @@
       return {
         headers: [
           { text: 'Name', value: 'name', class: 'pl-0'},
-          { text: 'Shortcode', value: 'shortcode'},
+          { text: 'Phone', value: 'phone'},
           { text: 'Address', value: 'address'},
-          { text: 'Assets', value: 'assets_count'}
+          { text: 'Assets', value: 'assets_count'},
+          { text: 'Employees', value: 'employees_count'}
         ],
         filterOptions: [
           'with_trashed'
@@ -42,32 +49,20 @@
       }
     },
 
-    computed: {
-      ...mapGetters('site', {
-        sites: 'list'
-      })
-    },
-
     methods: {
-      updateList(filters) {
-        this.loading = true
-        this.$store.dispatch('site/fetchList', filters).finally((res) => {
-          this.loading = false
-        })
+      editSite(site) {
+        this.$refs.modalSiteForm.$emit('open', site.id)
+      },
+      showSite(site) {
+        this.$router.push({ name: 'SitesShow', params: { id: site.id }})
       }
     },
 
-    mounted() {
-      this.loading = true
-      this.$store.dispatch('site/fetchList').finally(() => {
-        this.loading = false
-      })
-    },
-
     components: {
-      VHeader,
+      MdHeader,
       MenuItem,
-      VCrudTable
+      MdCrudTable,
+      ModalSiteForm
     }
 
   }

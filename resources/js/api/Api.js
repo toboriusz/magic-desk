@@ -4,7 +4,7 @@ import VueAxios from 'vue-axios'
 
 const ApiService = {
   init () {
-    
+
     Vue.use(VueAxios, axios)
 
     Vue.axios.defaults.baseURL = process.env.MIX_API_URL + '/'
@@ -13,7 +13,7 @@ const ApiService = {
     Vue.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
     let token = document.head.querySelector('meta[name="csrf-token"]');
-    
+
     if (token) {
       Vue.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
     } else {
@@ -46,7 +46,7 @@ const ApiService = {
 
         fileReader.readAsText(error.response.data)
       })
-      
+
     })
   },
 
@@ -55,7 +55,7 @@ const ApiService = {
   },
 
   upload (resource, files, onProgress) {
-    return Vue.axios.post(resource, files, { 
+    return Vue.axios.post(resource, files, {
       headers: { 'Content-Type': 'multipart/form-data' },
       onUploadProgress: function( progressEvent ) {
         const progress = parseInt( Math.round( ( progressEvent.loaded * 100 ) / progressEvent.total ) )
@@ -73,7 +73,7 @@ const ApiService = {
   },
 
   delete (resource, data, params = null) {
-    return Vue.axios.delete(resource, data, { params: params })
+    return Vue.axios.delete(resource, { params: params })
   }
 }
 

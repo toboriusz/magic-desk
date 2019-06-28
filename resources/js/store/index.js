@@ -3,8 +3,13 @@ import Vuex from 'vuex'
 
 import menu from 'StoreModules/menu'
 import auth from 'StoreModules/auth'
-import asset from 'StoreModules/asset'
-import site from 'StoreModules/site'
+import icons from 'StoreModules/icons'
+import assets from 'StoreModules/assets'
+import assetTypes from 'StoreModules/assetTypes'
+import sites from 'StoreModules/sites'
+import products from 'StoreModules/products'
+import employees from 'StoreModules/employees'
+import states from 'StoreModules/states'
 
 Vue.use(Vuex)
 
@@ -12,8 +17,13 @@ let store = new Vuex.Store({
   modules: {
     menu,
     auth,
-    asset,
-    site
+    assets,
+    icons,
+    assetTypes,
+    sites,
+    products,
+    employees,
+    states
   }
 })
 

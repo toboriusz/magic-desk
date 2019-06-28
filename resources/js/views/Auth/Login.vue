@@ -71,13 +71,12 @@
           data: {
             email: this.email,
             password: this.password,
-            remember_me: this.remember_me  
+            remember_me: this.remember_me
           },
           rememberMe: this.remember_me,
           error: function (e) {
             this.loading = false
             this.showValidationErrors(e)
-            console.log(e)
             if(e.response.status === 401 || e.response.status === 400) {
               this.error = e.response.data.message
             }

@@ -20,7 +20,14 @@ export default {
   update (data, id) {
     return ApiService.update('sites', id, { page: params })
   },
-  destroy (id) {
-    return ApiService.delete(`sites/${id}`)
+  delete (id, permanently = false) {
+    return ApiService.delete(`sites/${id}`, null, {
+        permanently: permanently
+    })
+  },
+  restore (id) {
+    return ApiService.update(`sites/${id}`, null, {
+        action: 'restore'
+    })
   }
 }

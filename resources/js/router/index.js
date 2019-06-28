@@ -31,36 +31,73 @@ let router = new VueRouter({
       }
     },
     {
-      path: '/sites/create',
-      name: 'SitesCreate',
-      component: require('Views/Sites/Create').default,
+      path: '/sites/:id',
+      name: 'SitesShow',
+      component: require('Views/Sites/Show').default,
       meta: {
         auth: true,
         layout: 'dashboard'
       }
     },
     {
-      path: '/users',
-      name: 'Users',
-      component: require('Views/Users/List').default,
+      path: '/employees',
+      name: 'Employees',
+      component: require('Views/Employees/List').default,
       meta: {
         auth: true,
         layout: 'dashboard'
       }
     },
     {
-      path: '/settings/:page',
-      name: 'Settings',
-      component: require('Views/Settings').default,
+      path: '/settings/general',
+      name: 'SettingsGeneral',
+      component: require('Views/Settings/General').default,
       meta: {
         auth: true,
         layout: 'dashboard'
       }
     },
     {
-      path: '/assets/:type',
+      path: '/settings/asset-types',
+      name: 'SettingsAssetTypes',
+      component: require('Views/Settings/AssetTypes').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/settings/asset-types/:id',
+      name: 'SettingsAssetTypesShow',
+      component: require('Views/Settings/AssetTypes/Show').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/settings/technicians',
+      name: 'SettingsTechnicians',
+      component: require('Views/Settings/Technicians').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/settings/about',
+      name: 'SettingsAbout',
+      component: require('Views/Settings/About').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/assets/:assetTypeId',
       name: 'Assets',
       component: require('Views/Assets').default,
+      props: true,
       meta: {
         auth: true,
         layout: 'dashboard'

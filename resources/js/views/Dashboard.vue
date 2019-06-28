@@ -1,9 +1,9 @@
 <template>
 	<v-container grid-list-xl fluid>
-    <v-header>Dashboard</v-header>
+    <md-header><h2>Dashboard</h2></md-header>
     <v-layout row wrap>
       <v-flex lg4 sm12 xs12>
-        <v-widget title="Assets" content-bg="white">
+        <md-widget title="Assets" content-bg="white">
           <div slot="widget-content">
               <e-chart 
               :path-option="[
@@ -21,15 +21,15 @@
               >
               </e-chart>
           </div>
-        </v-widget>  
+        </md-widget>  
       </v-flex>
     </v-layout>
 	</v-container>
 </template>
 
 <script>
-  import VHeader from 'Components/VHeader'
-  import VWidget from 'Components/VWidget'
+  import MdHeader from 'Components/MdHeader'
+  import MdWidget from 'Components/MdWidget'
   import EChart from '@/components/Chart/EChart'
   import Material from 'vuetify/es5/util/colors'
   export default {
@@ -65,8 +65,8 @@
     },
 
     components: {
-      VHeader,
-      VWidget,
+      MdHeader,
+      MdWidget,
       EChart
     }
 

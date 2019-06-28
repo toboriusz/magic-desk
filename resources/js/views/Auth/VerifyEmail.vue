@@ -1,7 +1,7 @@
 <template>       
   <div class="layout column align-center">
     <h3>Email verification</h3>
-    <v-response-loader class="my-3" v-model="state"></v-response-loader>
+    <md-response-loader class="my-3" v-model="state"></md-response-loader>
     <p :class="messageColor" class="font-weight-bold">&nbsp;{{ message }}&nbsp;</p>
     <v-btn 
       class="p-verify__login"
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import VResponseLoader from 'Components/VResponseLoader'
+  import MdResponseLoader from 'Components/MdResponseLoader'
 
   export default {
 
@@ -68,7 +68,7 @@
     },
 
     components: {
-      VResponseLoader
+      MdResponseLoader
     }
   }
 </script>

@@ -23,7 +23,7 @@
 	import ThePublicHeader from 'Layouts/ThePublicHeader'
 
 	export default {
-		
+
 		name: 'layout-public',
 
 		components: {
@@ -37,11 +37,11 @@
 	@import '~Style/_utils.sass'
 
 	.l-public
-			
+
 		&__content
 			max-width: 450px
 
-		@keyframes bg-move 
+		@keyframes bg-move
 			100%
 				transform: translate3d(0, 0, 0)
 
@@ -62,7 +62,7 @@
 				width: 100%
 				height: calc(100% + 129px)
 				filter: blur(1px)
-				animation: bg-move 20s linear infinite
+				//animation: bg-move 20s linear infinite
 				transform: translate3d(0, -129px, 0)
 				background-size: 129px 129px
 				background-position: 0 0

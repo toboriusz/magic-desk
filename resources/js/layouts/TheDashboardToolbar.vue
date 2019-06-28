@@ -23,7 +23,7 @@
           <v-icon class="ml-1">keyboard_arrow_down</v-icon>
         </v-btn>
         <v-list class="pa-0">
-          <menu-item :to="{ name: 'Settings', params: { page: 'technicians' }, query: { id: $auth.user().id } }" icon="account_circle">Profile</menu-item>
+          <menu-item :to="{ name: 'SettingsTechnicians', query: { id: $auth.user().id } }" icon="account_circle">Profile</menu-item>
           <menu-item @click="handleFullScreen" icon="fullscreen">Fullscreen</menu-item>
           <menu-item :to="{ name: 'Logout' }" icon="lock">Logout</menu-item>
         </v-list>

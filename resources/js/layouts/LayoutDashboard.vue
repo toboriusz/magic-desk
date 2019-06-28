@@ -5,7 +5,6 @@
     <v-content>
       <slot></slot>
     </v-content>
-    
   </v-app>
 </template>
 

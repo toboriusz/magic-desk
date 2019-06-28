@@ -1,9 +1,13 @@
+import AssetTypeService from 'Api/AssetTypeService'
+
 const state = {
-  drawer: true
+  drawer: true,
+  assetTypes: []
 }
 
 const getters = {
-	drawer: (state) => state.drawer
+	drawer: (state) => state.drawer,
+  assetTypes: (state) => state.assetTypes
 }
 
 const actions = {
@@ -12,7 +16,13 @@ const actions = {
   },
   toggleDrawer({commit}) {
     commit('toggleDrawer')
-  }
+  },
+  fetchAssetTypes({commit}) {
+    return AssetTypeService.getList().then((res) => {
+      commit('setAssetTypes', res.data.data)
+      return res
+    })
+  },
 }
 
 const mutations = {
@@ -21,7 +31,10 @@ const mutations = {
   },
   toggleDrawer(state) {
     state.drawer = !state.drawer
-  }
+  },
+  setAssetTypes(state, data) {
+    state.assetTypes = data
+  },
 }
 
 export default {

@@ -1,10 +1,10 @@
 <template>
   <v-container>
-		<h1>Sites show</h1>	
+		<h1>Sites show {{ $route.params.id }}</h1>
 	</v-container>
 </template>
 
-<script> 
+<script>
   export default {
 
     name: 'ViewSitesShow'

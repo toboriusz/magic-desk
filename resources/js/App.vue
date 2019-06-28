@@ -13,9 +13,9 @@
 
   import LayoutPublic from 'Layouts/LayoutPublic'
   import LayoutDashboard from 'Layouts/LayoutDashboard'
-  
+
   const default_layout = 'dashboard'
-  
+
   export default {
 
     name: 'App',
@@ -26,11 +26,14 @@
       }
     },
 
+    mounted () {
+        document.body.classList.add('loaded')
+    },
+
     components: {
       LayoutDashboard,
       LayoutPublic
     }
-
   }
 
 </script>

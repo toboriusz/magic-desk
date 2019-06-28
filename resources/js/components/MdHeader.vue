@@ -1,7 +1,7 @@
 <template>
-  <v-flex class="v-header mb-4 grey--text">
+  <v-layout row wrap align-center class="v-header mb-4">
     <slot ></slot>
-  </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -9,28 +9,33 @@
     
     name: 'v-header'
 
-  }
+  } 
   
 </script>
 
 <style lang="sass">
   .v-header
-    display: flex
-    align-items: center
+    font-size: 24px
 
     h2,
     & > span,
     & > a
       margin: 0
       margin-right: 10px
-      text-decoration: none
+      
+    & > span,
+    & > a
+      &:before
+        content: '\/'
+        margin-right: 10px
+
+    & > a
+      font-weight: 400
 
     & > span
       font-weight: 300
-      font-size: 24px
-      &:before
-        content: '>'
-        margin-right: 10px
 
+    a
+      text-decoration: none
 
 </style>

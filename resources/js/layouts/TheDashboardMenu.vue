@@ -10,29 +10,28 @@
     >
     <v-toolbar color="primary darken-1" dark>
       <router-link to="/" class="l-d-menu__logo">
-        <img :src="require('Assets/logo-light.svg')" height="50" alt="Magic Desk">   
+        <img :src="require('Assets/logo-light.svg')" height="50" alt="Magic Desk">
       </router-link>
     </v-toolbar>
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
       <v-list dense expand>
         <menu-item :to="{ name: 'Dashboard' }" icon="dashboard">Dashboard</menu-item>
-        <menu-item :to="{ name: 'Users' }" icon="group">Users</menu-item>
-        <menu-item :to="{ name: 'Sites' }" icon="home">Sites</menu-item>
+        <menu-item :to="{ name: 'Employees' }" icon="group">Employees</menu-item>
+        <menu-item :to="{ name: 'Sites' }" icon="home">Services</menu-item>
         <menu-item has-submenu title="Settings" icon="settings">
-          <menu-sub-item :to="{ name: 'Settings', params: { page: 'general' } }">General</menu-sub-item>
-          <menu-sub-item :to="{ name: 'Settings', params: { page: 'assets' } }">Assets</menu-sub-item>
-          <menu-sub-item :to="{ name: 'Settings', params: { page: 'probe' } }">Probe</menu-sub-item>
-          <menu-sub-item :to="{ name: 'Settings', params: { page: 'technicians' } }">Technicians</menu-sub-item>
-          <menu-sub-item :to="{ name: 'Settings', params: { page: 'about' } }">About</menu-sub-item>
+          <menu-sub-item :to="{ name: 'SettingsGeneral' }">General</menu-sub-item>
+          <menu-sub-item :to="{ name: 'SettingsAssetTypes' }">Asset Types</menu-sub-item>
+          <menu-sub-item :to="{ name: 'SettingsTechnicians' }">Technicians</menu-sub-item>
+          <menu-sub-item :to="{ name: 'SettingsAbout' }">About</menu-sub-item>
         </menu-item>
         <v-divider></v-divider>
         <v-subheader>Assets</v-subheader>
-        <menu-item 
-          v-for="assetType in assetTypes" 
-          :key="assetType.id" 
-          :to="{ name: 'Assets', params: { type: assetType.name } }" 
+        <menu-item
+          v-for="assetType in assetTypes"
+          :key="assetType.id"
+          :to="{ name: 'Assets', params: { assetTypeId: assetType.id } }"
           :icon="assetType.icon">
-          {{ assetType.title }}
+          {{ assetType.name }}
         </menu-item>
       </v-list>
     </vue-perfect-scrollbar>
@@ -60,12 +59,12 @@ export default {
     ...mapGetters('menu',{
       drawer: 'drawer'
     }),
-    ...mapGetters('asset',{
-      assetTypes: 'types'
+    ...mapGetters('menu',{
+      assetTypes: 'assetTypes'
     }),
     sideToolbarColor () {
       return this.$vuetify.options.extra.sideNav;
-    } 
+    }
   },
 
   methods: {
@@ -95,7 +94,7 @@ export default {
     else
       this.menuOpen = this.drawer
 
-    //this.$store.dispatch('assets/fetchTypes')
+    this.$store.dispatch('menu/fetchAssetTypes')
   },
 
   components: {

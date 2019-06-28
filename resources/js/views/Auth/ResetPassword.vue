@@ -5,7 +5,7 @@
   	</div>
     <div class="p-rpass__container">
       <div class="p-srpass__loader" :class="{ 'shown' : success }">
-        <v-response-loader class="mt-2" v-model="loaderState"></v-response-loader>
+        <md-response-loader class="mt-2" v-model="loaderState"></md-response-loader>
         <p class="text-xs-center mt-3 green--text font-weight-bold">{{ message }}&nbsp;</p> 
         <v-btn :to="loginHref" color="primary" >Go to login page</v-btn>
       </div>
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-  import VResponseLoader from 'Components/VResponseLoader'
+  import MdResponseLoader from 'Components/MdResponseLoader'
 
   export default {
 
@@ -116,7 +116,7 @@
     },
 
     components: {
-      VResponseLoader
+      MdResponseLoader
     }
 
   }

@@ -1,7 +1,7 @@
 <template>
-  <v-card>
+  <v-card :flat="flat">
     <v-toolbar card color="grey lighten-4">
-      <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition" :disabled="!selected.length">
+      <v-menu v-if="selectable" offset-y origin="center center" :nudge-bottom="10" transition="scale-transition" :disabled="!selected.length">
         <v-btn icon slot="activator" class="mr-3 ml-1" :disabled="!selected.length">
           <v-icon>list</v-icon>
         </v-btn>
@@ -9,8 +9,19 @@
           <menu-item icon="delete">Delete selected</menu-item>
         </v-list>
       </v-menu>
-      <v-text-field flat solo append-icon="search" :placeholder="searchText" v-model="search" hide-details background-color="grey lighten-5">
-      </v-text-field>
+      <v-text-field flat solo append-icon="search" :placeholder="searchText" v-model="search" hide-details background-color="grey lighten-5"></v-text-field>
+      <v-btn 
+        v-for="(btn, index) in actions"
+        :key="index"
+        :color="btn.color"
+        :icon="btn.icon"
+        :light="btn.light"
+        :dark="btn.dark || true"
+        :flat="btn.flat"
+        @click="btn.clicked()">
+        {{ btn.title }}
+      </v-btn>
+
       <v-btn v-if="filterOptions" icon class="ml-3 mr-0" @click="openFilterDialog">
         <v-badge :value="filterCount" right color="red" class="filter-badge">
           <v-icon>filter_list</v-icon>
@@ -51,42 +62,44 @@
       <v-data-table
         :headers="headersWithActions"
         :search="search"
-        :items="items"
+        :items="storeModuleName ? getItemsInternal : items" 
         :rows-per-page-items="itemsPerPageOptions"
         item-key="name"
-        select-all
+        :select-all="selectable"
         v-model="selected"
-        :loading="loading">
+        :loading="loading || loadingInternal">
         <template slot="items" slot-scope="props">
           <tr :active="props.selected" class="cursor-pointer" :class="{'red lighten-5 grey--text': props.item.deleted_at}">
-            <td width="30">
+            <td v-if="selectable" width="30">
               <v-checkbox
                 color="primary"
                 hide-details
                 v-model="props.selected">
               </v-checkbox>
-            </td>              
-            <td 
-              v-for="(col, index) in headers" 
-              :key="index" 
-              @click="show" 
+            </td>
+            <td
+              v-for="(col, index) in headers"
+              :key="index"
+              @click="show(props.item)"
               class="no-wrap"
+              :width="col.width"
               :class="col.class">
-              {{ props.item[col.value] }}
+                <v-icon v-if="col.type === 'icon'">{{ props.item[col.value] }}</v-icon>
+                <span v-else v-html="props.item[col.value]"></span
             </td>
             <td class="text-xs-right no-wrap pr-2" v-if="props.item.deleted_at">
-              <v-btn depressed icon small @click="restore(props.item)" class="mr-0">
-                <v-icon color="teal">settings_backup_restore</v-icon>
-              </v-btn>
-              <v-btn depressed icon small @click="deletePermanent(props.item)">
+              <v-btn depressed icon small @click="deletePermanently(props.item)" class="mr-0">
                 <v-icon color="red">delete_forever</v-icon>
+              </v-btn>
+              <v-btn depressed icon small @click="restore(props.item)">
+                <v-icon color="teal">settings_backup_restore</v-icon>
               </v-btn>
             </td>
             <td class="text-xs-right no-wrap pr-2" v-else>
               <v-btn depressed icon small @click="edit(props.item)" class="mr-0">
                 <v-icon color="indigo">edit</v-icon>
               </v-btn>
-              <v-btn depressed icon small @click="delete(props.item)">
+              <v-btn depressed icon small @click="deleteSoft(props.item)">
                 <v-icon color="red">delete</v-icon>
               </v-btn>
             </td>
@@ -94,11 +107,21 @@
         </template>
       </v-data-table>
     </v-card-text>
+    <modal-delete-permanently 
+      v-if="storeModuleName"
+      :store-module-name="storeModuleName"
+      :title="deleteModalTitle"
+      :text="deleteModalText"
+      ref="modalDeletePermanently" 
+      @success="fetchList">
+    </modal-delete-permanently>  
   </v-card>
 </template>
 
 <script>
   import MenuItem from 'Components/Menu/MenuItem'
+  import ModalDeletePermanently from 'Components/Modals/DeletePermanently'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'v-crud-table',
@@ -109,12 +132,22 @@
         default: () => [],
         required: true
       },
+      actions: Object,
+      selectable: Boolean,
       items: Array,
       filterOptions: Array,
+      predefinedFilters: {
+        type: Object,
+        default: () => { return {} }
+      },
+      flat: Boolean,
       searchText: {
         value: String,
         default: 'Search item'
       },
+      deleteModalTitle: String,
+      deleteModalText: String,
+      storeModuleName: String,
       itemsPerPageOptions: {
         value: Array,
         default: () => [ 10, 25, 50, { text:'All', 'value':-1 } ]
@@ -128,7 +161,8 @@
         filterDialog: false,
         filterPresets: {},
         filters: {},
-        selected: []
+        selected: [],
+        loadingInternal: false
       }
     },
 
@@ -138,13 +172,18 @@
         this.filterOptions.forEach((name) => {
           if(this.filters[name] === '1')
             count+= 1
-        }) 
+        })
         return count
       },
       headersWithActions() {
         let headersWithActions = this.noReact(this.headers)
         headersWithActions.push({ text: 'Actions', value: 'actions', align: 'right', sortable: false })
         return headersWithActions
+      },
+      getItemsInternal(){
+        if(this.storeModuleName)
+          return this.$store.getters[this.storeModuleName + '/list']
+        return null
       }
     },
 
@@ -157,6 +196,16 @@
         this.filters = this.noReact(this.filterPresets)
         this.filterDialog = false
         this.$emit('filters-changed', this.filters)
+        if(this.storeModuleName){
+          this.$store.dispatch(this.storeModuleName + '/updateFilter', Object.assign(this.predefinedFilters, this.filters))
+          this.fetchList()
+        }
+      },
+      fetchList() {
+        this.loadingInternal = true
+        this.$store.dispatch(this.storeModuleName + '/fetchList').finally((res) => {
+          this.loadingInternal = false
+        })
       },
       show(item){
         this.$emit('show', item)
@@ -164,20 +213,45 @@
       edit(item){
         this.$emit('edit', item)
       },
-      delete(item){
+      deleteSoft(item){
         this.$emit('delete', item)
+        if(this.storeModuleName){
+          this.$store.dispatch(this.storeModuleName + '/delete', item.id)
+          this.fetchList()
+        }
       },
       deletePermanently(item){
         this.$emit('delete-permanently', item)
+        if(this.storeModuleName){
+          this.$refs.modalDeletePermanently.$emit('open', item.id)
+          this.fetchList()
+        }
       },
       restore(item){
         this.$emit('restore', item)
+        if(this.storeModuleName){
+          this.$store.dispatch(this.storeModuleName + '/restore', item.id)
+          this.fetchList()
+        }
       }
+    },
 
+    mounted () {
+      if(this.storeModuleName) {
+        this.$store.dispatch(this.storeModuleName + '/updateFilter', this.predefinedFilters)
+        this.$on('refresh', this.fetchList)
+        this.fetchList()
+      }
+    },
+
+    beforeDestroy () {
+      if(this.storeModuleName)
+        this.$off('refresh')
     },
 
     components: {
-      MenuItem
+      MenuItem,
+      ModalDeletePermanently
     }
   }
 </script>
