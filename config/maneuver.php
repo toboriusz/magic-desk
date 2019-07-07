@@ -11,7 +11,13 @@ return array(
     | add here additional files to be ignored.
     |
     */
-    'ignored' => array(),
+    'ignored' => array(
+        'resources/js',
+        'resources/sass',
+        'database',
+        'public/api-docs',
+        'tests',
+    ),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,13 +43,13 @@ return array(
     'connections' => array(
 
         'dev' => array(
-            'scheme'    => 'ftp',
-            'host'      => 'ftp.sigroup.org.uk',
-            'user'      => 'adminftp@307821528114837',
-            'pass'      => 'p6Qx8zr-wYmsvF',
-            'path'      => '/public_html/magicdesk/',
-            'port'      => 21,
-            'passive'   => true
+            'scheme'    => env('MANEUVER_SCHEME', 'ftp'),
+            'host'      => env('MANEUVER_HOST', 'ftp.example.com'),
+            'user'      => env('MANEUVER_USER', 'username'),
+            'pass'      => env('MANEUVER_PASSWORD', 'secret'),
+            'path'      => env('MANEUVER_PATH', '/path/to/site/'),
+            'port'      => env('MANEUVER_PORT', 21),
+            'passive'   => env('MANEUVER_PASSIVE', true),
         ),
 
     ),
