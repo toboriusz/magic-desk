@@ -1,5 +1,5 @@
 <template>
-  <div id="v-widget">
+  <div class="md-widget">
     <v-card>
       <v-toolbar color="transparent" flat dense card v-if="enableHeader">
         <v-toolbar-title><h4>{{title}}</h4></v-toolbar-title>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'v-widget',
+  name: 'md-widget',
   props: {
     title: {
       type: String,
@@ -41,6 +41,6 @@ export default {
   },
   computed: {
 
-  },
+  }
 };
 </script>

@@ -10,6 +10,7 @@ import sites from 'StoreModules/sites'
 import products from 'StoreModules/products'
 import employees from 'StoreModules/employees'
 import states from 'StoreModules/states'
+import pageLoader from 'StoreModules/pageLoader'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ let store = new Vuex.Store({
     sites,
     products,
     employees,
-    states
+    states,
+    pageLoader
   }
 })
 

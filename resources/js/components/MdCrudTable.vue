@@ -84,8 +84,8 @@
               class="no-wrap"
               :width="col.width"
               :class="col.class">
-                <v-icon v-if="col.type === 'icon'">{{ props.item[col.value] }}</v-icon>
-                <span v-else v-html="props.item[col.value]"></span
+                <v-icon v-if="col.type === 'icon'">{{ getValue(props.item, col.value) }}</v-icon>
+                <span v-else v-html="getValue(props.item, col.value)"></span
             </td>
             <td class="text-xs-right no-wrap pr-2" v-if="props.item.deleted_at">
               <v-btn depressed icon small @click="deletePermanently(props.item)" class="mr-0">
@@ -233,6 +233,14 @@
           this.$store.dispatch(this.storeModuleName + '/restore', item.id)
           this.fetchList()
         }
+      },
+      getValue(obj, route) {
+        var val = obj
+        route.split('.').map((key) => {
+          val = val[key]
+        })
+
+        return val
       }
     },
 

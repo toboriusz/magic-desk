@@ -3,26 +3,10 @@
     <md-header><h2>Dashboard</h2></md-header>
     <v-layout row wrap>
       <v-flex lg4 sm12 xs12>
-        <md-widget title="Assets" content-bg="white">
-          <div slot="widget-content">
-              <e-chart 
-              :path-option="[
-                ['dataset.source', locationData],
-                ['legend.bottom', '0'],
-                ['color', [color.lightBlue.base, color.indigo.base, color.pink.base, color.green.base, color.cyan.base, color.teal.base]],
-                ['xAxis.show', false],
-                ['yAxis.show', false],
-                ['series[0].type', 'pie'],
-                ['series[0].avoidLabelOverlap', true],         
-                ['series[0].radius', ['50%', '70%']],                      
-              ]"
-              height="400px"
-              width="100%"
-              >
-              </e-chart>
-          </div>
-        </md-widget>  
       </v-flex>
+      <md-input-group>
+        test
+      </md-input-group>  
     </v-layout>
 	</v-container>
 </template>
@@ -30,8 +14,8 @@
 <script>
   import MdHeader from 'Components/MdHeader'
   import MdWidget from 'Components/MdWidget'
-  import EChart from '@/components/Chart/EChart'
   import Material from 'vuetify/es5/util/colors'
+  import MdInputGroup from 'Components/MdInputGroup'
   export default {
 
     name: 'view-dashboard',
@@ -67,7 +51,7 @@
     components: {
       MdHeader,
       MdWidget,
-      EChart
+      MdInputGroup
     }
 
   }

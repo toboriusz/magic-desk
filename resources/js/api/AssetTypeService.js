@@ -17,8 +17,8 @@ export default {
   create (data) {
     return ApiService.post('asset-types', data)
   },
-  update (data, id) {
-    return ApiService.update('asset-types', id, { page: params })
+  update (id, data) {
+    return ApiService.update(`asset-types/${id}`, data)
   },
   delete (id, permanently = false) {
     return ApiService.delete(`asset-types/${id}`, null, {

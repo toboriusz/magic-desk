@@ -2,7 +2,7 @@
   <v-container class="c-list">
     <md-header >
       <h2><router-link :to="{ name: 'Sites' }">Services</router-link></h2>
-      <v-btn class="primary" @click="$refs.modalSiteAdd.$emit('open')">Add new</v-btn>
+      <v-btn class="primary" @click="$refs.modalSiteForm.$emit('open')">Add new</v-btn>
     </md-header>
     <v-flex lg12>
       <md-crud-table
@@ -16,7 +16,7 @@
       </md-crud-table>
     </v-flex>
     <modal-site-form
-        ref="modalSiteAdd"
+        ref="modalSiteForm"
         @success="$refs.table.$emit('refresh')">
     </modal-site-form>
 	</v-container>

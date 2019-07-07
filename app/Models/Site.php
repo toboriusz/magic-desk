@@ -21,7 +21,8 @@ class Site extends Model
         'longitude', 
         'phone', 
         'address1', 
-        'address2', 
+        'address2',
+        'parent_id', 
         'city', 
         'postcode', 
         'description'

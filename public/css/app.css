@@ -110,6 +110,31 @@ h5 {
   overflow: hidden;
 }
 
+.overlay--active {
+  -webkit-animation: dialog-overlay-fade-in 0.75s ease 0s 1 both;
+          animation: dialog-overlay-fade-in 0.75s ease 0s 1 both;
+}
+
+@-webkit-keyframes dialog-overlay-fade-in {
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dialog-overlay-fade-in {
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 /* fallback */
 
 @font-face {

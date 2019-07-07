@@ -38,6 +38,8 @@
             label="Description"
             v-model="form.description"
             data-vv-name="Description"
+            rows="1"
+            auto-grow
             @change="error = ''"
             :error-messages="$validator.errors.collect('description')">
           </v-textarea>

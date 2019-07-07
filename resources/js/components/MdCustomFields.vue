@@ -4,6 +4,6 @@
 
 <script>
 	export default {
-		name: 'MdCustomFields'
+		name: 'md-custom-fields'
 	}
 </script>

@@ -1,26 +1,31 @@
 <template>
   <v-card flat class="pa-5">
     <v-layout row wrap>
-      <v-icon class="asset-type__icon mr-5" color="grey lighten-2">{{ assetType.icon }}</v-icon>
+      <v-icon class="asset-type__icon mr-5" color="grey lighten-2">{{ icon || 'help' }}</v-icon>
       <v-flex>
         <v-layout align-center justify-space-between>
           <h4 class="font-weight-regular">General informations</h4>
-          <v-btn v-if="editMode" icon @click="editMode = false">
-            <v-icon>save</v-icon>
-          </v-btn> 
+          <span v-if="editMode">
+            <v-btn icon @click="cancelEditMode">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-btn icon :loading="loadingGeneral" @click="updateAssetType">
+              <v-icon>save</v-icon>
+            </v-btn>
+          </span> 
           <v-btn v-else icon @click="turnOnEditMode">
             <v-icon>edit</v-icon>
           </v-btn>  
         </v-layout>
-        <v-form>
+        <v-form data-vv-scope="asset-type-general">
           <v-text-field
             name="name"
             label="Name"
             type="text"
-            v-model="assetType.name"
+            v-model="name"
             ref="firstField"
             :disabled="!editMode"
-            data-vv-name="Name"
+            data-vv-name="name"
             v-validate="'required'"
             @change="error = ''"
             :error-messages="$validator.errors.collect('name')">
@@ -28,7 +33,7 @@
           <v-autocomplete
             name="icon"
             label="Icon"
-            v-model="assetType.icon"
+            v-model="icon"
             :items="iconList"
             cache-items
             auto-select-first
@@ -44,8 +49,8 @@
             max-height="10"
             name="description"
             label="Description"
-            v-model="assetType.description"
-            data-vv-name="Description"
+            v-model="description"
+            data-vv-name="description"
             rows="1"
             auto-grow
             :disabled="!editMode"
@@ -92,7 +97,8 @@
         icon: '',
         description: '',
         loading: false,
-        editMode: false
+        editMode: false,
+        loadingGeneral: false
       }
     },
 
@@ -106,11 +112,31 @@
     },
 
     methods: {
-      editAssetType(assetType) {
-        this.$refs.modalAssetTypeForm.$emit('open', assetType.id)
+      updateAssetType () {
+        this.loadingGeneral = true
+        this.$validator.validateAll('asset-type-general').then(( isValid ) => {
+          if(isValid) {
+            this.$store.dispatch('assetTypes/update', {
+              id: this.assetType.id,
+              data: {
+                name: this.name,
+                icon: this.icon,
+                description: this.description
+              }
+            }).finally(() => {
+              this.loadingGeneral = false
+              this.editMode = false
+            })
+          } else {
+            this.loadingGeneral = false
+          }
+        })
       },
-      showAssetType(assetType) {
-        this.$router.push({ name: 'AssetTypesShow', params: { id: assetType.id }})
+      cancelEditMode() {
+        this.name = this.noReact(this.assetType.name)
+        this.icon = this.noReact(this.assetType.icon)
+        this.description = this.noReact(this.assetType.description)
+        this.editMode = false
       },
       turnOnEditMode() {
         this.editMode = true
@@ -118,6 +144,12 @@
           this.$refs.firstField.focus()
         })
       }
+    },
+
+    mounted () {
+      this.name = this.noReact(this.assetType.name)
+      this.icon = this.noReact(this.assetType.icon)
+      this.description = this.noReact(this.assetType.description)
     },
 
     components: {

@@ -8,7 +8,6 @@
       <md-crud-table
         ref="table"
         :headers="headers"
-        :items="employees"
         :filter-options="filterOptions"
         selectable
         store-module-name="employees"
@@ -38,19 +37,13 @@
         headers: [
           { text: 'Name', value: 'name', class: 'pl-0'},
           { text: 'Job Title', value: 'job_title'},
-          { text: 'Service', value: 'site'},
+          { text: 'Service', value: 'site.name'},
           { text: 'Assets', value: 'assets_count'}
         ],
         filterOptions: [
           'with_trashed'
         ]
       }
-    },
-
-    computed: {
-      ...mapGetters('employees', {
-        employees: 'list'
-      })
     },
 
     methods: {

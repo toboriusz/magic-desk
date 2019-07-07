@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AssetTypeAPIController extends APIController
 {
     private $validationRules = [
-        'name' => 'required|unique:asset_types|string|max:30',
+        'name' => 'required|string|max:30',
         'icon' => 'required|string|max:60',
         'description' => 'string|nullable|max:500'
     ];
@@ -28,7 +28,10 @@ class AssetTypeAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $assetTypes = AssetType::withTrashed($withTrashed)->withCount('assets')->get();
+        $assetTypes = AssetType::select('id', 'name', 'icon')
+                        ->withTrashed($withTrashed)
+                        ->withCount('assets')
+                        ->get();
 
         return $this->sendSuccessResponse(__('asset_types.fetch_success'), $assetTypes);
     }
@@ -87,6 +90,7 @@ class AssetTypeAPIController extends APIController
         $data = $request->validate($this->validationRules);
 
         //update code
+        $assetType->update($data);
 
         return $this->sendSuccessResponse(__('asset_types.update_success'), $assetType);
     }

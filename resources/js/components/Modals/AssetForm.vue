@@ -5,45 +5,92 @@
     no-click-animation
     max-width="550">
     <v-card>
-      <v-card-title class="headline">Add new asset type</v-card-title>
-      <v-card-text>
+      <v-card-title v-if="editMode" class="headline">Edit employee</v-card-title>
+      <v-card-title v-else class="headline">Add new employee</v-card-title>
+      <v-card-text class="p-rel">
         <v-form @submit.prevent="validate" ref="form">
+          <p class="title pt-3">General</p>
           <v-text-field
-            name="name"
-            label="Name"
+            name="first_name"
+            label="First name"
             type="text"
-            v-model="form.name"
+            v-model="form.first_name"
             autofocus
-            data-vv-name="Name"
+            data-vv-name="first_name"
             v-validate="'required'"
             @change="error = ''"
-            :error-messages="$validator.errors.collect('name')">
+            :error-messages="$validator.errors.collect('first_name')">
           </v-text-field>
-          <v-autocomplete
-            name="icon"
-            label="Icon"
-            v-model="form.icon"
-            :items="iconList"
-            cache-items
-            data-vv-name="icon"
-            v-validate="'required'"
-            :error-messages="$validator.errors.collect('icon')">
-            <template v-slot:selection="data">
-              <v-icon class="pr-3">{{ data.item.value }}</v-icon> {{ data.item.text }}
-            </template>
-            <template v-slot:item="data">
-              <v-icon class="pr-3">{{ data.item.value }}</v-icon> {{ data.item.text }}
-            </template>
-          </v-autocomplete>
+          <v-text-field
+            name="last_name"
+            label="Last name"
+            type="text"
+            v-model="form.last_name"
+            data-vv-name="last_name"
+            @change="error = ''"
+            :error-messages="$validator.errors.collect('last_name')">
+          </v-text-field>
+          <v-text-field
+            name="job_title"
+            label="Job title"
+            type="text"
+            v-model="form.job_title"
+            data-vv-name="job_title"
+            @change="error = ''"
+            :error-messages="$validator.errors.collect('job_title')">
+          </v-text-field>
+          <v-select
+            name="site_id"
+            label="Service"
+            v-model="form.site_id"
+            clearable
+            item-text="name"
+            item-value="id"
+            :items="sitesList"
+            data-vv-name="site_id"
+            @change="error = ''"
+            :error-messages="$validator.errors.collect('site_id')">
+          </v-select>
+          <p class="title pt-3">Contact details</p>
+          <v-text-field
+            name="email"
+            label="Email"
+            type="email"
+            v-model="form.email"
+            data-vv-name="email"
+            @change="error = ''"
+            :error-messages="$validator.errors.collect('email')">
+          </v-text-field>
+          <v-text-field
+            name="phone"
+            label="Phone"
+            type="text"
+            v-model="form.phone"
+            data-vv-name="phone"
+            @change="error = ''"
+            :error-messages="$validator.errors.collect('phone')">
+          </v-text-field>
+          <v-text-field
+            name="mobile"
+            label="Mobile phone"
+            type="text"
+            v-model="form.mobile"
+            data-vv-name="mobile"
+            @change="error = ''"
+            :error-messages="$validator.errors.collect('mobile')">
+          </v-text-field>
           <v-textarea
             name="description"
             label="Description"
             v-model="form.description"
-            data-vv-name="Description"
+            data-vv-name="description"
+            rows="1"
+            auto-grow
             @change="error = ''"
             :error-messages="$validator.errors.collect('description')">
           </v-textarea>
-        </v-form>
+          <md-loading :loading="loadingData"></md-loading>  
+        </v-form>        
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -57,8 +104,9 @@
           color="green"
           flat
           :loading="loading"
+          :disabled="loadingData"
           @click="validate">
-          Create
+          {{ editMode ? 'Update' : 'Create' }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -67,40 +115,68 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import MdLoading from 'Components/MdLoading'
 
   export default {
 
-    name: 'modal-asset-form',
+    name: 'modal-site-form',
 
     data () {
       return {
+        employeeId: null,
+        editMode: false,
         loading: false,
+        loadingData: false,
         dialog: false,
         form: {
           name: '',
-          icon: '',
+          phone: '',
+          address1: '',
+          address2: '',
+          country: '',
+          postcode: '',
+          parent_id: null,
           description: ''
         }
       }
     },
 
     computed: {
-        ...mapGetters('icons', {
-            iconList: 'list'
-        })
+      ...mapGetters('sites', {
+        sitesList: 'basicList'
+      })
     },
 
     methods: {
-    validate () {
+      validate() {
         this.$validator.validateAll().then(( isValid ) => {
           if(isValid) {
-            this.submit()
+            if(this.editMode) {
+              this.submitUpdate()
+            } else {
+              this.submitNew()
+            }
           }
         })
       },
-      submit() {
+      submitNew() {
         this.loading = true
-        this.$store.dispatch('assetTypes/add', this.form).then( (res) => {
+        this.$store.dispatch('employees/add', this.form).then( (res) => {
+          this.$emit('success')
+          this.dialog = false
+        }).catch( (e) => {
+          //show alert error
+          this.showValidationErrors(e)
+        }).finally( () => {
+          this.loading = false
+        })
+      },
+      submitUpdate() {
+        this.loading = true
+        this.$store.dispatch('employees/update', {
+          id: this.employeeId,
+          data: this.form
+        }).then( (res) => {
           this.$emit('success')
           this.dialog = false
         }).catch( (e) => {
@@ -111,26 +187,41 @@
         })
       }
     },
+
     mounted () {
-      this.$on('open', () => {
-        this.$refs.form.reset()
-        this.dialog = true
+      this.$on('open', (id = null) => {
+        this.employeeId = id
+        this.$store.dispatch('sites/fetchBasicList')
+        
+        if(id) {
+          this.editMode = true
+          this.employeeId = id
+          this.editMode = true
+          this.loadingData = true
+          this.dialog = true
+          this.$store.dispatch('employees/fetch', id).then( (res) => {
+            this.form = this.noReact(res.data.data)
+          }).finally(() => {
+              this.loadingData = false
+          })
+        } else {
+          this.editMode = false
+          this.$refs.form.reset()
+          this.$nextTick(() => {
+            this.$validator.reset();
+            this.dialog = true
+          })
+        }
       })
     },
 
     beforeDestroy () {
       this.$off('open')
+    },
+
+    components: {
+      MdLoading
     }
 
   }
 </script>
-
-<style lang="sass">
-    .c-m-site-add
-        &__bg
-            position: absolute
-            top: 100px
-            left: 50%
-            transform: translateX(-50%)
-            z-index: 0
-</style>

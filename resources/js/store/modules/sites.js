@@ -2,12 +2,19 @@ import SiteService from 'Api/SiteService'
 
 const state = {
   list: [],
+  basicList: [],
   site: [],
   filter: []
 }
 
 const getters = {
   list: (state) => state.list,
+  projects: (state) => {
+    return state.basicList.filter((site) => {
+      return site.parent_id === null
+    }) 
+  },
+  basicList: (state) => state.basicList,
   site: (state) => state.site,
   filter: (state) => state.filter
 }
@@ -19,35 +26,32 @@ const actions = {
       return res
     })
   },
+  fetchBasicList({commit, state}) {
+    return SiteService.getList({ basic: true }).then((res) => {
+      commit('setBasicList', res.data.data)
+      return res
+    })
+  },
   fetch({commit}, id) {
     return SiteService.get(id).then((res) => {
       commit('setSite', res.data.data)
       return res
     })
   },
+  update({dispatch}, data) {
+    return SiteService.update(data.id, data.data)
+  },
   add({dispatch}, data) {
-    return SiteService.create(data).then((res) => {
-      dispatch('fetchList')
-      return res
-    })
+    return SiteService.create(data)
   },
   delete({dispatch}, id) {
-    return SiteService.delete(id).then((res) => {
-      dispatch('fetchList')
-      return res
-    })
+    return SiteService.delete(id)
   },
   deletePerm({dispatch}, id) {
-    return SiteService.delete(id, true).then((res) => {
-      dispatch('fetchList')
-      return res
-    })
+    return SiteService.delete(id, true)
   },
   restore({dispatch}, id) {
-    return SiteService.restore(id).then((res) => {
-      dispatch('fetchList')
-      return res
-    })
+    return SiteService.restore(id)
   },
   updateFilter({commit}, filter) {
     commit('setFilter', filter)
@@ -58,8 +62,10 @@ const actions = {
 }
 
 const mutations = {
+  setBasicList(state, data) {
+    state.basicList = data
+  },
 	setList(state, data) {
-
     data.map((item) => {
       var rItem = item
       rItem.address= ''

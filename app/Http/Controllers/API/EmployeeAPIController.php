@@ -32,7 +32,13 @@ class EmployeeAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $employees = Employee::withTrashed($withTrashed)->withCount('assets')->get();
+        $employees = Employee::select('id', 'first_name', 'last_name', 'job_title', 'site_id')
+                        ->withTrashed($withTrashed)
+                        ->with(array('site' => function($query) {
+                            $query->select('id', 'name');
+                        }))
+                        ->withCount('assets')
+                        ->get();
 
         return $this->sendSuccessResponse(__('employees.fetch_success'), $employees);
     }

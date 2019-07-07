@@ -33,6 +33,7 @@
   import SettingsAssetsTypeProducts from 'Components/Settings/AssetTypeProducts'
   import SettingsAssetsTypeStates from 'Components/Settings/AssetTypeStates'
   import { mapGetters } from 'vuex'
+  import store from 'Store'
 
   export default {
     name: 'ViewSettingsAssetTypeShow',
@@ -49,8 +50,12 @@
       }
     },
 
-    mounted () {
-      this.$store.dispatch('assetTypes/fetch', this.$route.params.id)
+    beforeRouteEnter (to,from,next) {
+      store.dispatch('pageLoader/on')
+      store.dispatch('assetTypes/fetch', to.params.id).finally( () => {
+        store.dispatch('pageLoader/off')
+        next()
+      })
     },
 
     components: {

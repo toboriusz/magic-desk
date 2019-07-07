@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap align-center class="v-header mb-4">
+  <v-layout row wrap align-center class="md-header mb-4">
     <slot ></slot>
   </v-layout>
 </template>
@@ -7,14 +7,14 @@
 <script>
   export default {
     
-    name: 'v-header'
+    name: 'md-header'
 
   } 
   
 </script>
 
 <style lang="sass">
-  .v-header
+  .md-header
     font-size: 24px
 
     h2,
@@ -29,7 +29,7 @@
         content: '\/'
         margin-right: 10px
 
-    & > a
+    & > a:not(.v-btn)
       font-weight: 400
 
     & > span

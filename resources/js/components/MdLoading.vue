@@ -15,7 +15,7 @@
 		name: 'md-loading',
 
 		props: {
-			loading: false,
+			loading: Boolean,
 			color: {
 				type: String,
 				default: 'white'

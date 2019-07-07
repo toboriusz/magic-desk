@@ -33,7 +33,6 @@ mix
           },
       }
   })
-  .sourceMaps()
   .version();
 
 var LiveReloadPlugin = require('webpack-livereload-plugin');

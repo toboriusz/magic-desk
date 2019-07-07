@@ -24,6 +24,8 @@
             label="Description"
             v-model="form.description"
             data-vv-name="description"
+            rows="1"
+            auto-grow
             :error-messages="$validator.errors.collect('description')">
           </v-textarea>
         </v-form>
@@ -40,6 +42,7 @@
         <v-btn
           color="green"
           flat
+          :disabled="loadingData"
           :loading="loading"
           @click="validate">
           {{ editMode ? 'Update' : 'Create' }}

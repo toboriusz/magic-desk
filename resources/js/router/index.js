@@ -97,7 +97,15 @@ let router = new VueRouter({
       path: '/assets/:assetTypeId',
       name: 'Assets',
       component: require('Views/Assets').default,
-      props: true,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/assets/:assetTypeId/add',
+      name: 'AssetsAdd',
+      component: require('Views/Assets/Add').default,
       meta: {
         auth: true,
         layout: 'dashboard'

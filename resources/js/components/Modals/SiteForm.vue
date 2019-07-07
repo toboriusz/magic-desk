@@ -5,10 +5,10 @@
     no-click-animation
     max-width="550">
     <v-card>
-      <v-card-title class="headline">Add new service</v-card-title>
-      <v-icon class="c-m-site-add__bg" size="400" color="grey lighten-4">home</v-icon>
-      <v-card-text>
-        <v-form @submit.prevent="validate">
+      <v-card-title v-if="editMode" class="headline">Edit state</v-card-title>
+      <v-card-title v-else class="headline">Add new state</v-card-title>
+      <v-card-text class="p-rel">
+        <v-form @submit.prevent="validate" ref="form">
           <v-text-field
             name="name"
             label="Site name"
@@ -25,7 +25,7 @@
             label="Phone"
             type="text"
             v-model="form.phone"
-            data-vv-name="Phone"
+            data-vv-name="phone"
             @change="error = ''"
             :error-messages="$validator.errors.collect('phone')">
           </v-text-field>
@@ -34,7 +34,7 @@
             label="Address"
             type="text"
             v-model="form.address1"
-            data-vv-name="Address"
+            data-vv-name="address1"
             @change="error = ''"
             :error-messages="$validator.errors.collect('address1')">
           </v-text-field>
@@ -43,7 +43,7 @@
             label="Address (line 2)"
             type="text"
             v-model="form.address2"
-            data-vv-name="Address"
+            data-vv-name="address2"
             @change="error = ''"
             :error-messages="$validator.errors.collect('address2')">
           </v-text-field>
@@ -52,7 +52,7 @@
             label="City"
             type="text"
             v-model="form.city"
-            data-vv-name="City"
+            data-vv-name="city"
             @change="error = ''"
             :error-messages="$validator.errors.collect('city')">
           </v-text-field>
@@ -61,7 +61,7 @@
             label="Country"
             type="text"
             v-model="form.country"
-            data-vv-name="Country"
+            data-vv-name="country"
             @change="error = ''"
             :error-messages="$validator.errors.collect('country')">
           </v-text-field>
@@ -70,30 +70,33 @@
             label="Postcode"
             type="text"
             v-model="form.postcode"
-            data-vv-name="Postcode"
+            data-vv-name="postcode"
             @change="error = ''"
             :error-messages="$validator.errors.collect('postcode')">
           </v-text-field>
           <v-select
-              name="parent"
-              label="Service"
-              v-model="form.parent"
+              name="parent_id"
+              label="Project"
+              v-model="form.parent_id"
               item-text="name"
               item-value="id"
-              clearable
-              :items="sitesList"
+              :items="filteredProjects"
               @change="error = ''"
-              :error-messages="$validator.errors.collect('parent')">
+              data-vv-name="parent_id"
+              :error-messages="$validator.errors.collect('parent_id')">
           </v-select>
           <v-textarea
             name="description"
             label="Description"
             v-model="form.description"
-            data-vv-name="Description"
+            data-vv-name="description"
+            rows="1"
+            auto-grow
             @change="error = ''"
             :error-messages="$validator.errors.collect('description')">
           </v-textarea>
         </v-form>
+        <md-loading :loading="loadingData"></md-loading>  
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -107,8 +110,9 @@
           color="green"
           flat
           :loading="loading"
+          :disabled="loadingData"
           @click="validate">
-          Create
+          {{ editMode ? 'Update' : 'Create' }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -116,14 +120,19 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+  import { mapGetters } from 'vuex'
+  import MdLoading from 'Components/MdLoading'
+
   export default {
 
     name: 'modal-site-form',
 
     data () {
       return {
+        siteId: null,
+        editMode: false,
         loading: false,
+        loadingData: false,
         dialog: false,
         form: {
           name: '',
@@ -132,27 +141,43 @@ import { mapGetters } from 'vuex';
           address2: '',
           country: '',
           postcode: '',
-          parent: null,
+          parent_id: null,
           description: ''
         }
       }
     },
 
     computed: {
-        ...mapGetters('sites', {
-            sitesList: 'list'
+      ...mapGetters('sites', {
+        projects: 'projects'
+      }),
+      filteredProjects() {
+        var projects = this.projects.filter((site) => {
+          return site.id !== this.siteId 
         })
+
+        projects.unshift({
+          id: null,
+          name: 'This is a project'
+        })
+
+        return projects
+      }
     },
 
     methods: {
-    validate () {
+      validate() {
         this.$validator.validateAll().then(( isValid ) => {
           if(isValid) {
-            this.submit()
+            if(this.editMode) {
+              this.submitUpdate()
+            } else {
+              this.submitNew()
+            }
           }
         })
       },
-      submit() {
+      submitNew() {
         this.loading = true
         this.$store.dispatch('sites/add', this.form).then( (res) => {
           this.$emit('success')
@@ -163,27 +188,58 @@ import { mapGetters } from 'vuex';
         }).finally( () => {
           this.loading = false
         })
+      },
+      submitUpdate() {
+        this.loading = true
+        this.$store.dispatch('sites/update', {
+          id: this.siteId,
+          data: this.form
+        }).then( (res) => {
+          this.$emit('success')
+          this.dialog = false
+        }).catch( (e) => {
+          //show alert error
+          this.showValidationErrors(e)
+        }).finally( () => {
+          this.loading = false
+        })
       }
     },
+
     mounted () {
-      this.$on('open', () => {
-        this.dialog = true
+      this.$on('open', (id = null) => {
+        this.siteId = id
+        this.$store.dispatch('sites/fetchBasicList')
+        
+        if(id) {
+          this.editMode = true
+          this.siteId = id
+          this.editMode = true
+          this.loadingData = true
+          this.dialog = true
+          this.$store.dispatch('sites/fetch', id).then( (res) => {
+            this.form = this.noReact(res.data.data)
+          }).finally(() => {
+              this.loadingData = false
+          })
+        } else {
+          this.editMode = false
+          this.$refs.form.reset()
+          this.$nextTick(() => {
+            this.$validator.reset();
+            this.dialog = true
+          })
+        }
       })
     },
 
     beforeDestroy () {
       this.$off('open')
+    },
+
+    components: {
+      MdLoading
     }
 
   }
 </script>
-
-<style lang="sass">
-    .c-m-site-add
-        &__bg
-            position: absolute
-            top: 100px
-            left: 50%
-            transform: translateX(-50%)
-            z-index: 0
-</style>

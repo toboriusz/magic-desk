@@ -39,7 +39,7 @@
           { text: 'Model', value: 'model' },
           { text: 'Part number', value: 'part_no' },
           { text: 'Description', value: 'description' },
-          { text: 'Assets', value: 'assets_count', width: '50px' } 
+          { text: 'Assets', value: 'assets_count' } 
         ],
         filterOptions: [
           'with_trashed'

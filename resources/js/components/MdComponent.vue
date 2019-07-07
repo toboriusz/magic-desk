@@ -6,7 +6,7 @@
   import VBtn from '@/components/VBtn'
   export default {
     
-    name: 'v-name',
+    name: 'md-name',
 
     mixins: [],
 
@@ -46,7 +46,7 @@
 
   @import '~Style/_utils.sass'
 
-  .mdc-component_name
+  .md-component_name
 
     &__element
       

@@ -31,6 +31,13 @@ const actions = {
       return res
     })
   },
+  update({dispatch, commit}, data) {
+    return AssetTypeService.update(data.id, data.data).then((res) => {
+      commit('setAssetType', res.data.data)
+      dispatch('updateMenu')
+      return res
+    })
+  },
   delete({dispatch}, id) {
     return AssetTypeService.delete(id).then((res) => {
       dispatch('updateMenu')

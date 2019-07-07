@@ -10,8 +10,8 @@ class SiteAPIController extends APIController
 {
 
     private $validationRules = [
-        'name' => 'required|string|unique:sites|max:30',
-        'parent' => 'numeric|nullable',
+        'name' => 'required|string|max:30',
+        'parent_id' => 'numeric|nullable',
         'latitude' => 'numeric|nullable',
         'longitude' => 'numeric|nullable',
         'phone' => 'string|nullable|max:16',
@@ -34,9 +34,19 @@ class SiteAPIController extends APIController
 
     public function index(Request $request)
     {
+
+        $basic = !!$request->input('basic');
         $withTrashed = !!$request->input('with_trashed');
 
-        $sites = Site::withTrashed($withTrashed)->withCount('assets', 'employees')->get();
+       if(!!$request->input('basic')) {
+            $projects = Site::select('id', 'name', 'parent_id')->get();
+            return $this->sendSuccessResponse(__('sites.fetch_success'), $projects);
+        }
+
+        $sites = Site::select('id', 'name', 'parent_id', 'phone', 'address1', 'address2', 'city', 'postcode')
+                    ->withTrashed($withTrashed)
+                    ->withCount('assets', 'employees')
+                    ->get();
 
         return $this->sendSuccessResponse(__('sites.fetch_success'), $sites);
     }
@@ -88,6 +98,8 @@ class SiteAPIController extends APIController
         }
 
         $data = $request->validate($this->validationRules);
+
+        $site->update($data);
 
         //update code
 

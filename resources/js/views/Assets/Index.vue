@@ -3,7 +3,7 @@
   	<md-header>
   		<h2>Assets</h2>
   		<span>{{ assetType.name }}</span>
-  		<v-btn class="primary" @click="$refs.modalAssetForm.$emit('open', assetType)">Add new</v-btn>
+  		<v-btn class="primary" :to="{ name: 'AssetsAdd' }">Add new</v-btn>
   	</md-header>
 		<md-crud-table
       class="mt-3" 
@@ -32,6 +32,7 @@
 	import MdHeader from 'Components/MdHeader'
 	import MdCrudTable from 'Components/MdCrudTable'
 	import ModalAssetForm from 'Components/Modals/AssetForm'
+  import store from 'Store'
 
   export default {
 
@@ -108,8 +109,20 @@
       }
     },
 
-    mounted () {
-			this.fetchAssetType(this.$route.params.assetTypeId)
+    beforeRouteEnter (to,from,next) {
+      store.dispatch('pageLoader/on')
+      store.dispatch('assets/fetchList', to.params.id).finally( () => {
+        store.dispatch('pageLoader/off')
+        next()
+      })
+    },
+
+    beforeRouteUpdate (to,from,next) {
+      store.dispatch('pageLoader/on')
+      store.dispatch('assets/fetchList', to.params.id).finally( () => {
+        store.dispatch('pageLoader/off')
+        next()
+      })
     },
 
     components: {
