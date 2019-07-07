@@ -32,7 +32,7 @@ class EmployeeAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $employees = Employee::select('id', 'first_name', 'last_name', 'job_title', 'site_id')
+        $employees = Employee::select('id', 'first_name', 'last_name', 'job_title', 'site_id', 'deleted_at')
                         ->withTrashed($withTrashed)
                         ->with(array('site' => function($query) {
                             $query->select('id', 'name');

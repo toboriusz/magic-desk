@@ -30,7 +30,7 @@
 			ThePublicHeader
 		}
 
-	}
+	};
 </script>
 
 <style lang="sass">
@@ -52,7 +52,6 @@
 			width: 100%
 			height: 100%
 			overflow: hidden
-			opacity: 0.1
 
 			&:before
 				content: ''
@@ -60,13 +59,12 @@
 				top: 0
 				left: 0
 				width: 100%
-				height: calc(100% + 129px)
-				filter: blur(1px)
-				//animation: bg-move 20s linear infinite
-				transform: translate3d(0, -129px, 0)
-				background-size: 129px 129px
+				height: calc(100% + 120px)
+				animation: bg-move 20s linear infinite
+				transform: translate3d(0, -120px, 0)
+				background-size: 120px 120px
 				background-position: 0 0
 				background-repeat: repeat
-				background-image: url('~Assets/pattern.svg')
+				background-image: url('~Assets/pattern.png')
 
 </style>

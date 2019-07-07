@@ -10,7 +10,7 @@
     >
     <v-toolbar color="primary darken-1" dark>
       <router-link to="/" class="l-d-menu__logo">
-        <img :src="require('Assets/logo-light.svg')" height="50" alt="Magic Desk">
+        <img :src="require('Assets/logo-light.svg')" alt="Magic Desk">
       </router-link>
     </v-toolbar>
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
@@ -111,6 +111,10 @@ export default {
     &__logo
       display: flex
       align-items: center
+      
+      & > img
+        max-width: 220px
+        width: 100%
 
   .main-menu
     overflow: hidden

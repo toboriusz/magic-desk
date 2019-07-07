@@ -28,5 +28,6 @@
     &__legend
       padding: 0 3px
       margin-left: -3px
+      white-space: nowrap
 
 </style>

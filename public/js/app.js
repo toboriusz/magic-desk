@@ -18007,7 +18007,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".md-input-group {\n  border: 2px solid rgba(0, 0, 0, 0.54);\n  border-radius: 4px;\n  padding: 12px;\n}\n.md-input-group__legend {\n  padding: 0 3px;\n  margin-left: -3px;\n}", ""]);
+exports.push([module.i, ".md-input-group {\n  border: 2px solid rgba(0, 0, 0, 0.54);\n  border-radius: 4px;\n  padding: 12px;\n}\n.md-input-group__legend {\n  padding: 0 3px;\n  margin-left: -3px;\n  white-space: nowrap;\n}", ""]);
 
 // exports
 
@@ -18103,7 +18103,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@-webkit-keyframes rotate {\n100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n}\n}\n@keyframes rotate {\n100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n}\n}\ninput:-internal-autofill-previewed,\ninput:-internal-autofill-selected,\ntextarea:-internal-autofill-previewed,\ntextarea:-internal-autofill-selected,\nselect:-internal-autofill-previewed,\nselect:-internal-autofill-selected {\n  transition: background-color 9999s ease-in-out 0s;\n}\n.l-public__content {\n  max-width: 450px;\n}\n@-webkit-keyframes bg-move {\n100% {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@keyframes bg-move {\n100% {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n.l-public__bg {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  opacity: 0.1;\n}\n.l-public__bg:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: calc(100% + 129px);\n  -webkit-filter: blur(1px);\n          filter: blur(1px);\n  -webkit-transform: translate3d(0, -129px, 0);\n          transform: translate3d(0, -129px, 0);\n  background-size: 129px 129px;\n  background-position: 0 0;\n  background-repeat: repeat;\n  background-image: url(" + escape(__webpack_require__(/*! Assets/pattern.svg */ "./resources/assets/pattern.svg")) + ");\n}", ""]);
+exports.push([module.i, "@-webkit-keyframes rotate {\n100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n}\n}\n@keyframes rotate {\n100% {\n    -webkit-transform: rotate(360deg);\n            transform: rotate(360deg);\n}\n}\ninput:-internal-autofill-previewed,\ninput:-internal-autofill-selected,\ntextarea:-internal-autofill-previewed,\ntextarea:-internal-autofill-selected,\nselect:-internal-autofill-previewed,\nselect:-internal-autofill-selected {\n  transition: background-color 9999s ease-in-out 0s;\n}\n.l-public__content {\n  max-width: 450px;\n}\n@-webkit-keyframes bg-move {\n100% {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n@keyframes bg-move {\n100% {\n    -webkit-transform: translate3d(0, 0, 0);\n            transform: translate3d(0, 0, 0);\n}\n}\n.l-public__bg {\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n}\n.l-public__bg:before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: calc(100% + 120px);\n  -webkit-animation: bg-move 20s linear infinite;\n          animation: bg-move 20s linear infinite;\n  -webkit-transform: translate3d(0, -120px, 0);\n          transform: translate3d(0, -120px, 0);\n  background-size: 120px 120px;\n  background-position: 0 0;\n  background-repeat: repeat;\n  background-image: url(" + escape(__webpack_require__(/*! Assets/pattern.png */ "./resources/assets/pattern.png")) + ");\n}", ""]);
 
 // exports
 
@@ -18122,7 +18122,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".l-d-menu__logo {\n  display: flex;\n  align-items: center;\n}\n.main-menu {\n  overflow: hidden;\n}\n.main-menu--scroll {\n  height: calc(100vh - 48px);\n  overflow: auto;\n}\n.main-menu__footer {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n}", ""]);
+exports.push([module.i, ".l-d-menu__logo {\n  display: flex;\n  align-items: center;\n}\n.l-d-menu__logo > img {\n  max-width: 220px;\n  width: 100%;\n}\n.main-menu {\n  overflow: hidden;\n}\n.main-menu--scroll {\n  height: calc(100vh - 48px);\n  overflow: auto;\n}\n.main-menu__footer {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n}", ""]);
 
 // exports
 
@@ -31886,7 +31886,6 @@ var render = function() {
               _c("img", {
                 attrs: {
                   src: __webpack_require__(/*! Assets/logo-light.svg */ "./resources/assets/logo-light.svg"),
-                  height: "50",
                   alt: "Magic Desk"
                 }
               })
@@ -33373,7 +33372,9 @@ var render = function() {
         [
           _c("v-flex", { attrs: { lg4: "", sm12: "", xs12: "" } }),
           _vm._v(" "),
-          _c("md-input-group", [_vm._v("\n        test\n      ")])
+          _c("md-input-group", { attrs: { title: "Group name" } }, [
+            _vm._v("\n        test\n      ")
+          ])
         ],
         1
       )
@@ -76357,7 +76358,7 @@ if (!self.fetch) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo-dark.svg?9988ec594d211c4ded6db9252df279c8";
+module.exports = "/images/logo-dark.svg?1459cd0332e08eef2a1db6225df79c41";
 
 /***/ }),
 
@@ -76368,18 +76369,18 @@ module.exports = "/images/logo-dark.svg?9988ec594d211c4ded6db9252df279c8";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/logo-light.svg?4bb259bb50c6093d6b941968a3d7cbc5";
+module.exports = "/images/logo-light.svg?76035cf48ae31e52ec10feb8b9a9a5b0";
 
 /***/ }),
 
-/***/ "./resources/assets/pattern.svg":
+/***/ "./resources/assets/pattern.png":
 /*!**************************************!*\
-  !*** ./resources/assets/pattern.svg ***!
+  !*** ./resources/assets/pattern.png ***!
   \**************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/images/pattern.svg?d3852581673b634a69e8ee4508b24e08";
+module.exports = "/images/pattern.png?415697da79ebfbff16416e58ede95e98";
 
 /***/ }),
 

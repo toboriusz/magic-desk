@@ -43,7 +43,7 @@ class SiteAPIController extends APIController
             return $this->sendSuccessResponse(__('sites.fetch_success'), $projects);
         }
 
-        $sites = Site::select('id', 'name', 'parent_id', 'phone', 'address1', 'address2', 'city', 'postcode')
+        $sites = Site::select('id', 'name', 'parent_id', 'phone', 'address1', 'address2', 'city', 'postcode', 'deleted_at')
                     ->withTrashed($withTrashed)
                     ->withCount('assets', 'employees')
                     ->get();

@@ -28,7 +28,7 @@ class AssetTypeAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $assetTypes = AssetType::select('id', 'name', 'icon')
+        $assetTypes = AssetType::select('id', 'name', 'icon', 'deleted_at')
                         ->withTrashed($withTrashed)
                         ->withCount('assets')
                         ->get();

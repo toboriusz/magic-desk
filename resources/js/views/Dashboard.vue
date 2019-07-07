@@ -4,7 +4,7 @@
     <v-layout row wrap>
       <v-flex lg4 sm12 xs12>
       </v-flex>
-      <md-input-group>
+      <md-input-group title="Group name">
         test
       </md-input-group>  
     </v-layout>
