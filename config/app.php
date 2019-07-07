@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Fadion\Maneuver\ManeuverServiceProvider::class,
         /*
          * Application Service Providers...
          */
