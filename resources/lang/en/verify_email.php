@@ -17,7 +17,7 @@ return [
     'subject' => 'Email verification',
     'title' => 'Email verification',
     'hi' => 'Hi',
-    'p1' => 'Thank you for registering on Application Name',
+    'p1' => 'Thank you for registering on Magic Desk',
     'p2' => 'Please verify your email address by clicking the link above',
     'p3' => '',
     'link_title' => 'Verify email'

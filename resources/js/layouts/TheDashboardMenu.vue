@@ -113,7 +113,7 @@ export default {
       align-items: center
       
       & > img
-        max-width: 220px
+        max-width: 180px
         width: 100%
 
   .main-menu

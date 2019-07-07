@@ -8,7 +8,7 @@
       :class="{ 'p-verify__login--shown' : state !== 'loading' }" 
       color="primary"
       @click="login">
-      Login
+      Go to login page
     </v-btn>
   </div>
 </template>

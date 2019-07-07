@@ -120,7 +120,7 @@
                         @if(isset($allowUnsubscribe) && $allowUnsubscribe)
                             <tr>
                                 <td class="content-block" style="font-family: sans-serif; vertical-align: top; padding-bottom: 10px; padding-top: 10px; font-size: 12px; color: #999999; text-align: center;">
-                                    Nie chcesz otrzymywać e-maili? <a href="#" style="text-decoration: underline; color: #999999; font-size: 12px; text-align: center;">Wypisz się</a>.
+                                    You don't want to receive these emails? <a href="#" style="text-decoration: underline; color: #999999; font-size: 12px; text-align: center;">Unsubscribe</a>.
                                 </td>
                             </tr>
                         @endif

@@ -11,4 +11,8 @@
 |
 */
 
+Route::get('/email', function() {
+	return $this->view('emails.email-verification');
+});
+
 Route::get('/{all}', 'SPAController@index')->where('all', '^(?!api).*$');

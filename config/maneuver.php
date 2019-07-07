@@ -12,6 +12,7 @@ return array(
     |
     */
     'ignored' => array(
+        'resources/assets',
         'resources/js',
         'resources/sass',
         'database',
