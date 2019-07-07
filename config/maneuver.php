@@ -22,7 +22,7 @@ return array(
     | If this options isn't set, deployment will be run to all servers.
     |
     */
-    'default' => 'development',
+    'default' => 'dev',
 
     /*
     |--------------------------------------------------------------------------
@@ -36,22 +36,12 @@ return array(
 
     'connections' => array(
 
-        'development' => array(
+        'dev' => array(
             'scheme'    => 'ftp',
             'host'      => 'ftp.sigroup.org.uk',
             'user'      => 'adminftp@307821528114837',
-            'pass'      => 'HLLQWSxd;/qxcvF\\;sdlscvbv',
-            'path'      => '/magicdesk-dev',
-            'port'      => 21,
-            'passive'   => true
-        ),
-
-        'production' => array(
-            'scheme'    => 'ftp',
-            'host'      => 'ftp.sigroup.org.uk',
-            'user'      => 'adminftp@307821528114837',
-            'pass'      => 'HLLQWSxd;/qxcvF\\;sdlscvbv',
-            'path'      => '/magicdesk',
+            'pass'      => 'p6Qx8zr-wYmsvF',
+            'path'      => '/public_html/magicdesk/',
             'port'      => 21,
             'passive'   => true
         ),
