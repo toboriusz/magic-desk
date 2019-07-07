@@ -8,9 +8,9 @@ const ApiService = {
     Vue.use(VueAxios, axios)
     
     if ( process.env.NODE_ENV == 'production' )
-      Vue.axios.defaults.baseURL = process.env.MIX_API_URL + '/'
-    else
       Vue.axios.defaults.baseURL = process.env.MIX_PROD_API_URL + '/'
+    else
+      Vue.axios.defaults.baseURL = process.env.MIX_API_URL + '/'
     
     Vue.axios.defaults.headers.common['Accept'] = 'application/json'
     Vue.axios.defaults.headers.common['Content-Type'] = 'application/jsoncharset=UTF-8'
