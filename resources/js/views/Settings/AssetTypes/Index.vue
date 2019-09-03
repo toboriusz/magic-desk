@@ -1,5 +1,4 @@
 <template>
-
   <v-container>
     <md-header>
       <h2>Settings</h2>

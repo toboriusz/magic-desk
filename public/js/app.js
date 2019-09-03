@@ -3168,10 +3168,16 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getValue: function getValue(obj, route) {
+      var keys = route.split('.');
+      var notExists = false;
       var val = obj;
-      route.split('.').map(function (key) {
-        val = val[key];
-      });
+
+      for (var i = 0; i < keys.length; i++) {
+        if (!val) return '-';
+        val = val[keys[i]];
+      }
+
+      if (val === null || val === '') return '-';
       return val;
     }
   },
@@ -3467,6 +3473,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var Components_MdLoading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Components/MdLoading */ "./resources/js/components/MdLoading.vue");
+/* harmony import */ var Components_Modals_ProductForm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Components/Modals/ProductForm */ "./resources/js/components/Modals/ProductForm.vue");
+/* harmony import */ var Components_Modals_EmployeeForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! Components/Modals/EmployeeForm */ "./resources/js/components/Modals/EmployeeForm.vue");
+/* harmony import */ var Components_Modals_SiteForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! Components/Modals/SiteForm */ "./resources/js/components/Modals/SiteForm.vue");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -3586,31 +3595,85 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'modal-site-form',
+  name: 'modal-asset-type-form',
   data: function data() {
     return {
-      employeeId: null,
       editMode: false,
       loading: false,
       loadingData: false,
       dialog: false,
+      assetId: null,
+      assetTypeId: null,
       form: {
+        asset_type_id: null,
         name: '',
-        phone: '',
-        address1: '',
-        address2: '',
-        country: '',
-        postcode: '',
-        parent_id: null,
+        product_id: null,
+        serial_no: '',
+        barcode: '',
+        state_id: null,
+        user_id: null,
+        site_id: null,
         description: ''
       }
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('sites', {
-    sitesList: 'basicList'
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('icons', {
+    iconList: 'list'
+  }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('assetTypes', {
+    assetType: 'assetType'
+  }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('sites', {
+    sites: 'basicList'
+  }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('employees', {
+    employees: 'list'
   })),
   methods: {
     validate: function validate() {
@@ -3630,7 +3693,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this2 = this;
 
       this.loading = true;
-      this.$store.dispatch('employees/add', this.form).then(function (res) {
+      this.form.asset_type_id = this.assetType.id;
+      this.$store.dispatch('assets/add', this.form).then(function (res) {
         _this2.$emit('success');
 
         _this2.dialog = false;
@@ -3645,8 +3709,239 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this3 = this;
 
       this.loading = true;
-      this.$store.dispatch('employees/update', {
-        id: this.employeeId,
+      this.form.asset_type_id = this.assetType.id;
+      this.$store.dispatch('assets/update', {
+        id: this.assetId,
+        data: this.form
+      }).then(function (res) {
+        _this3.$emit('success');
+
+        _this3.dialog = false;
+      }).catch(function (e) {
+        //show alert error
+        _this3.showValidationErrors(e);
+      }).finally(function () {
+        _this3.loading = false;
+      });
+    },
+    afterAddingProduct: function afterAddingProduct(product) {
+      var _this4 = this;
+
+      this.$store.dispatch('assetTypes/fetch', this.assetType.id).then(function () {
+        _this4.$nextTick(function () {
+          _this4.form.product_id = product.id;
+        });
+      });
+    },
+    afterAddingEmployee: function afterAddingEmployee(employee) {
+      var _this5 = this;
+
+      this.$store.dispatch('employees/fetchBasicList').finally(function () {
+        _this5.$nextTick(function () {
+          _this5.form.employee_id = employee.id;
+        });
+      });
+    },
+    afterAddingSite: function afterAddingSite(site) {
+      var _this6 = this;
+
+      this.$store.dispatch('sites/fetchList', this.assetType.id).then(function () {
+        _this6.$nextTick(function () {
+          _this6.form.site_id = site.id;
+        });
+      });
+    }
+  },
+  mounted: function mounted() {
+    var _this7 = this;
+
+    this.$on('open', function (id) {
+      _this7.assetId = id || null;
+      _this7.loadingData = true;
+      Promise.all([_this7.$store.dispatch('sites/fetchBasicList'), _this7.$store.dispatch('employees/fetchList')]).finally(function () {
+        _this7.loadingData = false;
+      });
+
+      if (_this7.assetId) {
+        _this7.editMode = true;
+        _this7.editMode = true;
+        _this7.loadingData = true;
+        _this7.dialog = true;
+
+        _this7.$store.dispatch('assets/fetch', _this7.assetId).then(function (res) {
+          _this7.form = res.data.data;
+        }).finally(function () {
+          _this7.loadingData = false;
+        });
+      } else {
+        _this7.editMode = false;
+
+        _this7.$refs.form.reset();
+
+        _this7.$nextTick(function () {
+          _this7.$validator.reset();
+
+          _this7.dialog = true;
+        });
+      }
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.$off('open');
+  },
+  components: {
+    MdLoading: Components_MdLoading__WEBPACK_IMPORTED_MODULE_1__["default"],
+    ModalProductForm: Components_Modals_ProductForm__WEBPACK_IMPORTED_MODULE_2__["default"],
+    ModalEmployeeForm: Components_Modals_EmployeeForm__WEBPACK_IMPORTED_MODULE_3__["default"],
+    ModalSiteForm: Components_Modals_SiteForm__WEBPACK_IMPORTED_MODULE_4__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var Components_MdLoading__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Components/MdLoading */ "./resources/js/components/MdLoading.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'modal-asset-type-form',
+  data: function data() {
+    return {
+      editMode: false,
+      loading: false,
+      loadingData: false,
+      dialog: false,
+      assetTypeId: null,
+      form: {
+        name: '',
+        icon: '',
+        description: ''
+      }
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('icons', {
+    iconList: 'list'
+  })),
+  methods: {
+    validate: function validate() {
+      var _this = this;
+
+      this.$validator.validateAll().then(function (isValid) {
+        if (isValid) {
+          if (_this.editMode) {
+            _this.submitUpdate();
+          } else {
+            _this.submitNew();
+          }
+        }
+      });
+    },
+    submitNew: function submitNew() {
+      var _this2 = this;
+
+      this.loading = true;
+      this.$store.dispatch('assetTypes/add', this.form).then(function (res) {
+        _this2.$emit('success');
+
+        _this2.dialog = false;
+      }).catch(function (e) {
+        //show alert error
+        _this2.showValidationErrors(e);
+      }).finally(function () {
+        _this2.loading = false;
+      });
+    },
+    submitUpdate: function submitUpdate() {
+      var _this3 = this;
+
+      this.loading = true;
+      this.$store.dispatch('assetTypes/update', {
+        id: this.assetTypeId,
         data: this.form
       }).then(function (res) {
         _this3.$emit('success');
@@ -3663,20 +3958,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this4 = this;
 
-    this.$on('open', function () {
-      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      _this4.employeeId = id;
+    this.$on('open', function (id) {
+      _this4.assetTypeId = id || null;
 
-      _this4.$store.dispatch('sites/fetchBasicList');
-
-      if (id) {
+      if (_this4.assetTypeId) {
         _this4.editMode = true;
-        _this4.employeeId = id;
         _this4.editMode = true;
         _this4.loadingData = true;
         _this4.dialog = true;
 
-        _this4.$store.dispatch('employees/fetch', id).then(function (res) {
+        _this4.$store.dispatch('assetTypes/fetch', _this4.assetTypeId).then(function (res) {
           _this4.form = _this4.noReact(res.data.data);
         }).finally(function () {
           _this4.loadingData = false;
@@ -3699,146 +3990,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   components: {
     MdLoading: Components_MdLoading__WEBPACK_IMPORTED_MODULE_1__["default"]
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'modal-asset-type-form',
-  data: function data() {
-    return {
-      loading: false,
-      dialog: false,
-      form: {
-        name: '',
-        icon: '',
-        description: ''
-      }
-    };
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('icons', {
-    iconList: 'list'
-  })),
-  methods: {
-    validate: function validate() {
-      var _this = this;
-
-      this.$validator.validateAll().then(function (isValid) {
-        if (isValid) {
-          _this.submit();
-        }
-      });
-    },
-    submit: function submit() {
-      var _this2 = this;
-
-      this.loading = true;
-      this.$store.dispatch('assetTypes/add', this.form).then(function (res) {
-        _this2.$emit('success');
-
-        _this2.dialog = false;
-      }).catch(function (e) {
-        //show alert error
-        _this2.showValidationErrors(e);
-      }).finally(function () {
-        _this2.loading = false;
-      });
-    }
-  },
-  mounted: function mounted() {
-    var _this3 = this;
-
-    this.$on('open', function () {
-      _this3.$refs.form.reset();
-
-      _this3.dialog = true;
-    });
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.$off('open');
   }
 });
 
@@ -4082,6 +4233,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         country: '',
         postcode: '',
         parent_id: null,
+        site_id: null,
         description: ''
       }
     };
@@ -4140,20 +4292,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     var _this4 = this;
 
-    this.$on('open', function () {
-      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      _this4.employeeId = id;
+    this.$on('open', function (id) {
+      _this4.employeeId = id || null;
+      _this4.loadingData = true;
 
-      _this4.$store.dispatch('sites/fetchBasicList');
+      _this4.$store.dispatch('sites/fetchBasicList').finally(function () {
+        _this4.loadingData = false;
+      });
 
-      if (id) {
-        _this4.editMode = true;
-        _this4.employeeId = id;
+      if (_this4.employeeId) {
         _this4.editMode = true;
         _this4.loadingData = true;
         _this4.dialog = true;
 
-        _this4.$store.dispatch('employees/fetch', id).then(function (res) {
+        _this4.$store.dispatch('employees/fetch', _this4.employeeId).then(function (res) {
           _this4.form = _this4.noReact(res.data.data);
         }).finally(function () {
           _this4.loadingData = false;
@@ -4281,7 +4433,7 @@ __webpack_require__.r(__webpack_exports__);
       loadingData: false,
       dialog: false,
       form: {
-        asset_type_id: this.assetTypeId,
+        asset_type_id: null,
         brand: '',
         model: '',
         part_no: '',
@@ -4307,8 +4459,9 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.loading = true;
+      this.form.asset_type_id = this.assetTypeId;
       this.$store.dispatch('products/add', this.form).then(function (res) {
-        _this2.$emit('success');
+        _this2.$emit('success', res.data.data);
 
         _this2.dialog = false;
       }).catch(function (e) {
@@ -4340,18 +4493,16 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this4 = this;
 
-    this.$on('open', function () {
-      var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      _this4.productId = id;
+    this.$on('open', function (id) {
+      _this4.productId = id || null;
 
-      if (id) {
+      if (_this4.productId) {
         _this4.editMode = true;
-        _this4.productId = id;
         _this4.editMode = true;
         _this4.loadingData = true;
         _this4.dialog = true;
 
-        _this4.$store.dispatch('products/fetch', id).then(function (res) {
+        _this4.$store.dispatch('products/fetch', _this4.productId).then(function (res) {
           _this4.form.brand = res.data.data.brand;
           _this4.form.model = res.data.data.model;
           _this4.form.part_no = res.data.data.part_no;
@@ -4610,18 +4761,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.$on('open', function () {
       var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      _this5.siteId = id;
+      _this5.siteId = id || null;
+      _this5.loadingData = true;
 
-      _this5.$store.dispatch('sites/fetchBasicList');
+      _this5.$store.dispatch('sites/fetchBasicList').finally(function () {
+        _this5.loadingData = false;
+      });
 
-      if (id) {
+      if (_this5.siteId) {
         _this5.editMode = true;
-        _this5.siteId = id;
         _this5.editMode = true;
         _this5.loadingData = true;
         _this5.dialog = true;
 
-        _this5.$store.dispatch('sites/fetch', id).then(function (res) {
+        _this5.$store.dispatch('sites/fetch', _this5.siteId).then(function (res) {
           _this5.form = _this5.noReact(res.data.data);
         }).finally(function () {
           _this5.loadingData = false;
@@ -4788,16 +4941,15 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$on('open', function () {
       var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      _this4.stateId = id;
+      _this4.stateId = id || null;
 
-      if (id) {
+      if (_this4.stateId) {
         _this4.editMode = true;
-        _this4.stateId = id;
         _this4.editMode = true;
         _this4.loadingData = true;
         _this4.dialog = true;
 
-        _this4.$store.dispatch('states/fetch', id).then(function (res) {
+        _this4.$store.dispatch('states/fetch', _this4.stateId).then(function (res) {
           _this4.form.name = res.data.data.name;
           _this4.form.description = res.data.data.description;
         }).finally(function () {
@@ -5689,8 +5841,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         align: 'left',
         class: 'pl-0'
       }, {
-        text: 'Assets',
-        value: 'assets_count'
+        text: 'Product',
+        value: 'product.name'
+      }, {
+        text: 'Site',
+        value: 'site.name'
+      }, {
+        text: 'User',
+        value: 'employee.fullname'
+      }, {
+        text: 'State',
+        value: 'state.name'
+      }, {
+        text: 'Barcode',
+        value: 'barcode'
       }],
       filterOptions: ['with_trashed'],
       loading: false
@@ -5704,21 +5868,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   watch: {
     '$route.params': {
       handler: function handler(newValue) {
+        var _this = this;
+
         var assetTypeId = newValue.assetTypeId;
-        this.fetchAssetType(assetTypeId);
-        this.fetchList();
-        this.$store.dispatch('assets/updateFilter', []);
+        this.$store.dispatch('pageLoader/on');
+        Promise.all([this.$store.dispatch('assetTypes/fetch', assetTypeId), this.$store.dispatch('assets/fetchList', assetTypeId)]).finally(function () {
+          _this.$store.dispatch('pageLoader/off');
+        }); //this.$store.dispatch('assets/updateFilter', [])
       },
       immediate: true
     }
   },
   methods: {
     fetchList: function fetchList() {
-      var _this = this;
+      var _this2 = this;
 
       this.loading = true;
       this.$store.dispatch('assets/fetchList', this.$route.params.assetTypeId).finally(function (res) {
-        _this.loading = false;
+        _this2.loading = false;
       });
     },
     updateFilter: function updateFilter(filter) {
@@ -5746,28 +5913,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.$store.dispatch('assets/restore', assets.id);
     },
     fetchAssetType: function fetchAssetType(assetTypeId) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$store.dispatch('assetTypes/fetch', assetTypeId).catch(function (e) {
-        if (404 === e.status.code) _this2.$router.push({
+        if (404 === e.status.code) _this3.$router.push({
           name: '404'
         });
       });
     }
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    Store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('pageLoader/on');
-    Store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('assets/fetchList', to.params.id).finally(function () {
-      Store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('pageLoader/off');
-      next();
-    });
-  },
-  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
-    Store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('pageLoader/on');
-    Store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('assets/fetchList', to.params.id).finally(function () {
-      Store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch('pageLoader/off');
-      next();
-    });
   },
   components: {
     MdHeader: Components_MdHeader__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -6681,7 +6834,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var Components_MdCrudTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! Components/MdCrudTable */ "./resources/js/components/MdCrudTable.vue");
 /* harmony import */ var Components_MdHeader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! Components/MdHeader */ "./resources/js/components/MdHeader.vue");
 /* harmony import */ var Components_Modals_AssetTypeForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! Components/Modals/AssetTypeForm */ "./resources/js/components/Modals/AssetTypeForm.vue");
-//
 //
 //
 //
@@ -18052,25 +18204,6 @@ exports.push([module.i, "@-webkit-keyframes rotate {\n100% {\n    -webkit-transf
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass&":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass& ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".c-m-site-add__bg {\n  position: absolute;\n  top: 100px;\n  left: 50%;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n  z-index: 0;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Settings/AssetTypeGeneral.vue?vue&type=style&index=0&lang=sass&":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Settings/AssetTypeGeneral.vue?vue&type=style&index=0&lang=sass& ***!
@@ -18931,36 +19064,6 @@ options.transform = transform
 options.insertInto = undefined;
 
 var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass&":
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/lib/loader.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./AssetTypeForm.vue?vue&type=style&index=0&lang=sass& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass&");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -29709,299 +29812,460 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-dialog",
-    {
-      attrs: { persistent: "", "no-click-animation": "", "max-width": "550" },
-      model: {
-        value: _vm.dialog,
-        callback: function($$v) {
-          _vm.dialog = $$v
-        },
-        expression: "dialog"
-      }
-    },
+    "div",
     [
       _c(
-        "v-card",
+        "v-dialog",
+        {
+          attrs: {
+            persistent: "",
+            "no-click-animation": "",
+            "max-width": "550"
+          },
+          model: {
+            value: _vm.dialog,
+            callback: function($$v) {
+              _vm.dialog = $$v
+            },
+            expression: "dialog"
+          }
+        },
         [
-          _vm.editMode
-            ? _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Edit employee")
-              ])
-            : _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Add new employee")
-              ]),
-          _vm._v(" "),
           _c(
-            "v-card-text",
-            { staticClass: "p-rel" },
+            "v-card",
             [
-              _c(
-                "v-form",
-                {
-                  ref: "form",
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.validate($event)
-                    }
-                  }
-                },
-                [
-                  _c("p", { staticClass: "title pt-3" }, [_vm._v("General")]),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    directives: [
-                      {
-                        name: "validate",
-                        rawName: "v-validate",
-                        value: "required",
-                        expression: "'required'"
-                      }
-                    ],
-                    attrs: {
-                      name: "first_name",
-                      label: "First name",
-                      type: "text",
-                      autofocus: "",
-                      "data-vv-name": "first_name",
-                      "error-messages": _vm.$validator.errors.collect(
-                        "first_name"
-                      )
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.first_name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "first_name", $$v)
-                      },
-                      expression: "form.first_name"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      name: "last_name",
-                      label: "Last name",
-                      type: "text",
-                      "data-vv-name": "last_name",
-                      "error-messages": _vm.$validator.errors.collect(
-                        "last_name"
-                      )
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.last_name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "last_name", $$v)
-                      },
-                      expression: "form.last_name"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      name: "job_title",
-                      label: "Job title",
-                      type: "text",
-                      "data-vv-name": "job_title",
-                      "error-messages": _vm.$validator.errors.collect(
-                        "job_title"
-                      )
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.job_title,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "job_title", $$v)
-                      },
-                      expression: "form.job_title"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-select", {
-                    attrs: {
-                      name: "site_id",
-                      label: "Service",
-                      clearable: "",
-                      "item-text": "name",
-                      "item-value": "id",
-                      items: _vm.sitesList,
-                      "data-vv-name": "site_id",
-                      "error-messages": _vm.$validator.errors.collect("site_id")
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.site_id,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "site_id", $$v)
-                      },
-                      expression: "form.site_id"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "title pt-3" }, [
-                    _vm._v("Contact details")
+              _vm.editMode
+                ? _c("v-card-title", { staticClass: "headline" }, [
+                    _vm._v("Edit " + _vm._s(_vm.assetType.name || "asset"))
+                  ])
+                : _c("v-card-title", { staticClass: "headline" }, [
+                    _vm._v("Add new " + _vm._s(_vm.assetType.name || "asset"))
                   ]),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      name: "email",
-                      label: "Email",
-                      type: "email",
-                      "data-vv-name": "email",
-                      "error-messages": _vm.$validator.errors.collect("email")
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.email,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "email", $$v)
-                      },
-                      expression: "form.email"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      name: "phone",
-                      label: "Phone",
-                      type: "text",
-                      "data-vv-name": "phone",
-                      "error-messages": _vm.$validator.errors.collect("phone")
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.phone,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "phone", $$v)
-                      },
-                      expression: "form.phone"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      name: "mobile",
-                      label: "Mobile phone",
-                      type: "text",
-                      "data-vv-name": "mobile",
-                      "error-messages": _vm.$validator.errors.collect("mobile")
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.mobile,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "mobile", $$v)
-                      },
-                      expression: "form.mobile"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("v-textarea", {
-                    attrs: {
-                      name: "description",
-                      label: "Description",
-                      "data-vv-name": "description",
-                      rows: "1",
-                      "auto-grow": "",
-                      "error-messages": _vm.$validator.errors.collect(
-                        "description"
-                      )
-                    },
-                    on: {
-                      change: function($event) {
-                        _vm.error = ""
-                      }
-                    },
-                    model: {
-                      value: _vm.form.description,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "description", $$v)
-                      },
-                      expression: "form.description"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("md-loading", { attrs: { loading: _vm.loadingData } })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-card-actions",
-            [
-              _c("v-spacer"),
               _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: { color: "grey", flat: "" },
-                  on: {
-                    click: function($event) {
-                      _vm.dialog = false
-                    }
-                  }
-                },
-                [_vm._v("\n        Cancel\n      ")]
+                "v-card-text",
+                { staticClass: "p-rel" },
+                [
+                  _c(
+                    "v-form",
+                    {
+                      ref: "form",
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.validate($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("v-text-field", {
+                        directives: [
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: "required",
+                            expression: "'required'"
+                          }
+                        ],
+                        ref: "firstField",
+                        attrs: {
+                          name: "name",
+                          label: "Name",
+                          type: "text",
+                          "data-vv-name": "name",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "name"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.error = ""
+                          }
+                        },
+                        model: {
+                          value: _vm.form.name,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "name", $$v)
+                          },
+                          expression: "form.name"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        directives: [
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: "required",
+                            expression: "'required'"
+                          }
+                        ],
+                        attrs: {
+                          name: "product_id",
+                          label: "Product",
+                          items: _vm.assetType.products,
+                          "cache-items": "",
+                          "item-value": "id",
+                          "data-vv-name": "product_id",
+                          "no-data-text": "No products",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "product_id"
+                          )
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "item",
+                            fn: function(data) {
+                              return [
+                                _c(
+                                  "span",
+                                  { staticClass: "pr-1 font-weight-medium" },
+                                  [_vm._v(_vm._s(data.item.brand))]
+                                ),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(data.item.model) +
+                                    "\n            "
+                                )
+                              ]
+                            }
+                          },
+                          {
+                            key: "selection",
+                            fn: function(data) {
+                              return [
+                                _c(
+                                  "span",
+                                  { staticClass: "pr-1 font-weight-medium" },
+                                  [_vm._v(_vm._s(data.item.brand))]
+                                ),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(data.item.model) +
+                                    "\n            "
+                                )
+                              ]
+                            }
+                          },
+                          {
+                            key: "append-outer",
+                            fn: function() {
+                              return [
+                                _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "primary--text",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.$refs.modalProductForm.$emit(
+                                          "open"
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("add")]
+                                )
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ]),
+                        model: {
+                          value: _vm.form.product_id,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "product_id", $$v)
+                          },
+                          expression: "form.product_id"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        directives: [
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: "required",
+                            expression: "'required'"
+                          }
+                        ],
+                        attrs: {
+                          name: "serial_no",
+                          label: "Serial number",
+                          type: "text",
+                          "data-vv-name": "serial_no",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "serial_no"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.error = ""
+                          }
+                        },
+                        model: {
+                          value: _vm.form.serial_no,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "serial_no", $$v)
+                          },
+                          expression: "form.serial_no"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        directives: [
+                          {
+                            name: "validate",
+                            rawName: "v-validate",
+                            value: "required",
+                            expression: "'required'"
+                          }
+                        ],
+                        attrs: {
+                          name: "barcode",
+                          label: "Barcode",
+                          type: "text",
+                          "data-vv-name": "barcode",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "barcode"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.error = ""
+                          }
+                        },
+                        model: {
+                          value: _vm.form.barcode,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "barcode", $$v)
+                          },
+                          expression: "form.barcode"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        attrs: {
+                          name: "state_id",
+                          label: "State",
+                          items: _vm.assetType.states,
+                          "item-text": "name",
+                          "item-value": "id",
+                          "data-vv-name": "state_id",
+                          "no-data-text": "No setup states",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "state_id"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.error = ""
+                          }
+                        },
+                        model: {
+                          value: _vm.form.state_id,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "state_id", $$v)
+                          },
+                          expression: "form.state_id"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-textarea", {
+                        attrs: {
+                          "max-height": "10",
+                          name: "description",
+                          label: "Description",
+                          "data-vv-name": "description",
+                          rows: "1",
+                          "auto-grow": "",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "description"
+                          )
+                        },
+                        on: {
+                          change: function($event) {
+                            _vm.error = ""
+                          }
+                        },
+                        model: {
+                          value: _vm.form.description,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "description", $$v)
+                          },
+                          expression: "form.description"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "title pt-3" }, [
+                        _vm._v("Assigned to")
+                      ]),
+                      _vm._v(" "),
+                      _c("v-autocomplete", {
+                        attrs: {
+                          name: "employee_id",
+                          label: "Employee",
+                          items: _vm.employees,
+                          "cache-items": "",
+                          "data-vv-name": "employee_id",
+                          "item-text": "name",
+                          "item-value": "id",
+                          clearable: "",
+                          "no-data-text": "No employees",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "employee_id"
+                          )
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "append-outer",
+                            fn: function() {
+                              return [
+                                _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "primary--text",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.$refs.modalEmployeeForm.$emit(
+                                          "open"
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("add")]
+                                )
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ]),
+                        model: {
+                          value: _vm.form.employee_id,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "employee_id", $$v)
+                          },
+                          expression: "form.employee_id"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-autocomplete", {
+                        attrs: {
+                          name: "site_id",
+                          label: "Service",
+                          items: _vm.sites,
+                          "cache-items": "",
+                          "data-vv-name": "site_id",
+                          "item-text": "name",
+                          "item-value": "id",
+                          clearable: "",
+                          "no-data-text": "No services",
+                          "error-messages": _vm.$validator.errors.collect(
+                            "site_id"
+                          )
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "append-outer",
+                            fn: function() {
+                              return [
+                                _c(
+                                  "v-icon",
+                                  {
+                                    staticClass: "primary--text",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.$refs.modalSiteForm.$emit(
+                                          "open"
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("add")]
+                                )
+                              ]
+                            },
+                            proxy: true
+                          }
+                        ]),
+                        model: {
+                          value: _vm.form.site_id,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form, "site_id", $$v)
+                          },
+                          expression: "form.site_id"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("md-loading", { attrs: { loading: _vm.loadingData } })
+                    ],
+                    1
+                  )
+                ],
+                1
               ),
               _vm._v(" "),
               _c(
-                "v-btn",
-                {
-                  attrs: {
-                    color: "green",
-                    flat: "",
-                    loading: _vm.loading,
-                    disabled: _vm.loadingData
-                  },
-                  on: { click: _vm.validate }
-                },
+                "v-card-actions",
                 [
-                  _vm._v(
-                    "\n        " +
-                      _vm._s(_vm.editMode ? "Update" : "Create") +
-                      "\n      "
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "grey", flat: "" },
+                      on: {
+                        click: function($event) {
+                          _vm.dialog = false
+                        }
+                      }
+                    },
+                    [_vm._v("\n          Cancel\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        color: "green",
+                        flat: "",
+                        loading: _vm.loading,
+                        disabled: _vm.loadingData
+                      },
+                      on: { click: _vm.validate }
+                    },
+                    [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(_vm.editMode ? "Update" : "Create") +
+                          "\n        "
+                      )
+                    ]
                   )
-                ]
+                ],
+                1
               )
             ],
             1
           )
         ],
         1
-      )
+      ),
+      _vm._v(" "),
+      _c("modal-product-form", {
+        ref: "modalProductForm",
+        attrs: { "asset-type-id": _vm.assetType.id },
+        on: { success: _vm.afterAddingProduct }
+      }),
+      _vm._v(" "),
+      _c("modal-employee-form", {
+        ref: "modalEmployeeForm",
+        on: { success: _vm.afterAddingEmployee }
+      }),
+      _vm._v(" "),
+      _c("modal-site-form", {
+        ref: "modalSiteForm",
+        on: { success: _vm.afterAddingSite }
+      })
     ],
     1
   )
@@ -30031,7 +30295,7 @@ var render = function() {
   return _c(
     "v-dialog",
     {
-      attrs: { "max-width": "550" },
+      attrs: { persistent: "", "no-click-animation": "", "max-width": "550" },
       model: {
         value: _vm.dialog,
         callback: function($$v) {
@@ -30044,12 +30308,17 @@ var render = function() {
       _c(
         "v-card",
         [
-          _c("v-card-title", { staticClass: "headline" }, [
-            _vm._v("Add new asset type")
-          ]),
+          _vm.editMode
+            ? _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v("Edit asset type")
+              ])
+            : _c("v-card-title", { staticClass: "headline" }, [
+                _vm._v("Add new asset type")
+              ]),
           _vm._v(" "),
           _c(
             "v-card-text",
+            { staticClass: "p-rel" },
             [
               _c(
                 "v-form",
@@ -30171,7 +30440,9 @@ var render = function() {
                       },
                       expression: "form.description"
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c("md-loading", { attrs: { loading: _vm.loadingData } })
                 ],
                 1
               )
@@ -30200,10 +30471,21 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  attrs: { color: "green", flat: "", loading: _vm.loading },
+                  attrs: {
+                    color: "green",
+                    flat: "",
+                    loading: _vm.loading,
+                    disabled: _vm.loadingData
+                  },
                   on: { click: _vm.validate }
                 },
-                [_vm._v("\n        Create\n      ")]
+                [
+                  _vm._v(
+                    "\n        " +
+                      _vm._s(_vm.editMode ? "Update" : "Create") +
+                      "\n      "
+                  )
+                ]
               )
             ],
             1
@@ -30871,10 +31153,10 @@ var render = function() {
         [
           _vm.editMode
             ? _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Edit state")
+                _vm._v("Edit service")
               ])
             : _c("v-card-title", { staticClass: "headline" }, [
-                _vm._v("Add new state")
+                _vm._v("Add new service")
               ]),
           _vm._v(" "),
           _c(
@@ -32522,7 +32804,14 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-btn",
-            { staticClass: "primary", attrs: { to: { name: "AssetsAdd" } } },
+            {
+              staticClass: "primary",
+              on: {
+                click: function($event) {
+                  return _vm.$refs.modalAssetForm.$emit("open")
+                }
+              }
+            },
             [_vm._v("Add new")]
           )
         ],
@@ -76604,10 +76893,8 @@ __webpack_require__.r(__webpack_exports__);
   create: function create(data) {
     return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].post('assets', data);
   },
-  update: function update(data, id) {
-    return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].update('assets', id, {
-      page: params
-    });
+  update: function update(id, data) {
+    return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].update("assets/".concat(id), data);
   },
   delete: function _delete(id) {
     var permanently = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -76647,7 +76934,9 @@ __webpack_require__.r(__webpack_exports__);
     return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].get('asset-types', filters);
   },
   get: function get(id) {
-    return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].get("asset-types/".concat(id));
+    return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].get("asset-types/".concat(id), {
+      with: 'states,customFields,products'
+    });
   },
   create: function create(data) {
     return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].post('asset-types', data);
@@ -76791,10 +77080,8 @@ __webpack_require__.r(__webpack_exports__);
   create: function create(data) {
     return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].post('employees', data);
   },
-  update: function update(data, id) {
-    return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].update('employees', id, {
-      page: params
-    });
+  update: function update(id, data) {
+    return Api_Api__WEBPACK_IMPORTED_MODULE_0__["default"].update("employees/".concat(id), data);
   },
   delete: function _delete(id) {
     var permanently = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
@@ -77814,9 +78101,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AssetTypeForm_vue_vue_type_template_id_38533d90___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AssetTypeForm.vue?vue&type=template&id=38533d90& */ "./resources/js/components/Modals/AssetTypeForm.vue?vue&type=template&id=38533d90&");
 /* harmony import */ var _AssetTypeForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AssetTypeForm.vue?vue&type=script&lang=js& */ "./resources/js/components/Modals/AssetTypeForm.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AssetTypeForm.vue?vue&type=style&index=0&lang=sass& */ "./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -77824,7 +78109,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _AssetTypeForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _AssetTypeForm_vue_vue_type_template_id_38533d90___WEBPACK_IMPORTED_MODULE_0__["render"],
   _AssetTypeForm_vue_vue_type_template_id_38533d90___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -77853,22 +78138,6 @@ component.options.__file = "resources/js/components/Modals/AssetTypeForm.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AssetTypeForm.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass&":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass& ***!
-  \********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/style-loader!../../../../node_modules/css-loader!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/postcss-loader/src??ref--8-2!../../../../node_modules/sass-loader/lib/loader.js??ref--8-3!../../../../node_modules/vue-loader/lib??vue-loader-options!./AssetTypeForm.vue?vue&type=style&index=0&lang=sass& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Modals/AssetTypeForm.vue?vue&type=style&index=0&lang=sass&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_AssetTypeForm_vue_vue_type_style_index_0_lang_sass___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -79227,7 +79496,7 @@ __webpack_require__.r(__webpack_exports__);
 var state = {
   list: [],
   asset: {},
-  fliter: []
+  filter: {}
 };
 var getters = {
   list: function list(state) {
@@ -79241,10 +79510,13 @@ var getters = {
   }
 };
 var actions = {
-  fetchList: function fetchList(_ref) {
+  fetchList: function fetchList(_ref, assetTypeId) {
     var commit = _ref.commit,
         state = _ref.state;
-    return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].getList(state.filter).then(function (res) {
+    var filter = state.filter;
+    filter.asset_type_id = assetTypeId;
+    console.log(assetTypeId);
+    return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].getList(filter).then(function (res) {
       commit('setList', res.data.data);
       return res;
     });
@@ -79252,7 +79524,7 @@ var actions = {
   fetch: function fetch(_ref2, id) {
     var commit = _ref2.commit;
     return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].get(id).then(function (res) {
-      commit('setAssetType', res.data.data);
+      commit('setAsset', res.data.data);
       return res;
     });
   },
@@ -79264,40 +79536,44 @@ var actions = {
       return res;
     });
   },
-  delete: function _delete(_ref4, id) {
+  update: function update(_ref4, data) {
     var dispatch = _ref4.dispatch;
+    return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].update(data.id, data.data);
+  },
+  delete: function _delete(_ref5, id) {
+    var dispatch = _ref5.dispatch;
     return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].delete(id).then(function (res) {
       dispatch('fetchList');
       dispatch('updateMenu');
       return res;
     });
   },
-  deletePerm: function deletePerm(_ref5, id) {
-    var dispatch = _ref5.dispatch;
+  deletePerm: function deletePerm(_ref6, id) {
+    var dispatch = _ref6.dispatch;
     return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].delete(id, true).then(function (res) {
       dispatch('fetchList');
       dispatch('updateMenu');
       return res;
     });
   },
-  restore: function restore(_ref6, id) {
-    var dispatch = _ref6.dispatch;
+  restore: function restore(_ref7, id) {
+    var dispatch = _ref7.dispatch;
     return Api_AssetService__WEBPACK_IMPORTED_MODULE_0__["default"].restore(id).then(function (res) {
       dispatch('fetchList');
       dispatch('updateMenu');
       return res;
     });
   },
-  updateFilter: function updateFilter(_ref7, filter) {
-    var commit = _ref7.commit;
+  updateFilter: function updateFilter(_ref8, filter) {
+    var commit = _ref8.commit;
     commit('setFilter', filter);
   },
-  resetFilter: function resetFilter(_ref8) {
-    var commit = _ref8.commit;
+  resetFilter: function resetFilter(_ref9) {
+    var commit = _ref9.commit;
     commit('setFilter', null);
   },
-  updateMenu: function updateMenu(_ref9) {
-    var dispatch = _ref9.dispatch;
+  updateMenu: function updateMenu(_ref10) {
+    var dispatch = _ref10.dispatch;
     dispatch('menu/fetchAssetTypes', null, {
       root: true
     });
@@ -79305,6 +79581,11 @@ var actions = {
 };
 var mutations = {
   setList: function setList(state, data) {
+    data.map(function (asset) {
+      if (asset.employee) asset.employee.fullname = asset.employee.first_name + ' ' + asset.employee.last_name;
+      asset.product.name = asset.product.brand + ' ' + asset.product.model;
+      return asset;
+    });
     state.list = data;
   },
   setAsset: function setAsset(state, data) {
@@ -79412,25 +79693,29 @@ var actions = {
     var dispatch = _ref3.dispatch;
     return Api_EmployeeService__WEBPACK_IMPORTED_MODULE_0__["default"].create(data);
   },
-  delete: function _delete(_ref4, id) {
+  update: function update(_ref4, data) {
     var dispatch = _ref4.dispatch;
+    return Api_EmployeeService__WEBPACK_IMPORTED_MODULE_0__["default"].update(data.id, data.data);
+  },
+  delete: function _delete(_ref5, id) {
+    var dispatch = _ref5.dispatch;
     return Api_EmployeeService__WEBPACK_IMPORTED_MODULE_0__["default"].delete(id);
   },
-  deletePerm: function deletePerm(_ref5, id) {
-    var dispatch = _ref5.dispatch;
+  deletePerm: function deletePerm(_ref6, id) {
+    var dispatch = _ref6.dispatch;
     return Api_EmployeeService__WEBPACK_IMPORTED_MODULE_0__["default"].delete(id, true);
   },
-  restore: function restore(_ref6, id) {
-    var dispatch = _ref6.dispatch;
+  restore: function restore(_ref7, id) {
+    var dispatch = _ref7.dispatch;
     return Api_EmployeeService__WEBPACK_IMPORTED_MODULE_0__["default"].restore(id);
   },
-  updateFilter: function updateFilter(_ref7, filter) {
-    var commit = _ref7.commit,
-        dispatch = _ref7.dispatch;
+  updateFilter: function updateFilter(_ref8, filter) {
+    var commit = _ref8.commit,
+        dispatch = _ref8.dispatch;
     commit('setFilter', filter);
   },
-  resetFilter: function resetFilter(_ref8) {
-    var commit = _ref8.commit;
+  resetFilter: function resetFilter(_ref9) {
+    var commit = _ref9.commit;
     commit('setFilter', null);
   }
 };

@@ -3,7 +3,7 @@
   	<md-header>
   		<h2>Assets</h2>
   		<span>{{ assetType.name }}</span>
-  		<v-btn class="primary" :to="{ name: 'AssetsAdd' }">Add new</v-btn>
+  		<v-btn class="primary" @click="$refs.modalAssetForm.$emit('open')">Add new</v-btn>
   	</md-header>
 		<md-crud-table
       class="mt-3" 
@@ -42,7 +42,11 @@
       return {
         headers: [
           { text: 'Name', value: 'name', align: 'left', class: 'pl-0'},
-          { text: 'Assets', value: 'assets_count'}
+          { text: 'Product', value: 'product.name'},
+          { text: 'Site', value: 'site.name'},
+          { text: 'User', value: 'employee.fullname'},
+          { text: 'State', value: 'state.name' },
+          { text: 'Barcode', value: 'barcode'}
         ],
         filterOptions: [
           'with_trashed'
@@ -65,10 +69,15 @@
 			'$route.params': {
 				handler(newValue) {
 					const { assetTypeId } = newValue
-
-			    this.fetchAssetType(assetTypeId)
-			    this.fetchList()
-			    this.$store.dispatch('assets/updateFilter', [])
+          this.$store.dispatch('pageLoader/on')
+          Promise.all([
+            this.$store.dispatch('assetTypes/fetch', assetTypeId),
+            this.$store.dispatch('assets/fetchList', assetTypeId)
+          ]).finally( () => {
+            this.$store.dispatch('pageLoader/off')
+          })
+			    
+			    //this.$store.dispatch('assets/updateFilter', [])
 
 				},
 				immediate: true,
@@ -107,22 +116,6 @@
 	    			this.$router.push({ name: '404' })
 	    	})
       }
-    },
-
-    beforeRouteEnter (to,from,next) {
-      store.dispatch('pageLoader/on')
-      store.dispatch('assets/fetchList', to.params.id).finally( () => {
-        store.dispatch('pageLoader/off')
-        next()
-      })
-    },
-
-    beforeRouteUpdate (to,from,next) {
-      store.dispatch('pageLoader/on')
-      store.dispatch('assets/fetchList', to.params.id).finally( () => {
-        store.dispatch('pageLoader/off')
-        next()
-      })
     },
 
     components: {

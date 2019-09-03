@@ -235,10 +235,21 @@
         }
       },
       getValue(obj, route) {
+        const keys = route.split('.')
+        
+        var notExists = false
         var val = obj
-        route.split('.').map((key) => {
-          val = val[key]
-        })
+
+        for (var i = 0; i < keys.length; i++) {
+          
+          if(!val)
+            return '-'
+
+          val = val[keys[i]]
+        }
+
+        if(val === null || val === '')
+          return '-'
 
         return val
       }

@@ -91,6 +91,8 @@ class EmployeeAPIController extends APIController
 
         $data = $request->validate($this->validationRules);
 
+        $employee->update($data);
+
         //update code
 
         return $this->sendSuccessResponse(__('employees.update_success'), $employee);

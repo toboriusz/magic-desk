@@ -136,6 +136,7 @@
           country: '',
           postcode: '',
           parent_id: null,
+          site_id: null,
           description: ''
         }
       }
@@ -189,17 +190,18 @@
     },
 
     mounted () {
-      this.$on('open', (id = null) => {
-        this.employeeId = id
-        this.$store.dispatch('sites/fetchBasicList')
+      this.$on('open', (id) => {
+        this.employeeId = id || null
+        this.loadingData = true
+        this.$store.dispatch('sites/fetchBasicList').finally(() => {
+          this.loadingData = false
+        })
         
-        if(id) {
-          this.editMode = true
-          this.employeeId = id
+        if(this.employeeId) {
           this.editMode = true
           this.loadingData = true
           this.dialog = true
-          this.$store.dispatch('employees/fetch', id).then( (res) => {
+          this.$store.dispatch('employees/fetch', this.employeeId).then( (res) => {
             this.form = this.noReact(res.data.data)
           }).finally(() => {
               this.loadingData = false

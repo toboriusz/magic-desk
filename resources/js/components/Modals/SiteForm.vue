@@ -5,8 +5,8 @@
     no-click-animation
     max-width="550">
     <v-card>
-      <v-card-title v-if="editMode" class="headline">Edit state</v-card-title>
-      <v-card-title v-else class="headline">Add new state</v-card-title>
+      <v-card-title v-if="editMode" class="headline">Edit service</v-card-title>
+      <v-card-title v-else class="headline">Add new service</v-card-title>
       <v-card-text class="p-rel">
         <v-form @submit.prevent="validate" ref="form">
           <v-text-field
@@ -208,16 +208,19 @@
 
     mounted () {
       this.$on('open', (id = null) => {
-        this.siteId = id
-        this.$store.dispatch('sites/fetchBasicList')
+        this.siteId = id || null
+
+        this.loadingData = true
+        this.$store.dispatch('sites/fetchBasicList').finally(() => {
+          this.loadingData = false
+        })
         
-        if(id) {
+        if(this.siteId) {
           this.editMode = true
-          this.siteId = id
           this.editMode = true
           this.loadingData = true
           this.dialog = true
-          this.$store.dispatch('sites/fetch', id).then( (res) => {
+          this.$store.dispatch('sites/fetch', this.siteId).then( (res) => {
             this.form = this.noReact(res.data.data)
           }).finally(() => {
               this.loadingData = false

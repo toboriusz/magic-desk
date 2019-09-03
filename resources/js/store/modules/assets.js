@@ -3,7 +3,7 @@ import AssetService from 'Api/AssetService'
 const state = {
 	list: [],
   asset: {},
-  fliter: []
+  filter: {}
 }
 
 const getters = {
@@ -13,15 +13,18 @@ const getters = {
 }
 
 const actions = {
-	fetchList({commit, state}) {
-    return AssetService.getList(state.filter).then((res) => {
+	fetchList({commit, state}, assetTypeId) {
+    var filter = state.filter
+    filter.asset_type_id = assetTypeId
+    console.log(assetTypeId)
+    return AssetService.getList(filter).then((res) => {
       commit('setList', res.data.data)
       return res
     })
   },
   fetch({commit}, id) {
     return AssetService.get(id).then((res) => {
-      commit('setAssetType', res.data.data)
+      commit('setAsset', res.data.data)
       return res
     })
   },
@@ -31,6 +34,9 @@ const actions = {
       dispatch('updateMenu')
       return res
     })
+  },
+  update({dispatch}, data) {
+    return AssetService.update(data.id, data.data)
   },
   delete({dispatch}, id) {
     return AssetService.delete(id).then((res) => {
@@ -66,6 +72,13 @@ const actions = {
 
 const mutations = {
 	setList(state, data) {
+    data.map((asset) => {
+      if(asset.employee)
+        asset.employee.fullname = asset.employee.first_name + ' ' + asset.employee.last_name
+
+      asset.product.name = asset.product.brand + ' ' + asset.product.model
+      return asset
+    })
     state.list = data
   },
   setAsset(state, data) {

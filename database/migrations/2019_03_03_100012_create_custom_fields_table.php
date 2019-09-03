@@ -18,7 +18,7 @@ class CreateCustomFieldsTable extends Migration
             $table->integer('asset_type_id')->unsigned();
             $table->integer('order')->unsigned()->default(0);
             $table->string('name');
-            $table->string('shortcode');
+            $table->string('shortcode')->unique();
             $table->string('type');
             $table->string('default_value')->nullable();
             $table->string('description')->nullable();

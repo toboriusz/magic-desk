@@ -28,6 +28,9 @@ const actions = {
   add({dispatch}, data) {
     return EmployeeService.create(data)
   },
+  update({dispatch}, data) {
+    return EmployeeService.update(data.id, data.data)
+  },
   delete({dispatch}, id) {
     return EmployeeService.delete(id)
   },

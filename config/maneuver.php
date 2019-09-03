@@ -18,6 +18,20 @@ return array(
         'database',
         'public/api-docs',
         'tests',
+        'package.json',
+        '.editorconfig',
+        'yarn.lock',
+        'webpack.mix.js',
+        'server.php',
+        'phpunit.xml',
+        'package-lock.js',
+        'composer.lock',
+        'composer.json',
+        'artisan',
+        '.rnd',
+        '.gitignore',
+        '.gitattributes',
+        'README.md'
     ),
 
     /*

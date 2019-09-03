@@ -48,7 +48,7 @@ class AssetTypeAPIController extends APIController
 
         $assetType = AssetType::create($data);
 
-        $assetType->states()->create([ 'name' => 'In Store' ]);
+        $assetType->states()->create([ 'name' => 'In Storage' ]);
         $assetType->states()->create([ 'name' => 'In Use' ]);
         $assetType->states()->create([ 'name' => 'In Repair' ]);
         $assetType->states()->create([ 'name' => 'Disposed' ]);
@@ -64,7 +64,18 @@ class AssetTypeAPIController extends APIController
      */
     public function show($id)
     {
-        $assetType = AssetType::withTrashed()->findOrFail($id);
+        $assetType = AssetType::withTrashed();
+
+        if (request()->input('with')) {
+            $relatedModels = explode(',', request()->input('with'));
+            $availableModels = ['products', 'customFields', 'states'];
+            if (count(array_intersect($relatedModels, $availableModels)) != count($relatedModels)) {
+                return $this->sendErrorResponse(__('general.model_not_exists'));
+            }
+            $assetType->with($relatedModels);
+        }
+
+        $assetType = $assetType->findOrFail($id);
 
         return $this->sendSuccessResponse(__('asset_types.fetch_success'), $assetType);
     }

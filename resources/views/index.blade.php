@@ -7,18 +7,17 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url('site.webmanifest') }}">
-    <link rel="mask-icon" href="{{ url('safari-pinned-tab.svg') }}" color="#000000">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url('favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url('favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url('favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url('favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url('favicon/safari-pinned-tab.svg') }}" color="#000000">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
 
     <title>Magic Desk</title>
 
     <link rel="stylesheet" href="{{ url(mix('css/app.css')) }}">
-    <link href='https://fonts.googleapis.com/css?family=Rubik:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
 
     <style>
 

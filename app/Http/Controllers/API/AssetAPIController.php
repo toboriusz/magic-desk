@@ -10,10 +10,10 @@ class AssetAPIController extends APIController
     private $validationRules = [
         'name' => 'required|string|max:60',
         'asset_type_id' => 'required|exists:asset_types,id|numeric|nullable',
-        'product_id' => 'required|exists:asset_types,id|numeric',
-        'state_id' => 'required|exists:asset_types,id|numeric',
-        'site_id' => 'exists:asset_types,id|numeric|nullable',
-        'employee_id' => 'exists:asset_types,id|numeric|nullable',
+        'product_id' => 'required|exists:products,id|numeric',
+        'state_id' => 'required|exists:states,id|numeric',
+        'site_id' => 'exists:sites,id|numeric|nullable',
+        'employee_id' => 'exists:employees,id|numeric|nullable',
         'barcode' => 'string|nullable|max:120',
         'serial_no' => 'string|nullable|max:120',
         'description' => 'string|nullable|max:500',
@@ -34,7 +34,7 @@ class AssetAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $assets = Asset::withTrashed($withTrashed)->with(['product', 'state'])->get();
+        $assets = Asset::withTrashed($withTrashed)->where('asset_type_id', $request->input('asset_type_id'))->with(['product', 'state', 'employee', 'site'])->get();
 
         return $this->sendSuccessResponse(__('asset.fetch_success'), $assets);
     }
@@ -87,9 +87,11 @@ class AssetAPIController extends APIController
 
         $data = $request->validate($this->validationRules);
 
+        $asset->update($data);
+
         //update code
 
-        return $this->sendSuccessResponse(__('asset.update_success'), $site);
+        return $this->sendSuccessResponse(__('asset.update_success'), $asset);
     }
 
     /**

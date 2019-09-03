@@ -1,10 +1,13 @@
 <template>
   <v-dialog
     v-model="dialog"
+    persistent
+    no-click-animation
     max-width="550">
     <v-card>
-      <v-card-title class="headline">Add new asset type</v-card-title>
-      <v-card-text>
+      <v-card-title v-if="editMode" class="headline">Edit asset type</v-card-title>
+      <v-card-title v-else class="headline">Add new asset type</v-card-title>
+      <v-card-text class="p-rel">
         <v-form @submit.prevent="validate" ref="form">
           <v-text-field
             name="name"
@@ -43,6 +46,7 @@
             @change="error = ''"
             :error-messages="$validator.errors.collect('description')">
           </v-textarea>
+          <md-loading :loading="loadingData"></md-loading>  
         </v-form>
       </v-card-text>
       <v-card-actions>
@@ -57,8 +61,9 @@
           color="green"
           flat
           :loading="loading"
+          :disabled="loadingData"
           @click="validate">
-          Create
+          {{ editMode ? 'Update' : 'Create' }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -67,6 +72,7 @@
 
 <script>
   import { mapGetters } from 'vuex'
+  import MdLoading from 'Components/MdLoading'
 
   export default {
 
@@ -74,8 +80,11 @@
 
     data () {
       return {
+        editMode: false,
         loading: false,
+        loadingData: false,
         dialog: false,
+        assetTypeId: null,
         form: {
           name: '',
           icon: '',
@@ -91,14 +100,18 @@
     },
 
     methods: {
-    validate () {
+      validate() {
         this.$validator.validateAll().then(( isValid ) => {
           if(isValid) {
-            this.submit()
+            if(this.editMode) {
+              this.submitUpdate()
+            } else {
+              this.submitNew()
+            }
           }
         })
       },
-      submit() {
+      submitNew() {
         this.loading = true
         this.$store.dispatch('assetTypes/add', this.form).then( (res) => {
           this.$emit('success')
@@ -109,28 +122,56 @@
         }).finally( () => {
           this.loading = false
         })
+      },
+      submitUpdate() {
+        this.loading = true
+        this.$store.dispatch('assetTypes/update', {
+          id: this.assetTypeId,
+          data: this.form
+        }).then( (res) => {
+          this.$emit('success')
+          this.dialog = false
+        }).catch( (e) => {
+          //show alert error
+          this.showValidationErrors(e)
+        }).finally( () => {
+          this.loading = false
+        })
       }
     },
+
     mounted () {
-      this.$on('open', () => {
-        this.$refs.form.reset()
-        this.dialog = true
+      this.$on('open', (id) => {
+        this.assetTypeId = id || null
+        
+        if(this.assetTypeId) {
+          this.editMode = true
+          this.editMode = true
+          this.loadingData = true
+          this.dialog = true
+          this.$store.dispatch('assetTypes/fetch', this.assetTypeId).then( (res) => {
+            this.form = this.noReact(res.data.data)
+          }).finally(() => {
+              this.loadingData = false
+          })
+        } else {
+          this.editMode = false
+          this.$refs.form.reset()
+          this.$nextTick(() => {
+            this.$validator.reset();
+            this.dialog = true
+          })
+        }
       })
     },
 
     beforeDestroy () {
       this.$off('open')
+    },
+
+    components: {
+      MdLoading
     }
 
   }
 </script>
-
-<style lang="sass">
-    .c-m-site-add
-        &__bg
-            position: absolute
-            top: 100px
-            left: 50%
-            transform: translateX(-50%)
-            z-index: 0
-</style>

@@ -17,8 +17,8 @@ export default {
   create (data) {
     return ApiService.post('employees', data)
   },
-  update (data, id) {
-    return ApiService.update('employees', id, { page: params })
+  update (id, data) {
+    return ApiService.update(`employees/${id}`, data)
   },
   delete (id, permanently = false) {
     return ApiService.delete(`employees/${id}`, null, {

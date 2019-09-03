@@ -23,6 +23,14 @@ class Product extends Model
         'description'
     ];
 
+    protected $visible = [
+        'id',
+        'brand',
+        'model',
+        'part_no',
+        'description',
+    ];
+
     public function assets()
     {
         return $this->hasMany(Asset::class);

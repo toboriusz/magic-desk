@@ -92,7 +92,7 @@
         loadingData: false,
         dialog: false,
         form: {
-          asset_type_id: this.assetTypeId,
+          asset_type_id: null,
           brand: '',
           model: '',
           part_no: '',
@@ -115,8 +115,9 @@
       },
       submitNew() {
         this.loading = true
+        this.form.asset_type_id = this.assetTypeId
         this.$store.dispatch('products/add', this.form).then( (res) => {
-          this.$emit('success')
+          this.$emit('success', res.data.data)
           this.dialog = false
         }).catch( (e) => {
           //show alert error
@@ -142,16 +143,15 @@
       }
     },
     mounted () {
-      this.$on('open', (id = null) => {
-        this.productId = id
+      this.$on('open', (id) => {
+        this.productId = id || null
         
-        if(id) {
+        if(this.productId) {
           this.editMode = true
-          this.productId = id
           this.editMode = true
           this.loadingData = true
           this.dialog = true
-          this.$store.dispatch('products/fetch', id).then( (res) => {
+          this.$store.dispatch('products/fetch', this.productId).then( (res) => {
             this.form.brand = res.data.data.brand
             this.form.model = res.data.data.model
             this.form.part_no = res.data.data.part_no

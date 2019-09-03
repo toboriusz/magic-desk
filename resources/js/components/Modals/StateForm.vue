@@ -121,15 +121,14 @@
     },
     mounted () {
       this.$on('open', (id = null) => {
-        this.stateId = id
+        this.stateId = id || null
         
-        if(id) {
+        if(this.stateId) {
           this.editMode = true
-          this.stateId = id
           this.editMode = true
           this.loadingData = true
           this.dialog = true
-          this.$store.dispatch('states/fetch', id).then( (res) => {
+          this.$store.dispatch('states/fetch', this.stateId).then( (res) => {
             this.form.name = res.data.data.name
             this.form.description = res.data.data.description
           }).finally(() => {

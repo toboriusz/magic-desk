@@ -12,7 +12,9 @@ export default {
     return ApiService.get('asset-types', filters)
   },
   get(id) {
-    return ApiService.get(`asset-types/${id}`)
+    return ApiService.get(`asset-types/${id}`, {
+      with: 'states,customFields,products'
+    })
   },
   create (data) {
     return ApiService.post('asset-types', data)

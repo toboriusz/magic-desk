@@ -39,7 +39,7 @@ class CreateAssetsTable extends Migration
 
             $table->foreign('employee_id')
                   ->references('id')
-                  ->on('sites')
+                  ->on('employees')
                   ->onDelete('set null');
 
             $table->foreign('state_id')
