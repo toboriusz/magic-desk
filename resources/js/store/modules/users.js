@@ -1,44 +1,44 @@
-import EmployeeService from 'Api/EmployeeService'
+import UserService from 'Api/UserService'
 
 const state = {
   list: [],
-  employee: {},
+  user: {},
   filter: []
 }
 
 const getters = {
   list: (state) => state.list,
-  employee: (state) => state.employee,
+  user: (state) => state.user,
   filter: (state) => state.filter
 }
 
 const actions = {
 	fetchList({commit, state}) {
-    return EmployeeService.getList(state.filter).then((res) => {
+    return UserService.getList(state.filter).then((res) => {
       commit('setList', res.data.data)
       return res
     })
   },
   fetch({commit}, id) {
-    return EmployeeService.get(id).then((res) => {
+    return UserService.get(id).then((res) => {
       commit('setSite', res.data.data)
       return res
     })
   },
   add({dispatch}, data) {
-    return EmployeeService.create(data)
+    return UserService.create(data)
   },
   update({dispatch}, data) {
-    return EmployeeService.update(data.id, data.data)
+    return UserService.update(data.id, data.data)
   },
   delete({dispatch}, id) {
-    return EmployeeService.delete(id)
+    return UserService.delete(id)
   },
   deletePerm({dispatch}, id) {
-    return EmployeeService.delete(id, true)
+    return UserService.delete(id, true)
   },
   restore({dispatch}, id) {
-    return EmployeeService.restore(id)
+    return UserService.restore(id)
   },
   updateFilter({commit, dispatch}, filter) {
     commit('setFilter', filter)
@@ -57,8 +57,8 @@ const mutations = {
     })
     state.list = data
   },
-  setEmployee(state, data) {
-    state.employee = data
+  setUser(state, data) {
+    state.user = data
   },
   setFilter(state, filter) {
     state.filter = filter

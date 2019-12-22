@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\IncidentType;
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 
-class IncidentTypeController extends APIController
+class AttachmentAPIController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class IncidentTypeController extends APIController
     /**
      * Display the specified resource.
      *
-     * @param  \App\IncidentType  $incidentType
+     * @param  \App\Attachment  $attachment
      * @return \Illuminate\Http\Response
      */
-    public function show(IncidentType $incidentType)
+    public function show(Attachment $attachment)
     {
         //
     }
@@ -52,10 +52,10 @@ class IncidentTypeController extends APIController
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\IncidentType  $incidentType
+     * @param  \App\Attachment  $attachment
      * @return \Illuminate\Http\Response
      */
-    public function edit(IncidentType $incidentType)
+    public function edit(Attachment $attachment)
     {
         //
     }
@@ -64,10 +64,10 @@ class IncidentTypeController extends APIController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\IncidentType  $incidentType
+     * @param  \App\Attachment  $attachment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, IncidentType $incidentType)
+    public function update(Request $request, Attachment $attachment)
     {
         //
     }
@@ -75,10 +75,10 @@ class IncidentTypeController extends APIController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\IncidentType  $incidentType
+     * @param  \App\Attachment  $attachment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(IncidentType $incidentType)
+    public function destroy(Attachment $attachment)
     {
         //
     }

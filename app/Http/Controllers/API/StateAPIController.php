@@ -8,12 +8,11 @@ use Illuminate\Http\Request;
 class StateAPIController extends APIController
 {
     private $validationRules = [
-        'asset_type_id' => 'required|exists:asset_types,id|numeric',
         'name' => 'required|string|max:60',
         'description' => 'string|nullable|max:100'
     ];
 
-     /**
+    /**
      * List
      *
      * Get list of all states
@@ -22,14 +21,13 @@ class StateAPIController extends APIController
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     */
+    */
 
     public function index(Request $request)
     {
         $withTrashed = !!$request->input('with_trashed');
-        $assetTypeId = $request->input('asset_type_id');
 
-        $states = State::withTrashed($withTrashed)->where('asset_type_id', $assetTypeId)->withCount('assets')->get();
+        $states = State::withTrashed($withTrashed)->withCount('assets')->get();
 
         return $this->sendSuccessResponse(__('states.fetch_success'), $states);
     }

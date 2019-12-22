@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Technician;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,16 +12,16 @@ class PasswordResetEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $technician, $token;
+    public $user, $token;
 
     /**
      * Create a new message instance.
      *
-     * @param Technician $technician
+     * @param User $user
      */
-    public function __construct(Technician $technician, $token)
+    public function __construct(User $user, $token)
     {
-        $this->technician = $technician;
+        $this->user = $user;
         $this->token = $token;
     }
 

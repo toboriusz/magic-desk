@@ -9,24 +9,24 @@ export default {
       )
   },
   getList(filters = null) {
-    return ApiService.get('employees', filters)
+    return ApiService.get('users', filters)
   },
   get(id) {
-    return ApiService.get(`employees/${id}`)
+    return ApiService.get(`users/${id}`)
   },
   create (data) {
-    return ApiService.post('employees', data)
+    return ApiService.post('users', data)
   },
   update (id, data) {
-    return ApiService.update(`employees/${id}`, data)
+    return ApiService.update(`users/${id}`, data)
   },
   delete (id, permanently = false) {
-    return ApiService.delete(`employees/${id}`, null, {
+    return ApiService.delete(`users/${id}`, null, {
         permanently: permanently
     })
   },
   restore (id) {
-    return ApiService.update(`employees/${id}`, null, {
+    return ApiService.update(`users/${id}`, null, {
         action: 'restore'
     })
   }

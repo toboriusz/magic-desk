@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIncidentTypesTable extends Migration
+class CreateLogTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateIncidentTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('incident_types', function (Blueprint $table) {
+        Schema::create('log_types', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('icon');
+            $table->string('color');
             $table->string('description');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +30,6 @@ class CreateIncidentTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incident_types');
+        Schema::dropIfExists('log_types');
     }
 }

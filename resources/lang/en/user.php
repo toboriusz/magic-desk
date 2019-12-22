@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'fetch_success' => 'Technician fetched successfully',
+    'fetch_success' => 'User fetched successfully',
 
 
 ];

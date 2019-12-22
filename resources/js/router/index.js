@@ -40,9 +40,9 @@ let router = new VueRouter({
       }
     },
     {
-      path: '/employees',
-      name: 'Employees',
-      component: require('Views/Employees/List').default,
+      path: '/users',
+      name: 'Users',
+      component: require('Views/Users/List').default,
       meta: {
         auth: true,
         layout: 'dashboard'
@@ -76,9 +76,18 @@ let router = new VueRouter({
       }
     },
     {
-      path: '/settings/technicians',
-      name: 'SettingsTechnicians',
-      component: require('Views/Settings/Technicians').default,
+      path: '/settings/user-permissions',
+      name: 'SettingsUserPermissions',
+      component: require('Views/Settings/UserPermissions').default,
+      meta: {
+        auth: true,
+        layout: 'dashboard'
+      }
+    },
+    {
+      path: '/settings/states',
+      name: 'SettingsStates',
+      component: require('Views/Settings/States').default,
       meta: {
         auth: true,
         layout: 'dashboard'

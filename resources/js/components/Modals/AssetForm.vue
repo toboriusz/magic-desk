@@ -87,19 +87,19 @@
             </v-textarea>
             <p class="title pt-3">Assigned to</p>
             <v-autocomplete
-              name="employee_id"
-              label="Employee"
-              v-model="form.employee_id"
-              :items="employees"
+              name="user_id"
+              label="User"
+              v-model="form.user_id"
+              :items="users"
               cache-items
-              data-vv-name="employee_id"
+              data-vv-name="user_id"
               item-text="name"
               item-value="id"
               clearable
-              no-data-text="No employees"
-              :error-messages="$validator.errors.collect('employee_id')">
+              no-data-text="No users"
+              :error-messages="$validator.errors.collect('user_id')">
               <template v-slot:append-outer>
-                <v-icon @click="$refs.modalEmployeeForm.$emit('open')" class="primary--text">add</v-icon>
+                <v-icon @click="$refs.modalUserForm.$emit('open')" class="primary--text">add</v-icon>
               </template>
             </v-autocomplete>
             <v-autocomplete
@@ -145,10 +145,10 @@
         :asset-type-id="assetType.id"
         @success="afterAddingProduct">
     </modal-product-form>
-    <modal-employee-form
-        ref="modalEmployeeForm"
-        @success="afterAddingEmployee">
-    </modal-employee-form>
+    <modal-user-form
+        ref="modalUserForm"
+        @success="afterAddingUser">
+    </modal-user-form>
     <modal-site-form
         ref="modalSiteForm"
         @success="afterAddingSite">
@@ -160,7 +160,7 @@
   import { mapGetters } from 'vuex'
   import MdLoading from 'Components/MdLoading'
   import ModalProductForm from 'Components/Modals/ProductForm'
-  import ModalEmployeeForm from 'Components/Modals/EmployeeForm'
+  import ModalUserForm from 'Components/Modals/UserForm'
   import ModalSiteForm from 'Components/Modals/SiteForm'
 
   export default {
@@ -199,8 +199,8 @@
         ...mapGetters('sites', {
             sites: 'basicList'
         }),
-        ...mapGetters('employees', {
-            employees: 'list'
+        ...mapGetters('users', {
+            users: 'list'
         })
     },
 
@@ -252,10 +252,10 @@
           })  
         })
       },
-      afterAddingEmployee (employee) {
-        this.$store.dispatch('employees/fetchBasicList').finally(() => {
+      afterAddingUser (user) {
+        this.$store.dispatch('users/fetchBasicList').finally(() => {
           this.$nextTick(() => {
-            this.form.employee_id = employee.id
+            this.form.user_id = user.id
           })  
         })
       },
@@ -276,7 +276,7 @@
 
         Promise.all([
           this.$store.dispatch('sites/fetchBasicList'),
-          this.$store.dispatch('employees/fetchList')
+          this.$store.dispatch('users/fetchList')
         ]).finally(() => {
           this.loadingData = false
         })
@@ -308,7 +308,7 @@
     components: {
       MdLoading,
       ModalProductForm,
-      ModalEmployeeForm,
+      ModalUserForm,
       ModalSiteForm
     }
 

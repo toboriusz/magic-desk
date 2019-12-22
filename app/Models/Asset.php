@@ -17,7 +17,7 @@ class Asset extends Model
     protected $fillable = [
         'asset_type_id', 
         'site_id', 
-        'employee_id', 
+        'user_id', 
         'state_id', 
         'product_id',
         'name', 
@@ -46,9 +46,9 @@ class Asset extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function employee()
+    public function user()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(User::class);
     }
 
 }

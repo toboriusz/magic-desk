@@ -31,11 +31,6 @@ class AssetType extends Model
         return $this->hasMany(Product::class);
     }
 
-    public function states()
-    {
-        return $this->hasMany(State::class);
-    }
-
     public function assets()
     {
         return $this->hasMany(Asset::class);

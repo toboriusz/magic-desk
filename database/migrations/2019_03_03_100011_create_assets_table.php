@@ -17,7 +17,7 @@ class CreateAssetsTable extends Migration
             $table->increments('id')->unsigned();
             $table->integer('asset_type_id')->unsigned();
             $table->integer('site_id')->unsigned()->nullable();
-            $table->integer('employee_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->integer('state_id')->unsigned();
             $table->integer('product_id')->unsigned();
             $table->string('name');
@@ -37,9 +37,9 @@ class CreateAssetsTable extends Migration
                   ->on('sites')
                   ->onDelete('set null');
 
-            $table->foreign('employee_id')
+            $table->foreign('user_id')
                   ->references('id')
-                  ->on('employees')
+                  ->on('users')
                   ->onDelete('set null');
 
             $table->foreign('state_id')

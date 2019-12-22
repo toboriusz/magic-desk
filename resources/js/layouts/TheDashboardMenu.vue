@@ -16,12 +16,13 @@
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
       <v-list dense expand>
         <menu-item :to="{ name: 'Dashboard' }" icon="dashboard">Dashboard</menu-item>
-        <menu-item :to="{ name: 'Employees' }" icon="group">Employees</menu-item>
+        <menu-item :to="{ name: 'Users' }" icon="group">Users</menu-item>
         <menu-item :to="{ name: 'Sites' }" icon="home">Services</menu-item>
         <menu-item has-submenu title="Settings" icon="settings">
           <menu-sub-item :to="{ name: 'SettingsGeneral' }">General</menu-sub-item>
           <menu-sub-item :to="{ name: 'SettingsAssetTypes' }">Asset Types</menu-sub-item>
-          <menu-sub-item :to="{ name: 'SettingsTechnicians' }">Technicians</menu-sub-item>
+          <menu-sub-item :to="{ name: 'SettingsUserPermissions' }">User permissions</menu-sub-item>
+          <menu-sub-item :to="{ name: 'SettingsStates' }">Asset states</menu-sub-item>
           <menu-sub-item :to="{ name: 'SettingsAbout' }">About</menu-sub-item>
         </menu-item>
         <v-divider></v-divider>

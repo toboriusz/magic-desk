@@ -37,9 +37,9 @@ class Site extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function technicians()
+    public function users()
     {
-        return $this->hasMany(Technician::class);
+        return $this->hasMany(User::class);
     }
 
     public function assets()
@@ -47,8 +47,4 @@ class Site extends Model
         return $this->hasMany(Asset::class);
     }
 
-    public function employees()
-    {
-        return $this->hasMany(Employee::class);
-    }
 }

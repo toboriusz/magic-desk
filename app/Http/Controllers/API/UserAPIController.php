@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class EmployeeAPIController extends APIController
+class UserAPIController extends APIController
 {
     private $validationRules = [
         'first_name' => 'required|string|max:30',
@@ -20,7 +20,7 @@ class EmployeeAPIController extends APIController
      /**
      * List
      *
-     * Get list of all employees
+     * Get list of all users
      * @authenticated
      * @response {}
      *
@@ -32,7 +32,7 @@ class EmployeeAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $employees = Employee::select('id', 'first_name', 'last_name', 'job_title', 'site_id', 'deleted_at')
+        $users = User::select('id', 'first_name', 'last_name', 'job_title', 'site_id', 'deleted_at')
                         ->withTrashed($withTrashed)
                         ->with(array('site' => function($query) {
                             $query->select('id', 'name');
@@ -40,7 +40,7 @@ class EmployeeAPIController extends APIController
                         ->withCount('assets')
                         ->get();
 
-        return $this->sendSuccessResponse(__('employees.fetch_success'), $employees);
+        return $this->sendSuccessResponse(__('users.fetch_success'), $users);
     }
 
     /**
@@ -53,9 +53,9 @@ class EmployeeAPIController extends APIController
     {
         $data = $request->validate($this->validationRules);
 
-        $employee = Employee::create($data);
+        $user = User::create($data);
 
-        return $this->sendSuccessResponse(__('employees.store_success'), $employee);
+        return $this->sendSuccessResponse(__('users.store_success'), $user);
     }
 
     /**
@@ -66,9 +66,9 @@ class EmployeeAPIController extends APIController
      */
     public function show($id)
     {
-        $employee = Employee::withTrashed()->findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
 
-        return $this->sendSuccessResponse(__('employees.fetch_success'), $employee);
+        return $this->sendSuccessResponse(__('users.fetch_success'), $user);
     }
 
     /**
@@ -81,21 +81,21 @@ class EmployeeAPIController extends APIController
     public function update(Request $request, $id)
     {
 
-        $employee = Employee::withTrashed()->findOrFail($id);
+        $user = User::withTrashed()->findOrFail($id);
 
 
         if( 'restore' === $request->input('action')) {
-            $employee->restore();
-            return $this->sendSuccessResponse(__('employees.restore_success'), $employee);
+            $user->restore();
+            return $this->sendSuccessResponse(__('users.restore_success'), $user);
         }
 
         $data = $request->validate($this->validationRules);
 
-        $employee->update($data);
+        $user->update($data);
 
         //update code
 
-        return $this->sendSuccessResponse(__('employees.update_success'), $employee);
+        return $this->sendSuccessResponse(__('users.update_success'), $user);
     }
 
     /**
@@ -104,19 +104,19 @@ class EmployeeAPIController extends APIController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($employeeId, Request $request)
+    public function destroy($userId, Request $request)
     {
-        $employee = Employee::withTrashed()->find($employeeId);
+        $user = User::withTrashed()->find($userId);
 
-        if(empty($employee))
-            return $this->sendErrorResponse(__('employees.destroy_not_found'), null, 404);
+        if(empty($user))
+            return $this->sendErrorResponse(__('users.destroy_not_found'), null, 404);
 
         if('true' === $request->input('permanently')) {
-            $employee->forceDelete();
-            return $this->sendSuccessResponse(__('employees.destroy_p_success'));
+            $user->forceDelete();
+            return $this->sendSuccessResponse(__('users.destroy_p_success'));
         }
 
-        $employee->delete();
-        return $this->sendSuccessResponse(__('employees.destroy_success'));
+        $user->delete();
+        return $this->sendSuccessResponse(__('users.destroy_success'));
     }
 }

@@ -40,7 +40,7 @@
           { text: 'Phone', value: 'phone'},
           { text: 'Address', value: 'address'},
           { text: 'Assets', value: 'assets_count'},
-          { text: 'Employees', value: 'employees_count'}
+          { text: 'Users', value: 'users_count'}
         ],
         filterOptions: [
           'with_trashed'

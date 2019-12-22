@@ -14,7 +14,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\Technician::class, function (Faker $faker) {
+$factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'first_name' => 'Admin',
         'last_name' => 'Admin',
@@ -24,6 +24,7 @@ $factory->define(App\Models\Technician::class, function (Faker $faker) {
         'remember_token' => Str::random(10),
         'phone' => '07008009002',
         'mobile' => '',
-        'job_title' => 'IT Admin'
+        'job_title' => 'IT Admin',
+        'can_login' => true
     ];
 });

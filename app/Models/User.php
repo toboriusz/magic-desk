@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 
 
-class Technician extends Authenticatable
+class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, SoftDeletes;
 
@@ -30,7 +30,8 @@ class Technician extends Authenticatable
         'mobile',
         'site_id',
         'job_title',
-        'enabled'
+        'can_login',
+        'invitation_token'
     ];
 
     /**
@@ -42,6 +43,7 @@ class Technician extends Authenticatable
         'password',
         'remember_token',
         'email_token',
+        'invitation_token',
         'pivot'
     ];
 
@@ -59,6 +61,11 @@ class Technician extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    public function assets()
+    {
+        return $this->hasMany(Asset::class);
     }
 
     public function site()

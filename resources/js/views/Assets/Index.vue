@@ -43,8 +43,8 @@
         headers: [
           { text: 'Name', value: 'name', align: 'left', class: 'pl-0'},
           { text: 'Product', value: 'product.name'},
-          { text: 'Site', value: 'site.name'},
-          { text: 'User', value: 'employee.fullname'},
+          { text: 'Service', value: 'site.name'},
+          { text: 'User', value: 'user.fullname'},
           { text: 'State', value: 'state.name' },
           { text: 'Barcode', value: 'barcode'}
         ],

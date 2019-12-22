@@ -11,7 +11,7 @@ return [
     'success' => 'Your password has been reset!',
     'sent_success' => 'We have e-mailed your password reset link!',
     'token_not_valid' => 'This token is invalid.',
-    'technician_not_found' => "We can't find a technician with that e-mail address.",
+    'user_not_found' => "We can't find a user with that e-mail address.",
 
     'subject' => 'Reset password',
     'link_title' => 'Reset password',

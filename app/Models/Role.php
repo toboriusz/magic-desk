@@ -18,8 +18,8 @@ class Role extends Model
 
     protected $hidden = ['pivot'];
 
-    public function technicians()
+    public function users()
     {
-        return $this->belongsToMany(Technician::class);
+        return $this->belongsToMany(User::class);
     }
 }

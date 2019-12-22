@@ -27,6 +27,7 @@
         "webpack-livereload-plugin": "^2.2.0"
     },
     "dependencies": {
+        "@sindresorhus/slugify": "^0.9.1",
         "@websanova/vue-auth": "^2.21.14-beta",
         "babel-polyfill": "^6.26.0",
         "echarts": "^4.1.0",

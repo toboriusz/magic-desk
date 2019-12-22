@@ -9,8 +9,7 @@
       :predefined-filters="{ asset_type_id: $route.params.id }"
       :filter-options="filterOptions"
       store-module-name="products"
-      @edit="editAssetType"
-      @show="showAssetType">
+      @edit="editProduct">
     </md-crud-table>
 
     <modal-product-form
@@ -55,11 +54,8 @@
     },
 
     methods: {
-      editAssetType(assetType) {
-        this.$refs.modalProductForm.$emit('open', assetType.id)
-      },
-      showAssetType(assetType) {
-        this.$router.push({ name: 'SettingsAssetTypesShow', params: { id: assetType.id }})
+      editProduct(product) {
+        this.$refs.modalProductForm.$emit('open', product.id)
       }
     },
 

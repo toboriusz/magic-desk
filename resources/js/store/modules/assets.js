@@ -16,7 +16,6 @@ const actions = {
 	fetchList({commit, state}, assetTypeId) {
     var filter = state.filter
     filter.asset_type_id = assetTypeId
-    console.log(assetTypeId)
     return AssetService.getList(filter).then((res) => {
       commit('setList', res.data.data)
       return res
@@ -73,8 +72,8 @@ const actions = {
 const mutations = {
 	setList(state, data) {
     data.map((asset) => {
-      if(asset.employee)
-        asset.employee.fullname = asset.employee.first_name + ' ' + asset.employee.last_name
+      if(asset.user)
+        asset.user.fullname = asset.user.first_name + ' ' + asset.user.last_name
 
       asset.product.name = asset.product.brand + ' ' + asset.product.model
       return asset

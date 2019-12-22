@@ -8,7 +8,7 @@ import assets from 'StoreModules/assets'
 import assetTypes from 'StoreModules/assetTypes'
 import sites from 'StoreModules/sites'
 import products from 'StoreModules/products'
-import employees from 'StoreModules/employees'
+import users from 'StoreModules/users'
 import states from 'StoreModules/states'
 import pageLoader from 'StoreModules/pageLoader'
 
@@ -23,7 +23,7 @@ let store = new Vuex.Store({
     assetTypes,
     sites,
     products,
-    employees,
+    users,
     states,
     pageLoader
   }

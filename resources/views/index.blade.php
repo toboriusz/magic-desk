@@ -18,6 +18,8 @@
     <title>Magic Desk</title>
 
     <link rel="stylesheet" href="{{ url(mix('css/app.css')) }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700&display=swap" rel="stylesheet">
 
     <style>
 

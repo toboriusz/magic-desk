@@ -5,8 +5,8 @@
     no-click-animation
     max-width="550">
     <v-card>
-      <v-card-title v-if="editMode" class="headline">Edit employee</v-card-title>
-      <v-card-title v-else class="headline">Add new employee</v-card-title>
+      <v-card-title v-if="editMode" class="headline">Edit user</v-card-title>
+      <v-card-title v-else class="headline">Add new user</v-card-title>
       <v-card-text class="p-rel">
         <v-form @submit.prevent="validate" ref="form">
           <p class="title pt-3">General</p>
@@ -123,7 +123,7 @@
 
     data () {
       return {
-        employeeId: null,
+        userId: null,
         editMode: false,
         loading: false,
         loadingData: false,
@@ -162,7 +162,7 @@
       },
       submitNew() {
         this.loading = true
-        this.$store.dispatch('employees/add', this.form).then( (res) => {
+        this.$store.dispatch('users/add', this.form).then( (res) => {
           this.$emit('success')
           this.dialog = false
         }).catch( (e) => {
@@ -174,8 +174,8 @@
       },
       submitUpdate() {
         this.loading = true
-        this.$store.dispatch('employees/update', {
-          id: this.employeeId,
+        this.$store.dispatch('users/update', {
+          id: this.userId,
           data: this.form
         }).then( (res) => {
           this.$emit('success')
@@ -191,17 +191,17 @@
 
     mounted () {
       this.$on('open', (id) => {
-        this.employeeId = id || null
+        this.userId = id || null
         this.loadingData = true
         this.$store.dispatch('sites/fetchBasicList').finally(() => {
           this.loadingData = false
         })
         
-        if(this.employeeId) {
+        if(this.userId) {
           this.editMode = true
           this.loadingData = true
           this.dialog = true
-          this.$store.dispatch('employees/fetch', this.employeeId).then( (res) => {
+          this.$store.dispatch('users/fetch', this.userId).then( (res) => {
             this.form = this.noReact(res.data.data)
           }).finally(() => {
               this.loadingData = false

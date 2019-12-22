@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIncidentsTable extends Migration
+class CreateLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateIncidentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('incidents', function (Blueprint $table) {
+        Schema::create('logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('asset_id')->unsigned();
-            $table->integer('incident_type_id')->unsigned()->nullable();
+            $table->integer('asset_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('log_type_id')->unsigned();
             $table->string('title');
             $table->string('body');
             $table->timestamps();
@@ -27,10 +28,15 @@ class CreateIncidentsTable extends Migration
                   ->on('assets')
                   ->onDelete('cascade');
 
-            $table->foreign('incident_type_id')
+            $table->foreign('user_id')
                   ->references('id')
-                  ->on('incident_types')
+                  ->on('users')
                   ->onDelete('set null');
+
+            $table->foreign('log_type_id')
+                  ->references('id')
+                  ->on('log_types')
+                  ->onDelete('cascade');
         });
     }
 
@@ -41,6 +47,6 @@ class CreateIncidentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('incidents');
+        Schema::dropIfExists('logs');
     }
 }

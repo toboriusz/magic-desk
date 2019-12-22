@@ -15,7 +15,6 @@ class State extends Model
      * @var array
      */
     protected $fillable = [
-        'asset_type_id',
         'name',
         'description'
     ];
@@ -26,18 +25,7 @@ class State extends Model
      * @var array
      */
 
-    protected $visible = [
-        'id',
-        'name',
-        'description'
-    ];
-
     protected $dates = ['deleted_at'];
-
-    public function assetType()
-    {
-        return $this->belongsTo(AssetType::class);
-    }
 
     public function assets()
     {

@@ -13,7 +13,7 @@ class AssetAPIController extends APIController
         'product_id' => 'required|exists:products,id|numeric',
         'state_id' => 'required|exists:states,id|numeric',
         'site_id' => 'exists:sites,id|numeric|nullable',
-        'employee_id' => 'exists:employees,id|numeric|nullable',
+        'user_id' => 'exists:users,id|numeric|nullable',
         'barcode' => 'string|nullable|max:120',
         'serial_no' => 'string|nullable|max:120',
         'description' => 'string|nullable|max:500',
@@ -34,7 +34,7 @@ class AssetAPIController extends APIController
     {
         $withTrashed = !!$request->input('with_trashed');
 
-        $assets = Asset::withTrashed($withTrashed)->where('asset_type_id', $request->input('asset_type_id'))->with(['product', 'state', 'employee', 'site'])->get();
+        $assets = Asset::withTrashed($withTrashed)->where('asset_type_id', $request->input('asset_type_id'))->with(['product', 'state', 'user', 'site'])->get();
 
         return $this->sendSuccessResponse(__('asset.fetch_success'), $assets);
     }
