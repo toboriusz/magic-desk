@@ -2,6 +2,9 @@
 /public/hot
 /public/storage
 /public/api-docs
+/public/css
+/public/js
+/public/mix-manifest.json
 /storage/*.key
 /vendor
 .env
@@ -12,4 +15,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 yarn.lock
-docker-compose.*.yml
+docker-compose.yml
