@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
 
         //Sites
 
-        DB::table('asset_types')->insert([
+        DB::table('sites')->insert([
             'name' => 'Head Office',
             'city' => 'London',
             'country' => 'United Kingdom',
