@@ -35,7 +35,7 @@
 
     <div class="layout-row">
       <v-btn type="submit" block color="primary" :loading="loading">Log in</v-btn>
-      <v-btn @click="resetPassword" class="mt-3 mb-0" block flat>Forgot password</v-btn>
+      <v-btn @click="resetPassword" class="mt-3 mb-0" block flat>Forgotten password</v-btn>
     </div>
   </v-form>
 </template>
